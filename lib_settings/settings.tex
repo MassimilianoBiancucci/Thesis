@@ -1,0 +1,235 @@
+% LTeX: enabled=false
+
+
+%\hyphenpenalty=5000
+%\exhyphenpenalty=5000
+%\righthyphenmin=10
+%\lefthyphenmin=10
+%\tolerance=1
+%\raggedright
+
+%enable the usage of pygmentize for syntax highlighting
+
+\pretolerance=2000
+\tolerance=200
+\emergencystretch=12pt
+
+
+
+\usepackage[a4paper,lmargin=30mm, textwidth=160mm, tmargin=20mm, textheight=257mm]{geometry}
+
+\usepackage{colorprofiles}
+
+\usepackage[a-1b]{pdfx} %PDF/A
+%One-and-a-half spacing shall be used, except for...
+
+\usepackage[onehalfspacing]{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{amsfonts}
+\usepackage{hyperref}%\hyperref[appendix:test]{A}
+\hypersetup{
+	colorlinks	= true,
+	allcolors	= {blue},
+	linktocpage	= true,
+	citecolor=blue,
+}
+\urlstyle{same}
+%\usepackage{url} %per spezzare gli url inseriti con \url
+\usepackage{amssymb}
+\usepackage{chngcntr}
+\usepackage{makeidx}
+\usepackage[bottom]{footmisc}
+\usepackage[titletoc]{appendix}
+\usepackage[justification=centering]{caption}
+\usepackage{subcaption}
+\usepackage{datetime}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tabto}
+\usepackage{eurosym}
+\usepackage{graphicx,subfiles,natbib,tocbibind,amsmath,array,pdflscape}
+\usepackage{fancyvrb}
+\usepackage{lmodern}
+\usepackage{bibentry}
+\nobibliography*
+\usepackage{float}
+\usepackage{lipsum,blindtext,multirow,rotating,dcolumn}
+\usepackage{tcolorbox}
+\usepackage{cprotect}
+\usepackage{svg}
+\svgpath{{../imgs/}}
+\usepackage{enumitem}
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\Verb+#1+}}
+
+\usepackage{minted}
+
+\tcbuselibrary{minted,skins}
+
+
+\newtcblisting[auto counter, number within=section]{bashcode}[2]{
+    listing engine=minted,
+    colback=light-gray,
+    colframe=black!50,
+    listing only,
+    minted style=colorful,
+    minted language=bash,
+    minted options={
+		linenos=true,
+		numbersep=3mm,
+		texcl=true,
+        %#2,
+		breaklines,
+		texcomments,
+		fontsize=\footnotesize
+	},
+    overlay={
+        \begin{tcbclipinterior}
+            \fill[black!25] (frame.south west)
+              rectangle ([xshift=5mm]frame.north west);
+        \end{tcbclipinterior}
+    },
+    coltitle=white,
+    boxrule=0.5mm,
+    left=5mm,
+    title={\large \textit{#1}\hfill code: \thetcbcounter},
+    label=code:#2,
+    enhanced jigsaw,
+}
+
+
+%***************************************************
+%\setlength{\parindent}{10ex} will be indented 10ex (an "ex" equals the lenght of the "x" in the current font)
+\setlength{\parindent}{0pt}%no paragraph indent
+
+\setlength{\parskip}{0.8em}%Paragraph spacing
+\setlength{\baselineskip}{1.2em}%Line spacing
+
+
+
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+	\fancyhf{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+
+\usepackage{etoolbox}
+
+\makeatletter
+
+%... indented quotations and footnotes, where single spacing may be used.
+\AtBeginEnvironment{quotation}{\singlespacing}
+\AtBeginEnvironment{quote}{\singlespacing}
+
+%\listoftables, \listofalgorithms, and \listoffigures chapter titles.
+\newcommand{\thechaptername}{}
+\newcounter{chapter@last@figure}
+\newcounter{chapter@last@table}
+\newcounter{chapter@last@algorithm}
+
+\renewcommand{\chaptermark}[1]{
+	\markboth{#1}{}
+	\renewcommand{\thechaptername}{#1}
+}
+
+\pretocmd{\caption}{
+	\ifnum\pdfstrcmp{\@captype}{figure}=0
+		\ifnum\value{chapter}=\value{chapter@last@figure}
+		\else
+			\addtocontents{lof}
+			{\protect\numberline{\bfseries\thechapter\quad\thechaptername}}
+		\fi
+	\fi
+	
+	\ifnum\pdfstrcmp{\@captype}{table}=0
+		\ifnum\value{chapter}=\value{chapter@last@table}
+		\else
+			\addtocontents{lot}
+			{\protect\numberline{\bfseries\thechapter\quad\thechaptername}}
+		\fi
+	\fi
+	
+	\ifnum\pdfstrcmp{\@captype}{algorithm}=0
+		\ifnum\value{chapter}=\value{chapter@last@algorithm}
+		\else
+			\addtocontents{loa}
+			{\protect\numberline{\bfseries\thechapter\quad\thechaptername}}
+		\fi
+	\fi
+\expandafter\setcounter\expandafter{chapter@last@\@captype}{\value{chapter}}
+}{}{failure}
+
+
+\let\svthefootnote\thefootnote
+
+\newcommand\blankfootnote[1]{%
+	\let\thefootnote\relax\footnotetext{#1}%
+	\let\thefootnote\svthefootnote%
+}
+\let\svfootnote\footnote
+\renewcommand\footnote[2][?]{%
+	\if\relax#1\relax%
+	\blankfootnote{#2}%
+	\else%
+	\if?#1\svfootnote{#2}\else\svfootnote[#1]{#2}\fi%
+	\fi
+}
+
+\makeatother
+
+\let\it\textit
+\let\bf\textbf
+
+\newif\ifdebug
+\debugfalse
+%\debugtrue
+
+\newcommand{\todo}[1][""]{
+	\ifdebug
+		\if #1\relax
+			{\footnotesize \textcolor{red}{\textbf{\textit{TODO}}}}
+		\else
+			{\footnotesize \textcolor{red}{\textbf{\textit{TODO:}} #1}}
+		\fi
+	\fi
+}
+
+\newcommand{\workinprogress}{
+	\ifdebug
+		{\footnotesize \textcolor{blue}{\textbf{work-in-progress}}}
+	\fi
+}
+
+\newcommand{\ok}{
+	\ifdebug
+		{\footnotesize \textcolor{green}{\textbf{OK}}}
+	\fi
+}	
+
+
+
+%***************************************************
+\DeclareUnicodeCharacter{2502}{\mbox{\kern.23em %│
+	\vrule height 2.2 ex depth 1 ex width .4 pt}}
+\DeclareUnicodeCharacter{251C}{\mbox{\kern.23em %├
+	\vrule height 2.2 ex depth 1 ex width .4 pt \vrule height 2.2 pt depth -1.8 pt width .23em}}
+\DeclareUnicodeCharacter{2500}{\mbox{ %─
+	\vrule height 2.2 pt depth -1.8 pt width .5em}}
+\DeclareUnicodeCharacter{2514}{\mbox{\kern.23em %└
+	\vrule height 2.2 ex depth -1.8 pt width .4 pt \vrule height 2.2 pt depth -1.8 pt width .23em}}
+\DeclareUnicodeCharacter{25CF}{$\bullet$}
+%***************************************************
+
+\author{Massimiliano Biancucci}

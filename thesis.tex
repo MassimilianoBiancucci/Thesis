@@ -1,0 +1,33 @@
+
+
+\documentclass[11pt,oneside,openright,a4paper]{book}
+
+\input{lib_settings/settings}
+
+%______PREFAZIONE__________
+
+\begin{document}
+\frontmatter
+\begin{singlespace}
+    \subfile{contents/0_1_title_page}
+    \subfile{contents/0_2_abstract}
+
+    %___________INDICE_CAPITOLI__________
+    \tableofcontents 
+
+    %___________INDICE_IMMAGINI__________
+    \listoffigures
+\end{singlespace}
+
+%___________CONTENUTI_______________________________
+\mainmatter
+
+\subfile{contents/1_intro}
+\subfile{contents/2_dataset_e_architetture}
+
+
+
+
+
+    
+\end{document}
