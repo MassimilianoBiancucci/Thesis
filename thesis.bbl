@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+
+\bibitem{ciao}
+cristian gabbani.
+\newblock {ciao è un test}.
+\newblock server test.
+
+\bibitem{ciao2}
+cristian2 gabbani.
+\newblock {ciao2 è un test}.
+\newblock server2 test.
+
+\bibitem{openvpn-as-ca}
+jesrush (\url{https://serverfault.com/users/480025/jesrush}).
+\newblock {OpenVPN server as it's own CA -- security concerns?}
+\newblock Server Fault Stack Exchange.
+\newblock URL:\url{https://serverfault.com/q/923049/558773} (version:
+  2018-05-22).
+
+\end{thebibliography}

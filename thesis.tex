@@ -1,5 +1,3 @@
-
-
 \documentclass[11pt,oneside,openright,a4paper]{book}
 
 \input{lib_settings/settings}
@@ -17,17 +15,24 @@
 
     %___________INDICE_IMMAGINI__________
     \listoffigures
+
 \end{singlespace}
 
 %___________CONTENUTI_______________________________
 \mainmatter
 
 \subfile{contents/1_intro}
-\subfile{contents/2_dataset_e_architetture}
 
+\subfile{contents/2_Stato_dell_arte}
 
+\subfile{contents/3_Strumenti_e_metodi}
 
+\subfile{contents/4_Sviluppo del progetto}
 
+\subfile{contents/5_Risultati}
 
-    
+\bibliographystyle{plain} %Available styles: plain abbrv plainnat, others on: https://www.overleaf.com/learn/latex/Bibtex_bibliography_styles
+\bibliography{Bibliography} %File.bib styles: https://www.overleaf.com/learn/latex/Bibliography_management_with_natbib
+\nocite{*}
+
 \end{document}
