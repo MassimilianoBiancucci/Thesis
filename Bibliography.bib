@@ -6,61 +6,104 @@
 % eprint: arXiv identifier
 % primaryClass: arXiv category (cs.LG = machine learning), (cs.CV = computer vision), .. 
 
-%Models papers
-@article{first-gan-paper,
-  author = {Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, Yoshua Bengio},
-  title  = {Generative Adversarial Nets},
-  year   = {2014},
-  month  = {June},
-  eprint = {1406.2661},
-  archivePrefix = {arXiv},
-  primaryClass = {cs.LG},
-  note   = {\url{https://arxiv.org/abs/1406.2661}}
+%Models papers --------------------
+% first gan paper
+@misc{goodfellow2014generative,
+      title={Generative Adversarial Networks}, 
+      author={Ian J. Goodfellow and Jean Pouget-Abadie and Mehdi Mirza and Bing Xu and David Warde-Farley and Sherjil Ozair and Aaron Courville and Yoshua Bengio},
+      year={2014},
+      eprint={1406.2661},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML}
 }
 
-@article{dcgan-paper,
-  author = {Alec Radford, Luke Metz, Soumith Chintala},
-  title  = {Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks},
-  year   = {2016},
-  month  = {January},
-  eprint = {1511.06434v2}
-  archivePrefix = {arXiv},
-  primaryClass = {cs.CV},
-  note   = {\url{https://arxiv.org/abs/1511.06434v2}}
+% DCGAN paper
+@misc{radford2016unsupervised,
+      title={Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks}, 
+      author={Alec Radford and Luke Metz and Soumith Chintala},
+      year={2016},
+      eprint={1511.06434},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
 }
 
-@article{lama-paper,
-  author = {Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, Anastasia Remizova, Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith Goka, Kiwoong Park, Victor Lempitsky},
-  title  = {Resolution-robust Large Mask Inpainting with Fourier Convolutions},
-  year   = {2021},
-  month  = {November},
-  eprint = {2109.07161},
-  archivePrefix = {arXiv},
-  primaryClass = {cs.CV},
-  note   = {\url{https://arxiv.org/abs/2109.07161}}
+% lama paper
+@misc{suvorov2021resolutionrobust,
+      title={Resolution-robust Large Mask Inpainting with Fourier Convolutions}, 
+      author={Roman Suvorov and Elizaveta Logacheva and Anton Mashikhin and Anastasia Remizova and Arsenii Ashukha and Aleksei Silvestrov and Naejin Kong and Harshith Goka and Kiwoong Park and Victor Lempitsky},
+      year={2021},
+      eprint={2109.07161},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
 }
 
-@article{swagan-paper,
-  author = {Rinon Gal, Dana Cohen, Amit Bermano, Daniel Cohen-Or},
-  title  = {SWAGAN: A Style-based WAvelet-driven Generative Model},
-  year   = {2021},
-  month  = {February},
-  eprint = {2102.06108},
-  archivePrefix = {arXiv},
-  primaryClass = {cs.CV},
-  note   = {\url{https://arxiv.org/abs/2102.06108}}
+% swagan paper
+@misc{gal2021swagan,
+      title={SWAGAN: A Style-based Wavelet-driven Generative Model}, 
+      author={Rinon Gal and Dana Cohen and Amit Bermano and Daniel Cohen-Or},
+      year={2021},
+      eprint={2102.06108},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
 }
 
-@article{pix2pix-paper,
-  author          = {Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, Alexei A. Efros},
-  title           = {Image-to-Image Translation with Conditional Adversarial Networks},
-  year            = {2018},
-  month           = {November},
-  eprint          = {1611.07004},
-  archivePrefix   = {arXiv},
-  primaryClass    = {cs.CV},
-  note            = {\url{https://arxiv.org/abs/1611.07004}}
+% pix2pix paper
+@misc{isola2018imagetoimage,
+      title={Image-to-Image Translation with Conditional Adversarial Networks}, 
+      author={Phillip Isola and Jun-Yan Zhu and Tinghui Zhou and Alexei A. Efros},
+      year={2018},
+      eprint={1611.07004},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
 }
 
-%metrics papers
+%metrics papers ---------------------
+% wesserstein gan paper
+@misc{arjovsky2017wasserstein,
+      title={Wasserstein GAN}, 
+      author={Martin Arjovsky and Soumith Chintala and Léon Bottou},
+      year={2017},
+      eprint={1701.07875},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML}
+}
 
+% lpips paper
+@misc{zhang2018unreasonable,
+      title={The Unreasonable Effectiveness of Deep Features as a Perceptual Metric}, 
+      author={Richard Zhang and Phillip Isola and Alexei A. Efros and Eli Shechtman and Oliver Wang},
+      year={2018},
+      eprint={1801.03924},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+
+% inception score paper
+@misc{salimans2016improved,
+      title={Improved Techniques for Training GANs}, 
+      author={Tim Salimans and Ian Goodfellow and Wojciech Zaremba and Vicki Cheung and Alec Radford and Xi Chen},
+      year={2016},
+      eprint={1606.03498},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+% fricht inception distance papaer
+@misc{heusel2018gans,
+      title={GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium}, 
+      author={Martin Heusel and Hubert Ramsauer and Thomas Unterthiner and Bernhard Nessler and Sepp Hochreiter},
+      year={2018},
+      eprint={1706.08500},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+% r1 regularization paper
+@misc{mescheder2018training,
+      title={Which Training Methods for GANs do actually Converge?}, 
+      author={Lars Mescheder and Andreas Geiger and Sebastian Nowozin},
+      year={2018},
+      eprint={1801.04406},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
