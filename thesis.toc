@@ -2,15 +2,20 @@
 \babel@toc {italian}{}\relax 
 \contentsline {chapter}{Prefazione }{ii}{chapter*.1}%
 \contentsline {chapter}{Indice}{iii}{chapter*.2}%
-\contentsline {chapter}{Elenco delle figure}{iv}{chapter*.3}%
 \contentsline {chapter}{\numberline {1}Introduzione}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Il problema }{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}L'idea }{1}{section.1.2}%
-\contentsline {chapter}{\numberline {2}Stato dell'arte}{3}{chapter.2}%
-\contentsline {chapter}{\numberline {3}Strumenti e metodi }{4}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{4}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Lama: }{4}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Stylegan2: }{4}{section.3.3}%
-\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{5}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Risultati}{6}{chapter.5}%
-\contentsline {chapter}{Bibliografia}{7}{chapter*.4}%
+\contentsline {section}{\numberline {1.1}Motivaione }{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Modelli neurali per la segmentazione nel contorllo qualità }{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Il dataset, requisiti e problematiche di realizzazione }{2}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Approccio al problema }{3}{subsection.1.1.3}%
+\contentsline {subsubsection}{Generatore con architettura a solo decoder}{4}{section*.4}%
+\contentsline {subsubsection}{Generatore con architettura a encoder-decoder}{4}{section*.6}%
+\contentsline {subsubsection}{OLD}{4}{section*.7}%
+\contentsline {chapter}{\numberline {2}Stato dell'arte}{6}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Strumenti e metodi }{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{7}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Lama: }{7}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Stylegan2: }{7}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{8}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Risultati}{9}{chapter.5}%
+\contentsline {chapter}{Elenco delle figure}{10}{chapter*.8}%
+\contentsline {chapter}{Bibliografia}{11}{chapter*.9}%

@@ -4,9 +4,21 @@
 Martin Arjovsky, Soumith Chintala, and Léon Bottou.
 \newblock Wasserstein gan, 2017.
 
+\bibitem{ganbasedaugexample}
+Maayan Frid-Adar, Idit Diamant, Eyal Klang, Michal Amitai, Jacob Goldberger,
+  and Hayit Greenspan.
+\newblock {GAN}-based synthetic medical image augmentation for increased {CNN}
+  performance in liver lesion classification, 2018.
+
 \bibitem{gal2021swagan}
 Rinon Gal, Dana Cohen, Amit Bermano, and Daniel Cohen-Or.
 \newblock Swagan: A style-based wavelet-driven generative model, 2021.
+
+\bibitem{ghiasi2021simple}
+Golnaz Ghiasi, Yin Cui, Aravind Srinivas, Rui Qian, Tsung-Yi Lin, Ekin~D.
+  Cubuk, Quoc~V. Le, and Barret Zoph.
+\newblock Simple copy-paste is a strong data augmentation method for instance
+  segmentation, 2021.
 
 \bibitem{goodfellow2014generative}
 Ian~J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David

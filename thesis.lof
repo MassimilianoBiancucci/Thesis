@@ -2,6 +2,8 @@
 \babel@toc {italian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces An example of segmented defects from the "Severstal steel defect dataset". credits: Neven Robby and Goedemé Toon, 2021, A Multi-Branch U-Net for Steel Surface Defect Type and Severity Segmentation. https://www.mdpi.com/2075-4701/11/6/870\relax }}{2}{figure.caption.3}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Architettura di DCGAN, un esempio di GAN convoluzionale, con architettura a solo decoder. credits: Imagine presa dall'articolo di Alec Radford, Luke Metz, Soumith Chintala, Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks\relax }}{4}{figure.caption.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
