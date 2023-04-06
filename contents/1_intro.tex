@@ -1,6 +1,6 @@
 \chapter{Introduzione}
 \begin{comment}
-con il problema e l'idea non ci siamp proprio..
+
 la scaletta dei capitoli è:
 - introduzione
 - stato dell'arte
@@ -9,7 +9,7 @@ la scaletta dei capitoli è:
 - risultati
 
 Sottosezioni di introduzione:
-- Motivaione
+- Motivazione
 
     - modelli neurali per la segmentazione dei difetti
         - applicazioni
@@ -34,18 +34,13 @@ Sottosezioni di introduzione:
 \end{comment}
 
 
-\section{Motivaione \ok}
-\begin{comment}
-\end{comment}
+\section{Motivazione \ok}
 
-\subsection{Modelli neurali per la segmentazione nel contorllo qualità\ok}
-\begin{comment}
-    Done.
-\end{comment}
+\subsection{Modelli neurali per la segmentazione nel controllo qualità\ok}
 
-Oggi le reti neurali trovano un vasto impiego in moltissi campi, dall'industria alla medicina, fino alla vita di tutti i giorni.
+Oggi le reti neurali trovano un vasto impiego in moltissimi campi, dall'industria alla medicina, fino alla vita di tutti i giorni.
 Il grande vantaggio che ci portano è la capacità di apprendere da un set di dati, e di generalizzare su di uno nuovo,
-permettendocci di risolvere problemi che altrimenti sarebbero matematicamente troppo complessi da risolvere con un algoritmo.
+permettendoci di risolvere problemi che altrimenti sarebbero matematicamente troppo complessi da risolvere con un algoritmo.
 Ci sono vari esempi in cui i modelli neurali raggiungono risultati superiori a quelli ottenuti dall'uomo, in determinati task, 
 o almeno se non lo superano in termini di accuratezza, lo fanno in termini di velocità, scalabilità, costi e prestazioni.
 
@@ -56,11 +51,11 @@ per la verifica automatica della qualità di un prodotto o di un semilavorato.
 Nel caso specifico, per la segmentazione dei difetti l'utilizzo di questo tipo di modelli è molto diffuso, in quanto risolve un grave problema 
 che affligge i reparti controllo qualità delle aziende, ovvero il calo della concentrazione al quale un operatore è soggetto dopo un certo numero di ore di lavoro.
 Infatti una persona per quanto allenata e preparata, dopo un certo numero di ore di lavoro, è soggetta a stanchezza e con essa
-la sua accuratezza nel riconoscere un difetto diminuisce, mentre un modello neurale adeguatamente addestrato, in condizioni ambientli stabili,
+la sua accuratezza nel riconoscere un difetto diminuisce, mentre un modello neurale adeguatamente addestrato, in condizioni ambientali stabili,
 come ad esempio una adeguata illuminazione, una videocamera ad alta risoluzione e un'adeguata distanza dal soggetto, sarà in grado di mantenere 
 un'accuratezza costante, senza necessità di fermarsi per riposare. Questo si traduce in un risparmio di tempo e di denaro per l'azienda,
 In quanto il controllo manuale richiede più tempo ed è più soggetto ad errori, i quali spesso si trasformano in ritardi nella consegna dei prodotti,
-spese di trasposrto aggiuntive per il ritorno o la sostituzione del prodotto, o addirittura la perdita di un cliente.
+spese di trasporto aggiuntive per il ritorno o la sostituzione del prodotto, o addirittura la perdita di un cliente.
 
 \begin{figure}[H]
     \centering
@@ -79,7 +74,7 @@ spese di trasposrto aggiuntive per il ritorno o la sostituzione del prodotto, o 
 
 La problematica di avere un modello con elevata accuratezza per task di segmentazione è relativa alla quantità e qualità dei dati necessari,
 i quali raramente sono disponibili opensource o per l'acquisto, rendendo necessaria la creazione di un dataset apposito.
-Molti task richiedono un grande quantità di dati per essere generalizzati correttamente, e ogni signolo esempio richiede molta concentrazione
+Molti task richiedono un grande quantità di dati per essere generalizzati correttamente, e ogni singolo esempio richiede molta concentrazione
 da parte dell'annotatore in quanto non sempre i difetti sono ben visibili. 
 
 In generale la creazione di un dataset è un'operazione molto complessa, non solo dal punto di vista dell'annotatore, ma in oltre da un punto di vista
@@ -89,11 +84,11 @@ organizzativo e logistico. Infatti ci sono diversi step che si devono seguire:
         Se possibile in oltre dovrebbero avere una adeguata uniformità di condizioni (luce, distanza, ...) per garantire le migliori prestazioni da parte del modello,
         ovviamente solo se poi è possibile garantire le stesse condizioni anche nell'utilizzo finale del modello, altrimenti una grande varietà delle condizioni
         è preferibile.
-    \item \textbf{Definizione delle classi}: Nel caso di dataset multiclasse, uno step molto importnate è quello di scegliere accuratamente le classi
+    \item \textbf{Definizione delle classi}: Nel caso di dataset multi-classe, uno step molto importante è quello di scegliere accuratamente le classi
         e definire in maniera univoca l'associazione tra una classe e una particolare tipologia di difetto. Questo passaggio potrebbe sembrare banale ma in realtà
         nasconde delle grandi insidie, infatti una classificazione non adeguata andrà a causare confusione nel modello, diminuendo la sua accuratezza e/o 
         rendendo il lavoro più difficile per gli annotatori andando a rallentare il processo di annotazione o comunque a ridurne la qualità.
-        Questo tipo di prolematiche purtroppo si manifestano chiaramente soltanto in uno stato avanzato del progetto,
+        Questo tipo di problematiche purtroppo si manifestano chiaramente soltanto in uno stato avanzato del progetto,
         rendendo necessarie revisioni della documentazione, modifica di tutti gli esempi già annotati, con conseguente perdita di tempo e denaro.
     \item \textbf{Definizione della documentazione}: Questo passaggio è un'estensione del precedente, e consiste nella definizione di una documentazione
         Che specifichi senza ambiguità, ad un nuovo annotatore come riconoscere senza dubbio un difetto e classificarlo nella giusta classe.
@@ -102,7 +97,7 @@ organizzativo e logistico. Infatti ci sono diversi step che si devono seguire:
     \item \textbf{Annotazione}: Questo è il passaggio più lungo e costoso, in quanto richiede una squadra di persone,
         che devono essere formate per lo specifico task, e che devono essere costantemente seguite per garantire la qualità del lavoro.
     \item \textbf{Revisione}: Assieme all'annotazione questo è un passaggio chiave, in quanto permette di verificare che l'annotazione sia stata fatta correttamente,
-        e che non ci siano errori nell'annotazione. Spesso infatti gli annotatori aqcuisicono dei bias errati nei confronti di una certa classe, o di un certo tipo di difetto, 
+        e che non ci siano errori nell'annotazione. Spesso infatti gli annotatori acquisiscono dei bias errati nei confronti di una certa classe, o di un certo tipo di difetto, 
         che deve essere identificato e reso noto all'annotatore per correggerlo, ed evitare che questo errore si ripeta in futuro.
         Per evitare che ciò accada oltre al primo annotatore lo stesso esempio viene solitamente rivisto da 2 o 4 persone diverse.
         Si noti che gli errori degli annotatori che non vengono identificati verranno appresi dal modello finale come una corretta classificazione, ciò giustifica un tale 
@@ -123,82 +118,168 @@ quantità di campioni manualmente seguendo lo schema già visto, per poi addestr
 raggiungendo un numero di esempi totali che permetta di addestrare un modello con buone prestazioni, ad un costo ridotto rispetto al caso in cui
 tutti i dati fossero stati realizzati manualmente.
 
-Per la definizione della pipeline di generazione dei dati, si è partiti dal concetto di \textit{generative adversarial network} (GAN), che è un approccio di machine learning
+Per la definizione della pipeline di generazione dei dati, si è partiti dal concetto di \textit{generative adversarial network} (GAN), che è una tecnica di machine learning
 che permette di generare dati sintetici utilizzando come base dati reali, tali dati sintetici possono essere utilizzati per addestrare un modello neurale.
-Tale tecnica ha trovato riscontri positivi in molte ricerche pubblicate in ambito di computer vision \cite{ganbasedaugexample}, in cui i modelli gan vengono
+Tale tecnica ha trovato riscontri positivi in molte ricerche pubblicate in ambito di computer vision \cite{ganbasedaugexample} , in cui i modelli GAN vengono
 utilizzati per espandere il numero di immagini presenti in un dataset e migliorare la generalizzazione di un modello di classificazione.
 Ovviamente gli aumenti di accuratezza, precisione e recall dipendono dal numero di esempi presenti nel dataset e dalla complessità del problema.
 Tale tecnica potrebbe essere considerata una versione più sofisticata di data augmentation, in quanto permette di generare dati sintetici molto più complessi
 e realistici di quelli che si possono ottenere con semplici trasformazioni geometriche o matematiche.
-% TODO: a questo punto introduci il problema della segmentazione e come si può risolvere con la tecnica copy paste,
 Per generare dati utilizzabili per addestrare un modello di segmentazione però è necessario risolvere un'ulteriore problema,
-infatti un normale modello GAN, fedele alla sua definizione originale \cite{goodfellow2014generative}, è in grado di generare intere immagini,
+infatti un normale modello GAN, fedele alla sua definizione originale \cite{goodfellow2014generative} , è in grado di generare intere immagini,
 che possono essere utilizzate per addestrare un modello di classificazione, ma non sono utilizzabili per addestrare un modello di segmentazione,
 in quanto per l'addestramento di tale architettura è necessario che gli oggetti di interesse abbiano una maschera che specifichi la loro posizione.
-Per risolvere questo problema ci sono 2 principali strade illustrate di seguito.
+Ci sono vari approcci di augmentation per la segmentazione che risultano molto più semplici di addestrare un modello GAN, come il caso del metodo "copy paste" \cite{ghiasi2021simple},
+il quale propone come augmentation per i dataset di segmentazione la copia di un oggetto presente in un'immagine, ritagliandolo attraverso la sua maschera,
+e incollandolo su di un nuovo background potenzialmente in una nuova posizione, tale metodo risulta estremamente efficacie per oggetti indipendenti dal contesto con contorni ben definiti,
+ma risulta inutile nel momento in cui l'oggetto che vogliamo generare ha una interdipendenza forte con l'area immediatamente circostante,
+pensiamo ad esempio un difetto su di un'auto, un graffio o una bozza, non potrà essere copiato da un'auto e incollato su di un'altra in quanto subentreranno una serie di
+di artifacts, come la variazione netta di colore tra l'auto e il difetto, rischiando di introdurre un bias nel modello, il quale finirebbe per cercare la variazione netta di colore
+e non più le features del difetto. Per risolvere questo problema con questa particolare categoria di dataset ci sono 2 principali strade illustrate di seguito.
 
 \subsubsection{Generatore con architettura a solo decoder}
 
-    Questo approccio prvede un'architettura a solo decoder, dunque con in ingresso,
-    un vettore casuale di dimensione arbitraria, e in uscita un tensore che può contenere i canali rgb di un'imagine e altri n canali per la maschere che
-    identificano le classi desiderate.
-    Un'esempio di tale architettura a solo decoder potrebbe essere quella di DCGAN \cite{radford2016unsupervised}, illustrata qui sotto.
+    Questo approccio prevede un'architettura a solo decoder, ovvero un modello che prende in ingresso un tenore di determinate dimensioni e
+    che attraverso una serie di operazioni di upsampling o dilated convolution ad esempio, effettua un'espansione di tale tensore
+    portandolo alle dimensioni finali. 
+    Generalmente si mette in ingresso un vettore casuale di dimensione definita, ottenendo in uscita un tensore delle dimensioni di un'immagine con i canali rgb 
+    ed eventualmente altri n canali per la maschere che identificano le classi desiderate.
+    Un'esempio di tale architettura è illustrata di seguito.
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=1.0\textwidth]{imgs/DCGAN_architecture_crop.png}
-        \caption{Architettura di DCGAN, un esempio di GAN convoluzionale, con architettura a solo decoder.
-        credits: Imagine presa dall'articolo di Alec Radford, Luke Metz, Soumith Chintala,
-        Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks}
-        \label{fig:dcgan_architecture}
+        \includesvg[width=0.6\textwidth]{imgs/Decoder_only.svg}
+        \caption{Esempio di architettura a solo decoder.}
+        \label{fig:decoder_only_architecture}
     \end{figure}
 
     Questo approccio risulta più semplice da implementare, lasciando però al modello il compito di imparare a generare correttamente
-    le immagini e delle maschere coerenti, compito non facile che probabilmente necessita di un elevato numero di esempi. 
-    Questa architettura dovrà imparare oltre alla struttura degli oggetti target, a posizionarli nell'immagine.
-    Un'altra probblematica di questo approccio è il controllo, infatti l'unico modo di interagire con tale modello è modificando il valore
-    del vettore z, il quale permette di spostarsi nello spazio latente, al quale il modello associa diverse caratteristiche dell'immagine
-    di output in maniera altamente non lineare, rendendo un eventuale controllo dell'output del modelo molto difficile.
+    le immagini e delle maschere coerenti, compito non facile, che a seconda del task può necessitare di un elevato numero di esempi. 
+    Questa architettura dovrà imparare oltre alla struttura degli oggetti target, a posizionarli nell'immagine e a generare lo sfondo.
+    Un'altra problematica di questo approccio è il controllo, infatti l'unico modo di interagire con tale modello è modificando il valore
+    del vettore z dato in input, il quale permette di spostarsi nello spazio latente, al quale il modello associa diverse caratteristiche dell'immagine
+    di output in maniera altamente non lineare, rendendo un eventuale controllo dell'output del modello molto difficile.
     La difficoltà di controllare il modello rende dunque difficoltoso o impossibile controllare, qualora fosse necessario, la posizione, l'intensità,
     la dimensione o la forma degli oggetti generati.
 
 \subsubsection{Generatore con architettura a encoder-decoder}
+
+    Quest'ultimo è l'approccio scelto in questo progetto, in quanto permette di avere un maggiore controllo sull'output del modello,
+    anche se prevede una training pipeline più complessa da gestire.
+    Al contrario del caso precedente Il modello con struttura encoder-decoder permette di passare in ingresso un'immagine base e una o più maschere
+    che identificano le aree dove determinati oggetti devono essere generati, trasformando il task di generazione puro in un task di inpainting.
+    I vantaggi principali di questa tecnica stanno nel fatto che il modello non deve più apprendere la distribuzione degli oggetti nello spazio dell'immagine,
+    nè deve apprendere in maniera troppo approfondita i background, ma si può focalizzare maggiormente sulla struttura degli oggetti da generare.
     
-        
+    \begin{figure}[H]
+        \centering
+        \includesvg[width=0.8\textwidth]{imgs/Encoder_decoder.svg}
+        \caption{Esempio di architettura con encoder e decoder.}
+        \label{fig:encoder_decoder_architecture}
+    \end{figure}
 
-\subsubsection{OLD}
-% TODO: passa al caso specifico delle malformazioni e dei difetti introducendo il problema degli artifact dovuti al copy paste in tale caso specifico
-% TODO: proponi la soluzione di utilizzare un modello generativo per generare esempi sintetici, con struttura COIGAN.
-
-Per quanto riguarda la segmentazione, l'approccio standard è ..
+\section{Introduzione alle reti neurali \ok}
 \begin{comment}
- come vorrei continuare:
-    - l'approccio standard per l'augmentation di esempi per la segmentazione è quello del copy paste (cit paper), che permette di 
-    generare nuovi esempi partendo da una raccolta di oggetti segmentati e da un dataset di immagini reali senza oggetti, o comunque con dello spazio disponibile
-    per poter applicare questi oggetti su tale immagine, effettuando un masking dell'oggetto e applicandolo all'immagine.
-    - probblematiche del copy paste: sono relative alla qualità dell'esempio in casi in cui la linea di separazione risulta particolarmente evidente
-    può rendere l'esempio non realistico, e potenzialmente spingendo il modello ad associare la segmentazione alla linea di separazione tra oggetto 
-    e sfondo, piuttosto che all'oggetto stesso.
+    Breve sezione che ripercorre le strutture base utilizzate in questa tipologia di reti neurali.
 
+    indice di questa sezione:
+    - Dal machine learning al deep learning
+
+    - feedforward networks
+        - il neurone
+        - la funzione di trasferimento
+        - Una semplice rete neurale
+        - backpropagation
+
+    - convolutional neural networks
+        - la convoluzione
+        - il pooling
+        - l'upsampling
+        - downsampling
+        - atrous convolution
+        - separable convolution
+        - depthwise separable convolution
+        - dilated convolution
+        
 \end{comment}
 
+In questa sezione verranno date le basi per comprendere cosa sono le reti neurali e come funzionano, descrivendo alcune loro varianti.
+Per dare al lettore senza esperienza in questo campo una panoramica generale di come funzionano questi costrutti matematici, come apprendono e 
+come vengono utilizzate per risolvere problemi generici attraverso l'addestramento. Per prima cosa però diamo un'occhiata a dove si collocano 
+le reti neurali nel campo dell'intelligenza artificiale.
 
-% OLD ####################################################
-L'obbiettivo di questo progetto è proporre una soluzione a questo problema, o almeno mitigare la sua gravità.
-Per far ciò si propone di realizzare un architettura in grado di generare un oggetto in un'immagine presistente, specificando la maschera di quest'ultimo.
+\subsection{Dal machine learning al deep learning}
+L'intelligenza artificiale è un campo di ricerca con l'obiettivo di risolvere una grande varietà di problemi,
+ che per essere risolte attraverso la programmazione classica avrebbero bisogno di una grande quantità di conoscenze non disponibili, o semplicemente di troppo lavoro.\\
+I Programmi basati sul paradigma dell'intelligenza artificiale si propongono di superare questi ostacoli acquisendo direttamente queste conoscenze 
+dai dati grezzi, tale capacità è nota come machine learning.
+Sotto questa grande famiglia di algoritmi si trovano altri sottogruppi quali il representation learning e all'interno di quest'ultimo il deep learning.\\ 
+Il deep learning rispetto ai metodi più classici, tipicamente in grado di riconoscere soltanto relazioni lineari (come ad esempio l'SVM o support vector machine), 
+si propone come alternativa per l'apprendimento di funzioni non lineari anche molto complesse.
+Il termine "deep learning" deriva proprio dalla capacità di riuscire a cogliere queste relazioni molto "profonde" tra i dati di ingresso e uscita.
 
-Tale architettura deve essere in grado di prendere in input un'immagine e una maschera, e generare l'oggetto all'interno della maschera, 
-lasciando il più possibile invariata l'immagine al di fuori dell'area d'interesse.
-Il modello dovrebbe essere in grado di generare un oggetto all'interno dell'area obbiettivo seguendo la distribuzione morfologica degli oggetti 
-presenti nel dataset di addestramento.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imgs/AI_venn_diagram.png}
+    \caption{Un diagramma di ven che illustra le relazioni tra i diversi sottogruppi dell'intelligenza artificiale, vediamo infatti come
+    il deep learning sia un sottogruppo del representation learning, che a sua volta è un sottogruppo del machine learning.\\
+    credits: Yoshua Bengio, Ian J. Goodfellow, Aaron Courville 2015, From the book "Deep Learning"\\}
+    \label{fig:ai_venn_diagram}
+\end{figure}
 
-Tale tecnica è principalmente pensata per tutti quei casi in cui non è semplice o possibile realizzare sinteticamente un oggetto a partire da metodi deterministici, 
-ad esempio per la segmentazione dei difetti, i quali non possono essere copiati e incollati in una nuova immagine senza che sia presente un evidente linea di separazione
-tra il difetto e il resto dell'immagine, e quindi non possono essere generati con una tecnica di tipo copy paste, senza introdurre artefatti, che potrebbero 
-portare ad un peggioramento delle prestazioni del modello, in quanto questo associerebbe il difetto alla linea di separazione.
+\subsection{Confronto con le reti neurali biologiche}
 
-In questo progetto il dataset utilizzato è Severstal steel defect detection, il quale presenta campioni di acciaio più tosto simili,
-ma in generale questa tecnica potrebbe essere utilizzata anche per casi più complessi come il rilevmento di danni su veicoli o edifici,
-dove la morfologia del difetto è comune, ma la morfologia, il colore e la texture dell'oggetto su cui deve essere applicato sono differenti 
-dal dataset di addestramento, in quest'ultimo scenario infatti non è possibile utilizzare una tecnica di tipo copy paste, in quanto il difetto 
-non potrebbe essere applicato in modo coerente con l'immagine base.
+Queste strutture matematiche fecero la prima comparsa in un articolo del 1957, pubblicato da Warren McCulloch e Walter Pitts
+"A logical calculus of the ideas immanent in nervous activity", articolo che gettò le basi per la costruzione di reti neurali artificiali
+come le conosciamo oggi partendo proprio dal sistema nervoso.
+Infatti le reti neurali artificiali sono ispirate alle reti neurali biologiche, che sono costituite da un insieme di neuroni,
+che presentano componenti simili seppur la controparte artificiale sia molto più semplice.\\
+Il neurone biologico componente principale del cervello e del sistema nervoso, è costituito da un corpo cellulare o soma, dai dendriti, 
+dall'assone e dalle sinapsi.\\
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{imgs/neurone.jpg}
+        \caption{Schema di un neurone biologico.}
+        \label{fig:neuron_bio}
+    \end{figure}
+
+Il neurone riceve degli impulsi da altri neuroni o da altri apparati sensoriali attraverso i dendriti, che sono delle strutture ramificate
+che si estendono dalla cellula, questi impulsi vengono accumulati all'interno del soma, e se la somma supera un certo valore di soglia
+si innesca un'azione di potenziale d'azione, che viene trasmesso attraverso l'assone verso altri neuroni o verso altri organi.
+L'assone è una struttura che si estende dalla cellula, a seconda della tipologia di neurone può estendersi da pochi micrometri fino anche ad un metro,
+e presenta all'estremità opposta del soma le sinapsi, le quali consentono la propagazione dell'impulso dall'assone ad altri neuroni.\\
+La struttura dell'assone è rivestita dalla guaina mielinica che ne facilita la conduzione degli impulsi, maggiore è lo spessore della guaina
+minore è la resistenza al passaggio dell'impulso, e dunque maggiore sarà l'ampiezza del segnale in uscita a parità di quello di ingresso. 
+Tale meccanismo è utilizzato per accumulare informazione nella struttura della rete neurale biologica.\\
+
+\subsection{Feedforward neural networks}
+Uno dei primi modelli ad essere proposti e utilizzati nella pratica è stato quello delle reti neurali feedforward (o multi layer perceptron MLP),
+in cui i neuroni sono disposti in strati, e l'output di ogni neurone di uno strato è connesso con l'input di tutti i neuroni dello strato successivo, 
+attraverso delle connessioni che conservano un peso, la configurazione di tali pesi determina il comportamento della rete.\\
+Tali reti come dice il nome propagano l'informazione dallo strato di input a quello di output attraverso i layer intermedi,
+in modo lineare, senza retropropagazioni intermedie dell'informazione.\\
+
+    \begin{figure}[H]
+        \centering
+        \includesvg[width=0.8\textwidth]{imgs/es_nn_1.svg}
+        \caption{Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e
+        le interconnessioni tra di essi che definiscono il peso o l'importanza di tale connessione.\\
+        File:Rete-Neurale2.svg. In Wikipedia. https://commons.wikimedia.org/wiki/File:Rete-Neurale2.svg}
+        \label{fig:feedforward_nn}
+    \end{figure}
+
+Andiamo ora a scomporre le varie componenti di tale modello e illustrarne il funzionamento, cominciando dal neurone artificiale.
+
+\subsubsection{Il neurone artificiale}
+
+    \begin{figure}[H]
+        \centering
+        \includesvg[width=0.6\textwidth]{imgs/neurone_artificiale.svg}
+        \caption{Esempio di Neurone artificiale.}
+        \label{fig:artificial_neuron}
+    \end{figure}
+
+\subsection{Convolutional neural networks}
+
+    TODO.
