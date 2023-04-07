@@ -1,0 +1,65 @@
+\begin{thebibliography}{10}
+
+\bibitem{arjovsky2017wasserstein}
+Martin Arjovsky, Soumith Chintala, and Léon Bottou.
+\newblock Wasserstein gan, 2017.
+
+\bibitem{ganbasedaugexample}
+Maayan Frid-Adar, Idit Diamant, Eyal Klang, Michal Amitai, Jacob Goldberger,
+  and Hayit Greenspan.
+\newblock {GAN}-based synthetic medical image augmentation for increased {CNN}
+  performance in liver lesion classification, 2018.
+
+\bibitem{gal2021swagan}
+Rinon Gal, Dana Cohen, Amit Bermano, and Daniel Cohen-Or.
+\newblock Swagan: A style-based wavelet-driven generative model, 2021.
+
+\bibitem{ghiasi2021simple}
+Golnaz Ghiasi, Yin Cui, Aravind Srinivas, Rui Qian, Tsung-Yi Lin, Ekin~D.
+  Cubuk, Quoc~V. Le, and Barret Zoph.
+\newblock Simple copy-paste is a strong data augmentation method for instance
+  segmentation, 2021.
+
+\bibitem{goodfellow2014generative}
+Ian~J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David
+  Warde-Farley, Sherjil Ozair, Aaron Courville, and Yoshua Bengio.
+\newblock Generative adversarial networks, 2014.
+
+\bibitem{heusel2018gans}
+Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp
+  Hochreiter.
+\newblock Gans trained by a two time-scale update rule converge to a local nash
+  equilibrium, 2018.
+
+\bibitem{isola2018imagetoimage}
+Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, and Alexei~A. Efros.
+\newblock Image-to-image translation with conditional adversarial networks,
+  2018.
+
+\bibitem{mescheder2018training}
+Lars Mescheder, Andreas Geiger, and Sebastian Nowozin.
+\newblock Which training methods for gans do actually converge?, 2018.
+
+\bibitem{radford2016unsupervised}
+Alec Radford, Luke Metz, and Soumith Chintala.
+\newblock Unsupervised representation learning with deep convolutional
+  generative adversarial networks, 2016.
+
+\bibitem{salimans2016improved}
+Tim Salimans, Ian Goodfellow, Wojciech Zaremba, Vicki Cheung, Alec Radford, and
+  Xi~Chen.
+\newblock Improved techniques for training gans, 2016.
+
+\bibitem{suvorov2021resolutionrobust}
+Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, Anastasia Remizova,
+  Arsenii Ashukha, Aleksei Silvestrov, Naejin Kong, Harshith Goka, Kiwoong
+  Park, and Victor Lempitsky.
+\newblock Resolution-robust large mask inpainting with fourier convolutions,
+  2021.
+
+\bibitem{zhang2018unreasonable}
+Richard Zhang, Phillip Isola, Alexei~A. Efros, Eli Shechtman, and Oliver Wang.
+\newblock The unreasonable effectiveness of deep features as a perceptual
+  metric, 2018.
+
+\end{thebibliography}

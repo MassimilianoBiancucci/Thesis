@@ -102,7 +102,7 @@ organizzativo e logistico. Infatti ci sono diversi step che si devono seguire:
         Per evitare che ciò accada oltre al primo annotatore lo stesso esempio viene solitamente rivisto da 2 o 4 persone diverse.
         Si noti che gli errori degli annotatori che non vengono identificati verranno appresi dal modello finale come una corretta classificazione, ciò giustifica un tale 
         dispendio di risorse in questa fase.
-\end{itemize}
+\end{itemize} 
 
 \subsection{Approccio al problema \ok}
 \begin{comment}
@@ -233,13 +233,13 @@ Queste strutture matematiche fecero la prima comparsa in un articolo del 1957, p
 "A logical calculus of the ideas immanent in nervous activity", articolo che gettò le basi per la costruzione di reti neurali artificiali
 come le conosciamo oggi partendo proprio dal sistema nervoso.
 Infatti le reti neurali artificiali sono ispirate alle reti neurali biologiche, che sono costituite da un insieme di neuroni,
-che presentano componenti simili seppur la controparte artificiale sia molto più semplice.\\
+che presentano componenti simili seppur la controparte artificiale sia molto più semplice.
 Il neurone biologico componente principale del cervello e del sistema nervoso, è costituito da un corpo cellulare o soma, dai dendriti, 
-dall'assone e dalle sinapsi.\\
+dall'assone e dalle sinapsi.
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{imgs/neurone.jpg}
+        \includegraphics[width=0.6\textwidth]{imgs/neurone.jpg}
         \caption{Schema di un neurone biologico.}
         \label{fig:neuron_bio}
     \end{figure}
@@ -248,17 +248,18 @@ Il neurone riceve degli impulsi da altri neuroni o da altri apparati sensoriali 
 che si estendono dalla cellula, questi impulsi vengono accumulati all'interno del soma, e se la somma supera un certo valore di soglia
 si innesca un'azione di potenziale d'azione, che viene trasmesso attraverso l'assone verso altri neuroni o verso altri organi.
 L'assone è una struttura che si estende dalla cellula, a seconda della tipologia di neurone può estendersi da pochi micrometri fino anche ad un metro,
-e presenta all'estremità opposta del soma le sinapsi, le quali consentono la propagazione dell'impulso dall'assone ad altri neuroni.\\
+e presenta all'estremità opposta del soma le sinapsi, le quali consentono la propagazione dell'impulso dall'assone ad altri neuroni.
 La struttura dell'assone è rivestita dalla guaina mielinica che ne facilita la conduzione degli impulsi, maggiore è lo spessore della guaina
 minore è la resistenza al passaggio dell'impulso, e dunque maggiore sarà l'ampiezza del segnale in uscita a parità di quello di ingresso. 
-Tale meccanismo è utilizzato per accumulare informazione nella struttura della rete neurale biologica.\\
+Tale meccanismo è utilizzato per accumulare informazione nella struttura della rete neurale biologica.
 
 \subsection{Feedforward neural networks}
+
 Uno dei primi modelli ad essere proposti e utilizzati nella pratica è stato quello delle reti neurali feedforward (o multi layer perceptron MLP),
 in cui i neuroni sono disposti in strati, e l'output di ogni neurone di uno strato è connesso con l'input di tutti i neuroni dello strato successivo, 
-attraverso delle connessioni che conservano un peso, la configurazione di tali pesi determina il comportamento della rete.\\
+attraverso delle connessioni che conservano un peso, la configurazione di tali pesi determina il comportamento della rete.
 Tali reti come dice il nome propagano l'informazione dallo strato di input a quello di output attraverso i layer intermedi,
-in modo lineare, senza retropropagazioni intermedie dell'informazione.\\
+in modo lineare, senza retropropagazioni intermedie dell'informazione.
 
     \begin{figure}[H]
         \centering
@@ -269,16 +270,44 @@ in modo lineare, senza retropropagazioni intermedie dell'informazione.\\
         \label{fig:feedforward_nn}
     \end{figure}
 
-Andiamo ora a scomporre le varie componenti di tale modello e illustrarne il funzionamento, cominciando dal neurone artificiale.
+Andiamo ora a scomporre le varie componenti di tale modello e illustrarne il funzionamento.
 
 \subsubsection{Il neurone artificiale}
 
-    \begin{figure}[H]
+    \begin{wrapfigure}{r}{0.6\textwidth}
         \centering
-        \includesvg[width=0.6\textwidth]{imgs/neurone_artificiale.svg}
+        \vspace{-25pt}
+        \includesvg[width=0.5\textwidth]{imgs/neurone_artificiale.svg}
         \caption{Esempio di Neurone artificiale.}
         \label{fig:artificial_neuron}
-    \end{figure}
+        \vspace{0pt}
+    \end{wrapfigure}
+
+Il neurone artificiale emula il comportamento del neurone biologico, semplificandone notevolmente la complessità,
+una delle più importanti semplificazioni è che il neurone artificiale opera in un regime temporale discreto e non continuo come la controparte.
+Il neurone artificiale inoltre non utilizza un meccanismo di accumulazione e spike, ma restituisce un output per ogni input ricevuto,
+ciò che varia è l'intensità di questo output, che dipende dall'intensità degli input ricevuti, e dai pesi delle connessioni con tali input.
+Il neurone artificiale inoltre è provvisto di una funzione di trasferimento che mappa la somma pesata degli input ricevuti con l'uscita.
+Vediamo dunque l'espressione che caratterizza il comportamento di un neurone artificiale:
+
+\begin{equation}
+    \label{eq:neuron}
+    y = f(P) = f(\vec{\mathbf{w}} \cdot \vec{\mathbf{x}} + b) = f(\sum_{i=1}^{n} w_i x_i + b)
+\end{equation}
+
+Considerando $y$ l'output del neurone, $\vec{\mathbf{w}}$ il vettore dei pesi delle connessioni in ingresso, 
+$\vec{\mathbf{x}}$ il vettore degli input, $b$ il bias ovvero un valore aggiunto alla somma pesata degli input 
+dipendente dal neurone e $f$ la funzione di trasferimento.
+
+La funzione di attivazione o funzione di trasferimento del neurone è la componente che conferisce alla rete la capacità di generare degli output
+che hanno una relazione non lineare rispetto agli input ricevuti, e dunque che gli permette di apprendere funzioni non lineari.
+La funzione di attivazione solitamente deve essere derivabile, o almeno derivabile a tratti per poter essere utilizzata in un contesto di apprendimento,
+in quanto la derivata della funzione di attivazione viene utilizzata per calcolare il gradiente della funzione di errore, che a sua volta viene utilizzato
+per aggiornare i pesi della rete, dall'algoritmo Backpropagation, del quale parleremo a breve.
+
+
+%TODO: aggiungi sezione sul backpropagation
+    
 
 \subsection{Convolutional neural networks}
 

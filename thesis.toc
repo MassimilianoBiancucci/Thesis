@@ -12,8 +12,8 @@
 \contentsline {section}{\numberline {1.2}Introduzione alle reti neurali }{6}{section.1.2}%
 \contentsline {subsection}{\numberline {1.2.1}Dal machine learning al deep learning}{6}{subsection.1.2.1}%
 \contentsline {subsection}{\numberline {1.2.2}Confronto con le reti neurali biologiche}{7}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}Feedforward neural networks}{8}{subsection.1.2.3}%
-\contentsline {subsubsection}{Il neurone artificiale}{9}{section*.11}%
+\contentsline {subsection}{\numberline {1.2.3}Feedforward neural networks}{7}{subsection.1.2.3}%
+\contentsline {subsubsection}{Il neurone artificiale}{8}{section*.11}%
 \contentsline {subsection}{\numberline {1.2.4}Convolutional neural networks}{9}{subsection.1.2.4}%
 \contentsline {chapter}{\numberline {2}Stato dell'arte}{10}{chapter.2}%
 \contentsline {chapter}{\numberline {3}Strumenti e metodi }{11}{chapter.3}%
@@ -23,3 +23,4 @@
 \contentsline {chapter}{\numberline {4}Sviluppo del progetto}{12}{chapter.4}%
 \contentsline {chapter}{\numberline {5}Risultati}{13}{chapter.5}%
 \contentsline {chapter}{Elenco delle figure}{14}{chapter*.13}%
+\contentsline {chapter}{Bibliografia}{15}{chapter*.14}%
