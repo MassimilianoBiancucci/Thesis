@@ -239,7 +239,7 @@ dall'assone e dalle sinapsi.
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{imgs/neurone.jpg}
+        \includegraphics[width=0.5\textwidth]{imgs/neurone.jpg}
         \caption{Schema di un neurone biologico.}
         \label{fig:neuron_bio}
     \end{figure}
@@ -263,14 +263,12 @@ in modo lineare, senza retropropagazioni intermedie dell'informazione.
 
     \begin{figure}[H]
         \centering
-        \includesvg[width=0.8\textwidth]{imgs/es_nn_1.svg}
+        \includesvg[width=0.6\textwidth]{imgs/es_nn_1.svg}
         \caption{Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e
         le interconnessioni tra di essi che definiscono il peso o l'importanza di tale connessione.\\
         File:Rete-Neurale2.svg. In Wikipedia. https://commons.wikimedia.org/wiki/File:Rete-Neurale2.svg}
         \label{fig:feedforward_nn}
     \end{figure}
-
-Andiamo ora a scomporre le varie componenti di tale modello e illustrarne il funzionamento.
 
 \subsubsection{Il neurone artificiale}
 
@@ -302,12 +300,147 @@ dipendente dal neurone e $f$ la funzione di trasferimento.
 La funzione di attivazione o funzione di trasferimento del neurone è la componente che conferisce alla rete la capacità di generare degli output
 che hanno una relazione non lineare rispetto agli input ricevuti, e dunque che gli permette di apprendere funzioni non lineari.
 La funzione di attivazione solitamente deve essere derivabile, o almeno derivabile a tratti per poter essere utilizzata in un contesto di apprendimento,
-in quanto la derivata della funzione di attivazione viene utilizzata per calcolare il gradiente della funzione di errore, che a sua volta viene utilizzato
-per aggiornare i pesi della rete, dall'algoritmo Backpropagation, del quale parleremo a breve.
+in quanto la derivata della funzione di attivazione viene utilizzata per calcolare il gradiente della funzione di errore dall'algoritmo Backpropagation,
+e in seguito per aggiornare i pesi da parte della funzione di ottimizzazione (es. SGD).
+Di seguito sono mostrate alcune delle più comuni funzioni di attivazione:
+
+    \begin{figure}[H]
+        \begin{tabular}{cc}
+            % first row
+            \vspace{0.15cm}
+            \subfloat[Sigmoide]{
+                \label{fig:sigmoid}
+                \centering
+                \includegraphics[width=0.4\textwidth]{imgs/activations/sigmoid.png}
+            }  &
+            \subfloat[Tangente iperbolica]{
+                \label{fig:tanh}
+                \centering
+                \includegraphics[width=0.4\textwidth]{imgs/activations/tanh.png}
+            }  \\
+            \vspace{0.25cm}
+            \subfloat{
+                \begin{tabular}{|c|}
+                    \hline
+                    $\mathbf{f(x) = \frac{1}{1 + e^{-x}}}$ \\
+                    \hline
+                \end{tabular}
+            } &
+            \subfloat{
+                \begin{tabular}{|c|}
+                    \hline
+                    $\mathbf{f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}}$ \\
+                    \hline
+                \end{tabular}
+            } \\
+
+            % second row
+            \vspace{0.15cm}
+            \subfloat[Rectified linear unit (RELU)]{
+                \label{fig:relu}
+                \centering
+                \includegraphics[width=0.4\textwidth]{imgs/activations/relu.png}
+            }  &
+            \subfloat[Leaky RELU]{
+                \label{fig:leaky_relu}
+                \centering
+                \includegraphics[width=0.4\textwidth]{imgs/activations/leaky_relu.png}
+            }  \\
+            \vspace{0.25cm}
+            \subfloat{
+                \begin{tabular}{|c|}
+                    \hline
+                    $\mathbf{f(x) = \begin{cases} 0 & x < 0 \\ x & x \geq 0 \end{cases}}$ \\
+                    \hline
+                \end{tabular}
+            } &
+            \subfloat{
+                \begin{tabular}{|c|}
+                    \hline
+                    $\mathbf{f(x) = \begin{cases} \alpha x & x < 0 \\ x & x \geq 0 \end{cases}}$ \\
+                    \hline
+                \end{tabular}
+            } \\
+
+            % third row
+            \vspace{0.15cm}
+            \subfloat[Exponential linear unit (ELU)]{
+                \label{fig:elu}
+                \centering
+                \includegraphics[width=0.4\textwidth]{imgs/activations/elu.png}
+            }  &
+            \subfloat[Gaussian error linear unit (GELU)]{
+                \label{fig:gelu}
+                \centering
+                \includegraphics[width=0.4\textwidth]{imgs/activations/gelu.png}
+            }  \\
+            \vspace{0.25cm}
+            \subfloat{
+                \begin{tabular}{|c|}
+                    \hline
+                    $\mathbf{f(x) = \begin{cases} x & \text{if } x \geq 0 \\ \alpha(e^x - 1) & \text{if } x < 0 \end{cases}}$ \\
+                    \hline
+                \end{tabular}
+            } &
+            \subfloat{
+                \begin{tabular}{|c|}
+                    \hline
+                    $\mathbf{f(x) = x*\Phi(x)}$ \\
+                    \hline
+                \end{tabular}
+            } \\
+        \end{tabular}
+    \end{figure}
+
+La sigmoide e la tangente iperbolica, sono funzioni molto vecchie utilizzate
+sin dai primi anni '90, ma sono state sostituite da funzioni più moderne e semplici da calcolare, come le funzioni RELU e Leaky RELU.
+Vengono ancora utilizzate però in casi particolari come nello stadio finale di una rete neurale, quando si ha bisogno di un output che sia compreso tra 0 e 1.
+Le funzioni ELU e GELU sono invece funzioni di attivazione più recenti, che vengono utilizzate per migliorare l'apprendimento delle reti neurali
+in casi specifici, ma in generale RELU e Leaky RELU sono le funzioni più utilizzate, in quanto offrono un buon compromesso tra prestazioni e accuratezza.
+
+\subsubsection{Il Back-propagation}
+
+La prima volta che questo algoritmo fu proposto fu nel 1986 da David E. Rumelhart, Geoffry E. Hinton e Ronald J. Williams, su nature
+con l'articolo \textit{Learning representations by back-propagating errors}.
+Questo algoritmo ha segnato da quel momento una vera e propria rivoluzione nel campo dell'apprendimento automatico, rendendo possibile l'addestramento dei
+modelli neurali come li conosciamo oggi e plasmando lo scenario attuale dell'intelligenza artificiale.
+
+Ciò che questo algoritmo fa effettivamente è calcolare il gradiente della funzione di errore nello spazio dei pesi di una rete neurale, 
+partendo dal layer di uscita e andando a calcolare il gradiente per ogni layer precedente fino ad arrivare al layer di input, tale gradiente può essere poi
+utilizzato per aggiornare i pesi della rete attraverso una funzione di ottimizzazione, in modo da minimizzare o massimizzare la funzione di costo che si vuole ottimizzare.
+
+Da un punto di vista matematico, data la precedente definizione di neurone e rete neurale, possiamo definire una rete neurale come una funzione $\mathbf{g(x)}$
+come combinazione di composizione di funzioni e moltiplicazioni di matrici.
+
+\begin{equation}
+    \mathbf{\vec{y} = g(\vec{x}) = f_{L}(\mathbf{W^{L} \cdot f^{L-1}(W^{L-1} \cdot f^{L-2}(\dots W^{3} \cdot f^{2}(W^{2} \cdot f^{1}(W^{1} \cdot \vec{x})) \dots ))})}
+\end{equation}
+
+Dove $\mathbf{f_{L}}$ è la funzione di attivazione del layer di uscita, $\mathbf{f_{i}}$ è la funzione di attivazione del layer $i$ e $\mathbf{W^{i}}$ è la matrice dei pesi del layer $i$.
+Abbiamo inoltre che $\mathbf{\vec{x}}$ e $\mathbf{\vec{y}}$ sono rispettivamente il vettore di input e il vettore di output della rete neurale, se consideriamo
+$\mathbf{\hat{y}}$ il vettore di output desiderato, possiamo definire la funzione di costo. In questo caso utilizzeremo la loss MSE (Mean Squared Error), ma
+si può sostituire con qualsiasi funzione di costo.
+
+\begin{equation}
+    \mathbf{E = \frac{1}{n} \sum_{i=1}^{n} (\hat{y_{i}} - y_{i})^2}
+\end{equation}
+
+A questo punto data una determinata coppia di input e output ($\mathbf{\vec{x}}$, $\mathbf{\hat{y}}$), possiamo calcolare il gradiente della funzione di costo
+attraverso la \textit{regola della catena}, che ci permette di calcolare il gradiente della funzione di costo per ogni peso della rete.
+
+\begin{equation}
+    \mathbf{\Delta w^{l}_{ij} = \frac{\partial E}{\partial w^{l}_{ij}} = \frac{\partial E}{\partial y^{l}} \frac{\partial y^{l}}{\partial w^{l}_{ij}}}
+\end{equation}
+
+Dove $\mathbf{\Delta w^{l}_{ij}}$ è il gradiente della funzione di costo per il peso $w^{l}_{ij}$ appartenente al layer $l$, al neurone $i$ e alla sinapsi $j$.
 
 
-%TODO: aggiungi sezione sul backpropagation
-    
+
+
+
+
+
+
 
 \subsection{Convolutional neural networks}
 
