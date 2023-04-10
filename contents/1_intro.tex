@@ -210,8 +210,8 @@ le reti neurali nel campo dell'intelligenza artificiale.
 
 \subsection{Dal machine learning al deep learning}
 L'intelligenza artificiale è un campo di ricerca con l'obiettivo di risolvere una grande varietà di problemi,
- che per essere risolte attraverso la programmazione classica avrebbero bisogno di una grande quantità di conoscenze non disponibili, o semplicemente di troppo lavoro.\\
-I Programmi basati sul paradigma dell'intelligenza artificiale si propongono di superare questi ostacoli acquisendo direttamente queste conoscenze 
+ che per essere risolti attraverso la programmazione classica avrebbero bisogno di una grande quantità di conoscenze non disponibili, o semplicemente di troppo lavoro.\\
+I programmi basati sul paradigma dell'intelligenza artificiale si propongono di superare questi ostacoli acquisendo direttamente queste conoscenze 
 dai dati grezzi, tale capacità è nota come machine learning.
 Sotto questa grande famiglia di algoritmi si trovano altri sottogruppi quali il representation learning e all'interno di quest'ultimo il deep learning.\\ 
 Il deep learning rispetto ai metodi più classici, tipicamente in grado di riconoscere soltanto relazioni lineari (come ad esempio l'SVM o support vector machine), 
@@ -246,7 +246,7 @@ dall'assone e dalle sinapsi.
 
 Il neurone riceve degli impulsi da altri neuroni o da altri apparati sensoriali attraverso i dendriti, che sono delle strutture ramificate
 che si estendono dalla cellula, questi impulsi vengono accumulati all'interno del soma, e se la somma supera un certo valore di soglia
-si innesca un'azione di potenziale d'azione, che viene trasmesso attraverso l'assone verso altri neuroni o verso altri organi.
+si innesca la propagazione di un'impulso, che viene trasmesso attraverso l'assone verso altri neuroni o verso altri organi.
 L'assone è una struttura che si estende dalla cellula, a seconda della tipologia di neurone può estendersi da pochi micrometri fino anche ad un metro,
 e presenta all'estremità opposta del soma le sinapsi, le quali consentono la propagazione dell'impulso dall'assone ad altri neuroni.
 La struttura dell'assone è rivestita dalla guaina mielinica che ne facilita la conduzione degli impulsi, maggiore è lo spessore della guaina
@@ -425,23 +425,126 @@ si può sostituire con qualsiasi funzione di costo.
     \mathbf{E = \frac{1}{n} \sum_{i=1}^{n} (\hat{y_{i}} - y_{i})^2}
 \end{equation}
 
-A questo punto data una determinata coppia di input e output ($\mathbf{\vec{x}}$, $\mathbf{\hat{y}}$), possiamo calcolare il gradiente della funzione di costo
+A questo punto data una determinata coppia di input e output ($\mathbf{\vec{x}}$, $\mathbf{\vec{y}}$), possiamo calcolare il gradiente della funzione di costo
 attraverso la \textit{regola della catena}, che ci permette di calcolare il gradiente della funzione di costo per ogni peso della rete.
 
 \begin{equation}
-    \mathbf{\Delta w^{l}_{ij} = \frac{\partial E}{\partial w^{l}_{ij}} = \frac{\partial E}{\partial y^{l}} \frac{\partial y^{l}}{\partial w^{l}_{ij}}}
+    \mathbf{\frac{\partial E}{\partial w^{l}_{ij}} = \frac{\partial E}{\partial a^{l}} \cdot \frac{\partial a^{l}}{\partial z^{l}} \cdot \frac{\partial z^{l}}{\partial w^{l}_{ij}}}
 \end{equation}
 
-Dove $\mathbf{\Delta w^{l}_{ij}}$ è il gradiente della funzione di costo per il peso $w^{l}_{ij}$ appartenente al layer $l$, al neurone $i$ e alla sinapsi $j$.
+Otteniamo così il gradiente della funzione di costo per il peso $w^{l}_{ij}$ appartenente al layer $l$, al neurone $i$ e alla sinapsi $j$.
 
+Per l'esecuzione dell'algoritmo back propagation è necessario effettuare il caching dei valori intermedi calcolati durante il passaggio in avanti,
+nello specifico degli input pesati dei neuroni prima della funzione di attivazione $\mathbf{\vec{z}^{l}}$ e l'output dei neuroni dopo la funzione di attivazione $\mathbf{\vec{a}^{l}}$
+per ogni layer.
 
+Consideriamo la derivata della funzione di errore rispetto all'input del modello:
 
+\begin{equation}
+    \mathbf{\frac{\partial E}{\partial x} = (\frac{\partial E}{\partial a^{L}}) \circ (\frac{\partial a^{L}}{\partial z^{L}} \cdot \frac{\partial z^{L}}{\partial a^{L-1}}) \circ (\frac{\partial a^{L-1}}{\partial z^{L-1}} \cdot \frac{\partial z^{L-1}}{\partial a^{L-2}}) \circ \dots \circ (\frac{\partial a^{2}}{\partial z^{2}} \cdot \frac{\partial z^{2}}{\partial a^{1}}) \circ (\frac{\partial a^{1}}{\partial z^{1}} \cdot \frac{\partial z^{1}}{\partial x})}
+\end{equation}
 
+Dove $\mathbf{\circ}$ è il prodotto di Hadamard, un semplice prodotto element-wise tra matrici di dimensioni uguali, che moltiplica elemento per elemento le due matrici.
+Osservando questa formulazione della derivata possiamo notare che $\mathbf{\frac{\partial a^{L}}{\partial z^{L}} \cdot \frac{\partial z^{L}}{\partial a^{L-1}}}$ è la derivata della funzione di attivazione 
+moltiplicata per la matrice dei pesi del layer stesso. 
+Inoltre possiamo riscrivere la derivata $\mathbf{\frac{\partial E}{\partial a^{L}}}$ in termini di gradiente
+$\mathbf{\nabla_{a} E}$, invertendo l'ordine dei prodotti e trasponendo le matrici:
 
+\begin{equation}
+    \mathbf{\nabla_{x} E = (W^1)^T \cdot (f^1)' \circ \dots \circ (W^{L-1})^T \cdot (f^{L-1})' \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}
+\end{equation}
 
+A questo punto possiamo introdurre i prodotti parziali del gradiente per determinare il gradiente della funzione di errore as un determinato layer $l$:
 
+\begin{equation}
+    \mathbf{\delta^{l} = (f^{l})' \circ (W^{l+1})^T \cdot (f^{l+1})' \circ \dots \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}
+\end{equation}
 
+E notiamo che ogni prodotto parziale può essere definito come il prodotto tra il gradiente e la matrice trasposta dei pesi del layer successivo per
+la derivata della funzione di attivazione del layer stesso.
+
+\begin{equation}
+    \mathbf{\delta^{l-1} = (f^{l-1})' \circ (W^{l})^T \cdot \delta^{l}}
+\end{equation}
+
+Quindi:
+
+    $\mathbf{\delta^{L} = (f^{L})' \circ \nabla_{a^L} E}$
+
+    $\mathbf{\delta^{L-1} = (f^{L-1})' \circ (W^{L})^T \cdot \delta^{L} = (f^{L-1})' \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}$
+
+    $\dots$
+
+    $\mathbf{\delta^{2} = (f^{2})' \circ (W^{3})^T \cdot \delta^{3} = (f^{2})' \circ (W^{3})^T \cdot \dots \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}$
+
+    $\mathbf{\delta^{1} = (f^{1})' \circ (W^{2})^T \cdot \delta^{2} = (f^{1})' \circ (W^{2})^T \cdot (f^{2})' \circ (W^{3})^T \cdot \dots \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}$
+
+In tal modo possiamo calcolare i prodotti parziali del gradiente per ogni layer, partendo dallo strato di output all'indietro, minimizzando così il numero di moltiplicazioni
+richieste per il calcolo del gradiente. Per ottenere i gradienti dei pesi è sufficiente moltiplicare il prodotto parziale del gradiente per l'output del layer precedente:
+
+\begin{equation}
+    \mathbf{\nabla_{w^{l}} E = \delta^{l} \cdot (a^{l-1})^T}
+\end{equation}
+
+L'oggetto $\mathbf{\nabla_{w^{l}} E}$ rappresenta una matrice della stessa dimensione della matrice dei pesi del layer $l$, contenente i gradienti della funzione di errore di tali pesi,
+mentre $a^{l-1}$ è l'output di tutte le unità del layer precedente.
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \hspace{-25pt}
+    %\vspace{-25pt}
+    \includesvg[width=0.4\textwidth]{imgs/backpropagation.svg}
+    \caption{Esempio di retropropagazione su di una rete semplificata a 2 strati.}
+    \label{fig:backpropagation}
+    \vspace{35pt}
+\end{wrapfigure}
+
+Si consideri che è possibile scomporre un elemento della matrice $\mathbf{\nabla_{w^{l}} E}$ nel seguente modo:
+\begin{equation}
+    % TODO: VERIFICARE SE QUESTA EQUAZIONE È CORRETTA
+    \mathbf{\nabla_{w^{l}} E_{k,k} = \frac{\partial E}{\partial w_{k,k}^{l}}} 
+\end{equation}
+
+Tale gradiente a questo punto può essere utilizzato per aggiornare il peso $w_{k,k}^{l}$,
+applicando un semplice coefficiente di apprendimento $\eta$:
+\begin{equation}
+    \mathbf{W_{k,k}^1 = W_{k,k}^1 + \Delta W_{k,k}^1}
+\end{equation}
+\begin{equation}
+    \mathbf{\Delta W_{k,k}^1 = - \eta \cdot \nabla_{w^1}E_{k,k}}
+\end{equation}
+
+é importante notare che questo è un'approccio molto basilare, che può essere migliorato attraverso l'uso di tecniche di ottimizzazione
+più evolute come ad esempio l'ottimizzazione SGD (Stochastic Gradient Descent) o l'ottimizzazione ADAM.
 
 \subsection{Convolutional neural networks}
 
-    TODO.
+Le CNN sono reti neurali artificiali molto adatte all'analisi delle immagini, 
+la loro struttura è simile a quella che si trovano nel nervo ottico degli organismi viventi.
+Sono dette anche \textit{Shift invariant artificial neural networks} (SIANN) in quanto sono 
+sono resistenti alla traslazione dell'input per via della loro struttura.
+
+\subsubsection{Storia delle CNN}
+
+La prima pubblicazione alla quale si deve l'invenzione delle CNN è stato un lavoro di David Hunter Hubel e Torsten Wiesel 
+\textit{"Receptive fields of single neurones in the cat's striate cortex"}, i quali nel 1959 hanno studiato la struttura della 
+corteccia visiva del cervello di un gatto, scoprendo che tali neuroni avevano una struttura particolare, che li rendeva 
+soggetti agli stimoli di una certa porzione di retina, detta \textit{campo ricettivo}, tale area era regolare per tutti i neuroni
+e tutti avevano una certa sovrapposizione dei rispettivi campi ricettivi.
+
+Il primo lavoro a sfruttare i concetti appresi da Hubel e Wiesel è stato quello di Kunihiko Fukushima il quale nel 1980
+ha pubblicato il suo lavoro \textit{Neocognitron}, un sistema di riconoscimento di immagini, utilizzato per la prima volta
+in un sistema di riconoscimento di numeri scritti a mano in giapponese. Sempre a Fukushima si deve 
+anche l'introduzione della funzione di trasferimento \textit{RELU}, precedentemente discussa.
+
+Seguì poi il lavoro di Alex Waibel \textit{"Phoneme Recognition Using Time-Delay Neural Networks"} nel 1987, che segno un'ulteriore passo
+nella direzione delle CNN, introducendo per la prima volta la invarianza alla traslazione.
+
+In fine il lavoro che ha portato alla nascita delle CNN moderne è stato quello di Yann LeCun et. al.
+\textit{"Backpropagation applied to handwritten zip code recognition"}, pubblicato nel 1989, in cui è stato utilizzato
+il backpropagation per l'addestramento di una rete convenzionale per il riconoscimento di numeri scritti a mano.
+
+\subsubsection{Struttura delle CNN}
+
+
+
