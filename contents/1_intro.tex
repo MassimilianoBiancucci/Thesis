@@ -232,18 +232,17 @@ Il termine "deep learning" deriva proprio dalla capacità di riuscire a cogliere
 Queste strutture matematiche fecero la prima comparsa in un articolo del 1957, pubblicato da Warren McCulloch e Walter Pitts
 "A logical calculus of the ideas immanent in nervous activity", articolo che gettò le basi per la costruzione di reti neurali artificiali
 come le conosciamo oggi partendo proprio dal sistema nervoso.
-Infatti le reti neurali artificiali sono ispirate alle reti neurali biologiche, che sono costituite da un insieme di neuroni,
-che presentano componenti simili seppur la controparte artificiale sia molto più semplice.
+Infatti le reti neurali artificiali sono ispirate alle reti neurali biologiche, le quali hanno un comportamento più complesso della
+controparte artificiale, la quale deve fare i conti con la complessità computazionale che deve essere ridotta per garantire una elaborazione
+efficiente nei calcolatori.
 Il neurone biologico componente principale del cervello e del sistema nervoso, è costituito da un corpo cellulare o soma, dai dendriti, 
 dall'assone e dalle sinapsi.
-
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.5\textwidth]{imgs/neurone.jpg}
         \caption{Schema di un neurone biologico.}
         \label{fig:neuron_bio}
     \end{figure}
-
 Il neurone riceve degli impulsi da altri neuroni o da altri apparati sensoriali attraverso i dendriti, che sono delle strutture ramificate
 che si estendono dalla cellula, questi impulsi vengono accumulati all'interno del soma, e se la somma supera un certo valore di soglia
 si innesca la propagazione di un'impulso, che viene trasmesso attraverso l'assone verso altri neuroni o verso altri organi.
@@ -287,7 +286,6 @@ Il neurone artificiale inoltre non utilizza un meccanismo di accumulazione e spi
 ciò che varia è l'intensità di questo output, che dipende dall'intensità degli input ricevuti, e dai pesi delle connessioni con tali input.
 Il neurone artificiale inoltre è provvisto di una funzione di trasferimento che mappa la somma pesata degli input ricevuti con l'uscita.
 Vediamo dunque l'espressione che caratterizza il comportamento di un neurone artificiale:
-
 \begin{equation}
     \label{eq:neuron}
     y = f(P) = f(\vec{\mathbf{w}} \cdot \vec{\mathbf{x}} + b) = f(\sum_{i=1}^{n} w_i x_i + b)
@@ -296,7 +294,6 @@ Vediamo dunque l'espressione che caratterizza il comportamento di un neurone art
 Considerando $y$ l'output del neurone, $\vec{\mathbf{w}}$ il vettore dei pesi delle connessioni in ingresso, 
 $\vec{\mathbf{x}}$ il vettore degli input, $b$ il bias ovvero un valore aggiunto alla somma pesata degli input 
 dipendente dal neurone e $f$ la funzione di trasferimento.
-
 La funzione di attivazione o funzione di trasferimento del neurone è la componente che conferisce alla rete la capacità di generare degli output
 che hanno una relazione non lineare rispetto agli input ricevuti, e dunque che gli permette di apprendere funzioni non lineari.
 La funzione di attivazione solitamente deve essere derivabile, o almeno derivabile a tratti per poter essere utilizzata in un contesto di apprendimento,
@@ -374,7 +371,7 @@ Di seguito sono mostrate alcune delle più comuni funzioni di attivazione:
                 \centering
                 \includegraphics[width=0.4\textwidth]{imgs/activations/gelu.png}
             }  \\
-            \vspace{0.25cm}
+            \vspace{0cm}
             \subfloat{
                 \begin{tabular}{|c|}
                     \hline
@@ -391,7 +388,6 @@ Di seguito sono mostrate alcune delle più comuni funzioni di attivazione:
             } \\
         \end{tabular}
     \end{figure}
-
 La sigmoide e la tangente iperbolica, sono funzioni molto vecchie utilizzate
 sin dai primi anni '90, ma sono state sostituite da funzioni più moderne e semplici da calcolare, come le funzioni RELU e Leaky RELU.
 Vengono ancora utilizzate però in casi particolari come nello stadio finale di una rete neurale, quando si ha bisogno di un output che sia compreso tra 0 e 1.
@@ -517,8 +513,31 @@ applicando un semplice coefficiente di apprendimento $\eta$:
 é importante notare che questo è un'approccio molto basilare, che può essere migliorato attraverso l'uso di tecniche di ottimizzazione
 più evolute come ad esempio l'ottimizzazione SGD (Stochastic Gradient Descent) o l'ottimizzazione ADAM.
 
-\subsection{Convolutional neural networks}
+\subsubsection{Teorema di approssimazione universale}
 
+Le reti neurali artificiali, non hanno dimostrato solo nella pratica con risultati sperimentali la loro efficacia nel risolvere
+i problemi, ma anche nella teoria, infatti in molti studi è stata provata la loro efficacia come approssimatori universali.
+Quando si parla di approssimatori universali ci si riferisce a delle funzioni che possono approssimare su un dato intervallo di valori
+qualunque altra funzione continua. Nel caso particolare delle reti neurali vi è una grande quantità di varianti, le quali
+hanno una diversa variante del teorema di approssimazione universale, che ne dimostra le capacità di approssimazione.
+
+Tra i più importanti nel 1989 George Cybenko in \textit{Approximation by superpositions of a sigmoidal function} \cite{cybenko1989approximation},
+dimostrò che una combinazione lineare di composizione di una predeterminata funzione univariata e un insieme di funzioni affini può approssimare 
+qualsiasi funzione continua di n variabili reali con supporto in un ipercubo unitario.
+%TODO: verifica se è corretto e se va aggiunto altro
+
+Sempre nel 1989 Kurt Hornik et al in \textit{Multilayer feedforward networks are universal approximators} \cite{hornik1989multilayer} dimostrano che
+%TODO: continua...
+
+\subsection{Convolutional neural networks}
+\begin{comment}
+    indice sotto sezione:
+    - Storia delle CNN
+    - La convoluzione
+        - 
+    - 
+
+\end{comment}
 Le CNN sono reti neurali artificiali molto adatte all'analisi delle immagini, 
 la loro struttura è simile a quella che si trovano nel nervo ottico degli organismi viventi.
 Sono dette anche \textit{Shift invariant artificial neural networks} (SIANN) in quanto sono 
@@ -538,13 +557,15 @@ in un sistema di riconoscimento di numeri scritti a mano in giapponese. Sempre a
 anche l'introduzione della funzione di trasferimento \textit{RELU}, precedentemente discussa.
 
 Seguì poi il lavoro di Alex Waibel \textit{"Phoneme Recognition Using Time-Delay Neural Networks"} nel 1987, che segno un'ulteriore passo
-nella direzione delle CNN, introducendo per la prima volta la invarianza alla traslazione.
+nella direzione delle CNN, introducendo per la prima volta l'invarianza alla traslazione. Questo lavoro però
+non era focalizzato sulle immagini ma sull'analisi del suono, in particolare il riconoscimento di fonemi.
+Ma l'utilizzo di questo modello su 2 dimensioni, ovvero il tempo e la frequenza, lo rendeva concettualmente adatto 
+anche all'analisi delle immagini.
 
-In fine il lavoro che ha portato alla nascita delle CNN moderne è stato quello di Yann LeCun et. al.
+In fine il lavoro che ha portato alla nascita delle CNN moderne è stato quello di Yann LeCun
 \textit{"Backpropagation applied to handwritten zip code recognition"}, pubblicato nel 1989, in cui è stato utilizzato
-il backpropagation per l'addestramento di una rete convenzionale per il riconoscimento di numeri scritti a mano.
+il backpropagation per l'addestramento di una rete convoluzionale per il riconoscimento di numeri scritti a mano.
 
-\subsubsection{Struttura delle CNN}
-
+\subsubsection{title}
 
 
