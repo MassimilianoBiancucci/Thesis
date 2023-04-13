@@ -16,7 +16,7 @@
 \contentsline {subsubsection}{Il neurone artificiale}{8}{section*.11}%
 \contentsline {subsubsection}{Il Back-propagation}{10}{section*.14}%
 \contentsline {subsubsection}{Teorema di approssimazione universale}{12}{section*.16}%
-\contentsline {subsection}{\numberline {1.2.4}Convolutional neural networks}{12}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.4}Convolutional neural networks}{13}{subsection.1.2.4}%
 \contentsline {subsubsection}{Storia delle CNN}{13}{section*.17}%
 \contentsline {subsubsection}{title}{13}{section*.18}%
 \contentsline {chapter}{\numberline {2}Stato dell'arte}{14}{chapter.2}%

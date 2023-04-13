@@ -450,7 +450,7 @@ $\mathbf{\nabla_{a} E}$, invertendo l'ordine dei prodotti e trasponendo le matri
     \mathbf{\nabla_{x} E = (W^1)^T \cdot (f^1)' \circ \dots \circ (W^{L-1})^T \cdot (f^{L-1})' \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}
 \end{equation}
 
-A questo punto possiamo introdurre i prodotti parziali del gradiente per determinare il gradiente della funzione di errore as un determinato layer $l$:
+A questo punto possiamo introdurre i prodotti parziali del gradiente per determinare il gradiente della funzione di errore ad un determinato layer $l$:
 
 \begin{equation}
     \mathbf{\delta^{l} = (f^{l})' \circ (W^{l+1})^T \cdot (f^{l+1})' \circ \dots \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}
@@ -475,7 +475,7 @@ Quindi:
 
     $\mathbf{\delta^{1} = (f^{1})' \circ (W^{2})^T \cdot \delta^{2} = (f^{1})' \circ (W^{2})^T \cdot (f^{2})' \circ (W^{3})^T \cdot \dots \circ (W^{L})^T \cdot (f^{L})' \circ \nabla_{a^L} E}$
 
-In tal modo possiamo calcolare i prodotti parziali del gradiente per ogni layer, partendo dallo strato di output all'indietro, minimizzando così il numero di moltiplicazioni
+In tal modo possiamo calcolare i prodotti parziali del gradiente per ogni layer, partendo dallo strato di output all'indietro, minimizzando così il numero di operazioni
 richieste per il calcolo del gradiente. Per ottenere i gradienti dei pesi è sufficiente moltiplicare il prodotto parziale del gradiente per l'output del layer precedente:
 
 \begin{equation}
@@ -518,16 +518,31 @@ più evolute come ad esempio l'ottimizzazione SGD (Stochastic Gradient Descent) 
 Le reti neurali artificiali, non hanno dimostrato solo nella pratica con risultati sperimentali la loro efficacia nel risolvere
 i problemi, ma anche nella teoria, infatti in molti studi è stata provata la loro efficacia come approssimatori universali.
 Quando si parla di approssimatori universali ci si riferisce a delle funzioni che possono approssimare su un dato intervallo di valori
-qualunque altra funzione continua. Nel caso particolare delle reti neurali vi è una grande quantità di varianti, le quali
-hanno una diversa variante del teorema di approssimazione universale, che ne dimostra le capacità di approssimazione.
+qualunque altra funzione continua. Nel caso particolare delle reti neurali vi è una grande quantità di varianti, per le quali
+si ha una diversa dimostrazione per tale proprietà.
 
 Tra i più importanti nel 1989 George Cybenko in \textit{Approximation by superpositions of a sigmoidal function} \cite{cybenko1989approximation},
-dimostrò che una combinazione lineare di composizione di una predeterminata funzione univariata e un insieme di funzioni affini può approssimare 
-qualsiasi funzione continua di n variabili reali con supporto in un ipercubo unitario.
-%TODO: verifica se è corretto e se va aggiunto altro
+dimostrò che la sovrapposizione di un numero finito di istanze di una singola funzione univariata può approssimare qualsiasi funzione continua 
+di n variabili con supporto nell'ipercubo unitario. Questo risultato permette di asserire che ogni funzione continua può essere approssimata da 
+una rete neurale MLP (feedforward) avente uno strato nascosto con un numero finito di unità, con come funzione di attivazione una funzione sigmoide arbitraria.
+Di seguito il relativo teorema:
+\begin{theorem}
+    \label{thm:cybenko_1}
+    Sia $sigma$ qualsiasi funzione sigmoide arbitraria. Le sommatorie finite della forma
+    \begin{equation}
+        \mathbf{G(x) = \sum_{i=1}^{N} \alpha \cdot \sigma(y_i^Tx + \Theta_i)}
+    \end{equation}
+    sono dense in $C(I_n)$. In altre parole, data qualunque $f \in C(I_n)$ e $\epsilon > 0$ esiste una somma $G(x)$
+    con la forma sopra descritta tale che:
+    \begin{equation}
+        \mathbf{|G(x) - f(x)| < \epsilon \quad \forall x \in I_n}
+    \end{equation}
+\end{theorem}
 
-Sempre nel 1989 Kurt Hornik et al in \textit{Multilayer feedforward networks are universal approximators} \cite{hornik1989multilayer} dimostrano che
-%TODO: continua...
+Con questo teorema Cybenko dimostra che una rete neurale MLP con un solo strato nascosto può approssimare qualsiasi funzione continua
+ma non è in grado di stabilire quante unità deve avere,  in base alla complessità della funzione da approssimare il numero potrebbe essere astronomico.
+Altre ricerche negli anni seguenti hanno studiato molteplici varianti di questo teorema, ad esempio per neuroni con funzione di attivazione RELU 
+o il caso con profondita del modello arbitraria.
 
 \subsection{Convolutional neural networks}
 \begin{comment}
@@ -553,8 +568,8 @@ e tutti avevano una certa sovrapposizione dei rispettivi campi ricettivi.
 
 Il primo lavoro a sfruttare i concetti appresi da Hubel e Wiesel è stato quello di Kunihiko Fukushima il quale nel 1980
 ha pubblicato il suo lavoro \textit{Neocognitron}, un sistema di riconoscimento di immagini, utilizzato per la prima volta
-in un sistema di riconoscimento di numeri scritti a mano in giapponese. Sempre a Fukushima si deve 
-anche l'introduzione della funzione di trasferimento \textit{RELU}, precedentemente discussa.
+per il riconoscimento di numeri scritti a mano in giapponese. 
+Sempre a Fukushima si deve anche l'introduzione della funzione di trasferimento \textit{RELU}, precedentemente discussa.
 
 Seguì poi il lavoro di Alex Waibel \textit{"Phoneme Recognition Using Time-Delay Neural Networks"} nel 1987, che segno un'ulteriore passo
 nella direzione delle CNN, introducendo per la prima volta l'invarianza alla traslazione. Questo lavoro però
