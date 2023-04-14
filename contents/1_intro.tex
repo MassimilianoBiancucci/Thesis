@@ -178,7 +178,7 @@ e non più le features del difetto. Per risolvere questo problema con questa par
         \label{fig:encoder_decoder_architecture}
     \end{figure}
 
-\section{Introduzione alle reti neurali \ok}
+\section{La nascita del deep learning \ok}
 \begin{comment}
     Breve sezione che ripercorre le strutture base utilizzate in questa tipologia di reti neurali.
 
@@ -202,15 +202,12 @@ e non più le features del difetto. Per risolvere questo problema con questa par
         - dilated convolution
         
 \end{comment}
-
-In questa sezione verranno date le basi per comprendere cosa sono le reti neurali e come funzionano, descrivendo alcune loro varianti.
-Per dare al lettore senza esperienza in questo campo una panoramica generale di come funzionano questi costrutti matematici, come apprendono e 
-come vengono utilizzate per risolvere problemi generici attraverso l'addestramento. Per prima cosa però diamo un'occhiata a dove si collocano 
-le reti neurali nel campo dell'intelligenza artificiale.
+In questa sezione si darà un'idea generale di cos'è il deep learning e di come questo campo di ricerca sia nato dallo studio della
+neuroscienza e del machine learning.
 
 \subsection{Dal machine learning al deep learning}
 L'intelligenza artificiale è un campo di ricerca con l'obiettivo di risolvere una grande varietà di problemi,
- che per essere risolti attraverso la programmazione classica avrebbero bisogno di una grande quantità di conoscenze non disponibili, o semplicemente di troppo lavoro.\\
+che per essere risolti attraverso la programmazione classica avrebbero bisogno di una grande quantità di conoscenze non disponibili, o semplicemente di troppo lavoro.\\
 I programmi basati sul paradigma dell'intelligenza artificiale si propongono di superare questi ostacoli acquisendo direttamente queste conoscenze 
 dai dati grezzi, tale capacità è nota come machine learning.
 Sotto questa grande famiglia di algoritmi si trovano altri sottogruppi quali il representation learning e all'interno di quest'ultimo il deep learning.\\ 
@@ -227,14 +224,14 @@ Il termine "deep learning" deriva proprio dalla capacità di riuscire a cogliere
     \label{fig:ai_venn_diagram}
 \end{figure}
 
-\subsection{Confronto con le reti neurali biologiche}
+\subsection{Le reti neurali biologiche}
 
-Queste strutture matematiche fecero la prima comparsa in un articolo del 1957, pubblicato da Warren McCulloch e Walter Pitts
+Le reti neurali come concetto matematico fecero la loro prima comparsa in un articolo del 1957, pubblicato da Warren McCulloch e Walter Pitts
 "A logical calculus of the ideas immanent in nervous activity", articolo che gettò le basi per la costruzione di reti neurali artificiali
 come le conosciamo oggi partendo proprio dal sistema nervoso.
 Infatti le reti neurali artificiali sono ispirate alle reti neurali biologiche, le quali hanno un comportamento più complesso della
-controparte artificiale, la quale deve fare i conti con la complessità computazionale che deve essere ridotta per garantire una elaborazione
-efficiente nei calcolatori.
+controparte artificiale, in quanto le reti neurali artificiali devono fare i conti con la complessità computazionale che deve essere 
+ridotta per garantire una elaborazione efficiente nei calcolatori.
 Il neurone biologico componente principale del cervello e del sistema nervoso, è costituito da un corpo cellulare o soma, dai dendriti, 
 dall'assone e dalle sinapsi.
     \begin{figure}[H]
@@ -252,7 +249,7 @@ La struttura dell'assone è rivestita dalla guaina mielinica che ne facilita la 
 minore è la resistenza al passaggio dell'impulso, e dunque maggiore sarà l'ampiezza del segnale in uscita a parità di quello di ingresso. 
 Tale meccanismo è utilizzato per accumulare informazione nella struttura della rete neurale biologica.
 
-\subsection{Feedforward neural networks}
+\section{Le reti neurali feed forward}
 
 Uno dei primi modelli ad essere proposti e utilizzati nella pratica è stato quello delle reti neurali feedforward (o multi layer perceptron MLP),
 in cui i neuroni sono disposti in strati, e l'output di ogni neurone di uno strato è connesso con l'input di tutti i neuroni dello strato successivo, 
@@ -269,7 +266,7 @@ in modo lineare, senza retropropagazioni intermedie dell'informazione.
         \label{fig:feedforward_nn}
     \end{figure}
 
-\subsubsection{Il neurone artificiale}
+\subsection{Il neurone artificiale}
 
     \begin{wrapfigure}{r}{0.6\textwidth}
         \centering
@@ -394,7 +391,7 @@ Vengono ancora utilizzate però in casi particolari come nello stadio finale di 
 Le funzioni ELU e GELU sono invece funzioni di attivazione più recenti, che vengono utilizzate per migliorare l'apprendimento delle reti neurali
 in casi specifici, ma in generale RELU e Leaky RELU sono le funzioni più utilizzate, in quanto offrono un buon compromesso tra prestazioni e accuratezza.
 
-\subsubsection{Il Back-propagation}
+\subsection{Il Back-propagation}
 
 La prima volta che questo algoritmo fu proposto fu nel 1986 da David E. Rumelhart, Geoffry E. Hinton e Ronald J. Williams, su nature
 con l'articolo \textit{Learning representations by back-propagating errors}.
@@ -503,9 +500,11 @@ Si consideri che è possibile scomporre un elemento della matrice $\mathbf{\nabl
 
 Tale gradiente a questo punto può essere utilizzato per aggiornare il peso $w_{k,k}^{l}$,
 applicando un semplice coefficiente di apprendimento $\eta$:
+
 \begin{equation}
     \mathbf{W_{k,k}^1 = W_{k,k}^1 + \Delta W_{k,k}^1}
 \end{equation}
+
 \begin{equation}
     \mathbf{\Delta W_{k,k}^1 = - \eta \cdot \nabla_{w^1}E_{k,k}}
 \end{equation}
@@ -513,7 +512,7 @@ applicando un semplice coefficiente di apprendimento $\eta$:
 é importante notare che questo è un'approccio molto basilare, che può essere migliorato attraverso l'uso di tecniche di ottimizzazione
 più evolute come ad esempio l'ottimizzazione SGD (Stochastic Gradient Descent) o l'ottimizzazione ADAM.
 
-\subsubsection{Teorema di approssimazione universale}
+\subsection{Teorema di approssimazione universale}
 
 Le reti neurali artificiali, non hanno dimostrato solo nella pratica con risultati sperimentali la loro efficacia nel risolvere
 i problemi, ma anche nella teoria, infatti in molti studi è stata provata la loro efficacia come approssimatori universali.
@@ -544,7 +543,9 @@ ma non è in grado di stabilire quante unità deve avere,  in base alla compless
 Altre ricerche negli anni seguenti hanno studiato molteplici varianti di questo teorema, ad esempio per neuroni con funzione di attivazione RELU 
 o il caso con profondita del modello arbitraria.
 
-\subsection{Convolutional neural networks}
+%################################################################################
+%################################################################################
+\section{Le reti neurali convoluzionali}
 \begin{comment}
     indice sotto sezione:
     - Storia delle CNN
@@ -553,12 +554,15 @@ o il caso con profondita del modello arbitraria.
     - 
 
 \end{comment}
-Le CNN sono reti neurali artificiali molto adatte all'analisi delle immagini, 
-la loro struttura è simile a quella che si trovano nel nervo ottico degli organismi viventi.
-Sono dette anche \textit{Shift invariant artificial neural networks} (SIANN) in quanto sono 
-sono resistenti alla traslazione dell'input per via della loro struttura.
+Le reti neurali convoluzionali sono modelli concepiti per analizzare dati che hanno una struttura spaziale,
+e nei quali le relazioni tra i dati hanno relazioni locali molto forti, come nel caso delle immagini.
+La loro struttura è simile a quella che si trovano nel nervo ottico degli organismi viventi.
+Uno dei maggiori vantaggi che ha portato l'avvento delle CNN è stato quello di ridurre drasticamente il numero di parametri da apprendere,
+i quali con le comuni MLP crescevano esponenzialmente all'aumentare della risoluzione dell'immagine, rendendo di fatto il problema
+intrattabile. 
+Sono dette anche \textit{Shift invariant artificial neural networks} (SIANN) in quanto sono resistenti alla traslazione dell'input.
 
-\subsubsection{Storia delle CNN}
+\subsection{Storia delle CNN}
 
 La prima pubblicazione alla quale si deve l'invenzione delle CNN è stato un lavoro di David Hunter Hubel e Torsten Wiesel 
 \textit{"Receptive fields of single neurones in the cat's striate cortex"}, i quali nel 1959 hanno studiato la struttura della 
@@ -566,21 +570,71 @@ corteccia visiva del cervello di un gatto, scoprendo che tali neuroni avevano un
 soggetti agli stimoli di una certa porzione di retina, detta \textit{campo ricettivo}, tale area era regolare per tutti i neuroni
 e tutti avevano una certa sovrapposizione dei rispettivi campi ricettivi.
 
+
 Il primo lavoro a sfruttare i concetti appresi da Hubel e Wiesel è stato quello di Kunihiko Fukushima il quale nel 1980
-ha pubblicato il suo lavoro \textit{Neocognitron}, un sistema di riconoscimento di immagini, utilizzato per la prima volta
-per il riconoscimento di numeri scritti a mano in giapponese. 
+ha pubblicato il suo lavoro \textit{Neocognitron} \cite{Fukushima1980Neocognitron}, un sistema di riconoscimento di immagini, 
+utilizzato per la prima volta per il riconoscimento di numeri scritti a mano in giapponese
+Questa implementazione di modello neurale è molto vicino al modello naturale, utilizza infatti due tipologie di neuroni:
+\begin{itemize}
+    \item \textbf{S-cells}: sono i neuroni che si occupano di estrarre le features locali, come ad esempio linee o bordi,
+        presentando le caratteristiche delle cellule della corteccia visiva primaria, come il campo ricettivo limitato
+        ad un'area ristretta.
+    \item \textbf{C-cells}: sono i neuroni che si occupano di estrarre le features globali, infatti questi ricevono in input le uscite
+        dei neuroni S-cells, e dunque lavorano con pattern più complessi, come ad esempio semi-cerchi o quadrati ecc. Anche in questo caso
+        c'è una somiglianza con il modello biologico in quanto questi neuroni hanno un campo ricettivo molto più ampio, e costituiscono
+        la corteccia visiva secondaria.
+\end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=1.0\textwidth]{imgs/neocognitron.jpg}
+        \caption{L'immagine raffigura schematicamente il  funzionamento di Neocognitron.\\
+        credits: Kunihiko Fukushima 1980 \cite{Fukushima1980Neocognitron}.}
+        \label{fig:neocognitron} 
+    \end{figure}
+
+Date queste caratteristiche, possiamo notare come il modello neurale di Fukushima sia molto simile a quello che si trova nel cervello
+ma ancora presenta delle problematiche, come ad esempio la mancanza di un algoritmo di addestramento end-to-end come il backpropagation e 
+l'invarianza alla traslazione, in quanto ogni S-cell ha un campo ricettivo molto limitato e non condivide i suoi pattern con le altre,
+dunque un modello addestrato con questa struttura potrebbe non essere in grado di riconoscere un oggetto in ogni punto dell'immagine con la stessa precisione.
 Sempre a Fukushima si deve anche l'introduzione della funzione di trasferimento \textit{RELU}, precedentemente discussa.
 
-Seguì poi il lavoro di Alex Waibel \textit{"Phoneme Recognition Using Time-Delay Neural Networks"} nel 1987, che segno un'ulteriore passo
-nella direzione delle CNN, introducendo per la prima volta l'invarianza alla traslazione. Questo lavoro però
-non era focalizzato sulle immagini ma sull'analisi del suono, in particolare il riconoscimento di fonemi.
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{imgs/tdnn_architecture_1.png}
+    \caption{L'immagine tratta dallo stesso articolo illustra schematicamente l'architettura del modello TDNN.\\
+    credits: Alex Waibel et al. 1989 \cite{Waibel1989PhonemeRecognition}.}
+    \label{fig:waibel_network_1}
+\end{wrapfigure}
+
+Seguì poi il lavoro di Alex Waibel \textit{"Phoneme Recognition Using Time-Delay Neural Networks"} \cite{Waibel1989PhonemeRecognition} 
+nel 1989, che segno un'ulteriore passo nella direzione delle CNN, introducendo per la prima volta l'invarianza alla traslazione, 
+ma si parlava ancora di una convoluzione 1D. 
+Questo lavoro però non era focalizzato sulle immagini ma sull'analisi del suono, in particolare sul riconoscimento di fonemi.
 Ma l'utilizzo di questo modello su 2 dimensioni, ovvero il tempo e la frequenza, lo rendeva concettualmente adatto 
-anche all'analisi delle immagini.
+anche all'analisi delle immagini. Un'altro fatto interessante è che in questo lavoro viene introdotto il concetto di \textit{pooling},
+introdotto proprio per ridurre la dimensione dei tensori durante la propagazione nel modello, e ridurre così il numero di parametri da apprendere,
+soluzione oggi molto utilizzata nelle CNN moderne, in diverse varianti che poi verranno discusse.
+Nell'immagine che segue, tratta proprio dall'articolo citato si può vedere come questo modello effettuava la convoluzione 1D nel tempo ed il pooling
+nel tempo e nella frequenza, tra i vari layer.
 
-In fine il lavoro che ha portato alla nascita delle CNN moderne è stato quello di Yann LeCun
-\textit{"Backpropagation applied to handwritten zip code recognition"}, pubblicato nel 1989, in cui è stato utilizzato
+In fine una delle prime ricerche che si sono avvicinate di più all'implementazione moderna delle CNN è stata quella di Yann LeCun et al.
+\textit{"Backpropagation applied to handwritten zip code recognition"} \cite{LeCun1989Backpropagation} pubblicato nel 1989, in cui è stato utilizzato
 il backpropagation per l'addestramento di una rete convoluzionale per il riconoscimento di numeri scritti a mano.
+    % lecun_network_1.png
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{imgs/lecun_network_1.png}
+        \caption{L'immagine tratta dal medesimo articolo illustra l'architettura proposta.\\
+        credits: Yann LeCun et al. 1989 \cite{LeCun1989Backpropagation}.}
+        \label{fig:lecun_network_1}
+    \end{figure}
 
-\subsubsection{title}
+La rete proposta da LeCun in questa pubblicazione aveva un'architettura molto semplice, basta su 2 strati convoluzionali 2D,
+e 2 starti MLP, l'utilizzo del backpropagation per l'addestramento dei kernel di questi due starti convoluzionali, per quanto
+oggi sembri banale era un'innovazione di grande impatto, in quanto fino a quel momento i kernel dei filtri convoluzionali
+venivano definiti manualmente. Un'altra caratteristica interessante fu quella dell'utilizzo della tecnica del "weights sharing",
+la caratteristica che consente alle CNN di ridurre drasticamente il numero di parametri da apprendere, rispetto alle MLP o a 
+precedenti implementazioni come Neocognitron.
 
+\subsection{}
 

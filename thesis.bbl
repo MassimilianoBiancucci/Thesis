@@ -14,6 +14,11 @@ Maayan Frid-Adar, Idit Diamant, Eyal Klang, Michal Amitai, Jacob Goldberger,
 \newblock {GAN}-based synthetic medical image augmentation for increased {CNN}
   performance in liver lesion classification, 2018.
 
+\bibitem{Fukushima1980Neocognitron}
+Kunihiko Fukushima.
+\newblock Neocognitron: A self-organizing neural network model for a mechanism
+  of pattern recognition unaffected by shift in position, 1980.
+
 \bibitem{gal2021swagan}
 Rinon Gal, Dana Cohen, Amit Bermano, and Daniel Cohen-Or.
 \newblock Swagan: A style-based wavelet-driven generative model, 2021.
@@ -35,14 +40,15 @@ Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp
 \newblock Gans trained by a two time-scale update rule converge to a local nash
   equilibrium, 2018.
 
-\bibitem{hornik1989multilayer}
-Kurt Hornik, Michael Stinchcombe, and Halbert White.
-\newblock Multilayer feedforward networks are universal approximators, 1989.
-
 \bibitem{isola2018imagetoimage}
 Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, and Alexei~A. Efros.
 \newblock Image-to-image translation with conditional adversarial networks,
   2018.
+
+\bibitem{LeCun1989Backpropagation}
+Y.~LeCun, B.~Boser, J.~S. Denker, D.~Henderson, R.~E. Howard, W.~Hubbard, and
+  L.~D. Jackel.
+\newblock Backpropagation applied to handwritten zip code recognition, 1989.
 
 \bibitem{mescheder2018training}
 Lars Mescheder, Andreas Geiger, and Sebastian Nowozin.
@@ -64,6 +70,10 @@ Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, Anastasia Remizova,
   Park, and Victor Lempitsky.
 \newblock Resolution-robust large mask inpainting with fourier convolutions,
   2021.
+
+\bibitem{Waibel1989PhonemeRecognition}
+A.~Waibel, T.~Hanazawa, G.~Hinton, K.~Shikano, and K.J. Lang.
+\newblock Phoneme recognition using time-delay neural networks, 1989.
 
 \bibitem{zhang2018unreasonable}
 Richard Zhang, Phillip Isola, Alexei~A. Efros, Eli Shechtman, and Oliver Wang.

@@ -8,8 +8,11 @@
 \contentsline {figure}{\numberline {1.4}{\ignorespaces Un diagramma di ven che illustra le relazioni tra i diversi sottogruppi dell'intelligenza artificiale, vediamo infatti come il deep learning sia un sottogruppo del representation learning, che a sua volta è un sottogruppo del machine learning. credits: Yoshua Bengio, Ian J. Goodfellow, Aaron Courville 2015, From the book "Deep Learning" \relax }}{6}{figure.caption.8}%
 \contentsline {figure}{\numberline {1.5}{\ignorespaces Schema di un neurone biologico.\relax }}{7}{figure.caption.9}%
 \contentsline {figure}{\numberline {1.6}{\ignorespaces Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e le interconnessioni tra di essi che definiscono il peso o l'importanza di tale connessione. File:Rete-Neurale2.svg. In Wikipedia. https://commons.wikimedia.org/wiki/File:Rete-Neurale2.svg\relax }}{8}{figure.caption.10}%
-\contentsline {figure}{\numberline {1.7}{\ignorespaces Esempio di Neurone artificiale.\relax }}{8}{figure.caption.12}%
-\contentsline {figure}{\numberline {1.9}{\ignorespaces Esempio di retropropagazione su di una rete semplificata a 2 strati.\relax }}{12}{figure.caption.15}%
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Esempio di Neurone artificiale.\relax }}{8}{figure.caption.11}%
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Esempio di retropropagazione su di una rete semplificata a 2 strati.\relax }}{12}{figure.caption.13}%
+\contentsline {figure}{\numberline {1.10}{\ignorespaces L'immagine raffigura schematicamente il funzionamento di Neocognitron. credits: Kunihiko Fukushima 1980 \cite {Fukushima1980Neocognitron}.\relax }}{14}{figure.caption.14}%
+\contentsline {figure}{\numberline {1.11}{\ignorespaces L'immagine tratta dallo stesso articolo illustra schematicamente l'architettura del modello TDNN. credits: Alex Waibel et al. 1989 \cite {Waibel1989PhonemeRecognition}.\relax }}{14}{figure.caption.15}%
+\contentsline {figure}{\numberline {1.12}{\ignorespaces L'immagine tratta dal medesimo articolo illustra l'architettura proposta. credits: Yann LeCun et al. 1989 \cite {LeCun1989Backpropagation}.\relax }}{15}{figure.caption.16}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
