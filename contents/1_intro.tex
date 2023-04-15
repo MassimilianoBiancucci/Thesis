@@ -636,5 +636,145 @@ venivano definiti manualmente. Un'altra caratteristica interessante fu quella de
 la caratteristica che consente alle CNN di ridurre drasticamente il numero di parametri da apprendere, rispetto alle MLP o a 
 precedenti implementazioni come Neocognitron.
 
-\subsection{}
+\subsection{La convoluzione}
+
+In questa sezione andremo a vedere come funziona la convoluzione, e come viene implementata nelle CNN moderne. partendo dalla definizione
+formale di convoluzione, che è la seguente:
+
+\begin{equation}
+    \label{eq:convolution}
+    (f * g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t-\tau)d\tau
+\end{equation}
+
+dove $f$ e $g$ sono due funzioni, e $*$ è l'operatore di convoluzione. Questa definizione è valida per funzioni definite su un dominio
+continuo, ma spesso nella pratica si utilizza la convoluzione su un dominio discreto, come ad esempio le immagini, le quali sono 
+definite da un numero finito di pixel. In questo caso la convoluzione si può definire come segue:
+
+\begin{equation}
+    \label{eq:convolution_discrete}
+    (f * g)(t) = \sum_{\tau=-\infty}^{\infty} f(\tau)g(t-\tau)
+\end{equation}
+
+% image explaining the convolution operation
+\vspace{2cm}
+\begin{wrapfigure}{r}{0.30\textwidth}
+    \centering
+    \hspace{0cm}
+    \includegraphics[width=0.35\textwidth]{imgs/Comparison_convolution_correlation.png}
+    \caption{L'immagine illustra l'operazione di convoluzione.\\
+    credits: Wikipedia. https://en.wikipedia.org /wiki/Convolution}
+    \label{fig:convolution_example}
+\end{wrapfigure}
+
+Per fare un esempio pratico la convoluzione equivale ad effettuare un prodotto tra due funzioni, ma con un'operazione di shift, che è il motivo per cui
+la convoluzione è anche detta operazione di correlazione. In generale si avrà come risultato una funzione che è più alta dove le due funzioni
+in ingresso sono più simili, e più bassa dove queste sono più diverse, o ancora negativa dove queste sono opposte.
+Come è possibile vedere nell'immagine \ref{fig:convolution_example}, dove l'onda a dente di sega ha una sovrapposizione maggiore con l'onda quadra
+la loro convoluzione avrà un valore maggiore, inoltre è possibile notare come tale operazione sia commutativa.
+
+La convoluzione discreta nelle immagini, rispetto al caso continuo tra funzioni, si avvale dell'uso di kernel, ovvero di matrici di dimensioni
+finite, che vengono spostate lungo l'immagine, moltiplicandole e sommando i valori in ogni posizione, in modo da produrre un'immagine di output che è
+la convoluzione dell'immagine di input con il kernel.
+
+
+\begin{figure}[h]
+    \hspace{-5.5cm}
+    \centering
+    \includegraphics[width=0.7\textwidth]{imgs/kernel_convolution.png}
+    \caption{Operazione di convoluzione discreta, in blu abbiamo una matrice 5x5 che rappresenta un'immagine, mentre in verde il risultato di una convoluzione,
+    con un kernel 3x3. I valori del kernel sono raffigurati in basso a destra delle caselle interessate dalla convoluzione.\\
+    credits: Dumoulin et al. 2016 \cite{dumoulin2016guide}.}
+    \label{fig:convolution_schematic}
+\end{figure} 
+
+\hspace{0cm}
+Vediamo un'esempio pratico, consideriamo due kernel 3x3, uno con un pattern verticale, e l'altro con un pattern orizzontale e un'immagine di input 5x5:
+
+\hspace{0cm}
+\begin{equation}
+    \label{eq:kernel_v_det_example}
+    \begin{bmatrix}
+        1 & 0 & -1 \\
+        1 & 0 & -1 \\
+        1 & 0 & -1
+    \end{bmatrix} , 
+    \begin{bmatrix}
+        1 & 1 & 1 \\
+        0 & 0 & 0 \\
+        -1 & -1 & -1
+    \end{bmatrix} ,
+    \begin{bmatrix}
+        1 & 2 & 3 & 2 & 1 \\
+        2 & 3 & 4 & 3 & 2 \\
+        3 & 4 & 5 & 4 & 3 \\
+        2 & 3 & 4 & 3 & 2 \\
+        1 & 2 & 3 & 2 & 1
+    \end{bmatrix}
+\end{equation}
+
+\hspace{0cm}
+Vediamo la convoluzione di questi due kernel con la matrice di esempio 5x5:
+
+\hspace{0cm}
+\begin{equation}
+    \label{eq:convolution_example}
+    \begin{bmatrix}
+        1 & 0 & -1 \\
+        1 & 0 & -1 \\
+        1 & 0 & -1
+    \end{bmatrix} *
+    \begin{bmatrix}
+        1 & 2 & 3 & 2 & 1 \\
+        2 & 3 & 4 & 3 & 2 \\
+        3 & 4 & 5 & 4 & 3 \\
+        2 & 3 & 4 & 3 & 2 \\
+        1 & 2 & 3 & 2 & 1
+    \end{bmatrix} =
+    \begin{bmatrix}
+        -6.0 & 0.0 & 6.0 \\
+        -6.0 & 0.0 & 6.0 \\
+        -6.0 & 0.0 & 6.0 \\
+    \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+    \label{eq:convolution_example_2}
+    \begin{bmatrix}
+        1 & 1 & 1 \\
+        0 & 0 & 0 \\
+        -1 & -1 & -1
+    \end{bmatrix} *
+    \begin{bmatrix}
+        1 & 2 & 3 & 2 & 1 \\
+        2 & 3 & 4 & 3 & 2 \\
+        3 & 4 & 5 & 4 & 3 \\
+        2 & 3 & 4 & 3 & 2 \\
+        1 & 2 & 3 & 2 & 1
+    \end{bmatrix} =
+    \begin{bmatrix}
+        -6.0 & -6.0 & -6.0 \\
+        0.0 & 0.0 & 0.0 \\
+        6.0 & 6.0 & 6.0 \\
+    \end{bmatrix}
+\end{equation}
+
+In questo modo si ottiene un'immagine di output che ha valori più alti dove i pattern 
+presenti nel kernel sono simili mentre si hanno valori negativi dove il pattern è opposto, nello specifico,
+possiamo vedere come nella convoluzione \ref{eq:convolution_example}, ha un andamento decrescente verso destra, e infatti la convoluzione 
+con l'immagine restituisce un valore elevato dove l'immagine ha un andamento decrescente verso destra.
+
+Vediamo nel dettaglio però quali operazioni vengono effettuate per ottenere l'immagine di output, considerando sempre la convoluzione \ref{eq:convolution_example}, vediamo
+una lista di operazioni, una per ogni valore della matrice di output, che corrispondono alle moltiplicazioni e somme che vengono effettuate tra il kernel e l'immagine, in ogni
+posizione in cui il kernel si sovrappone all'immagine:
+\begin{enumerate}
+    \item $1*1 + 0*2 + -1*3 + 1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 = -6.0$
+    \item $1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 = 0.0$
+    \item $1*1 + 0*2 + -1*3 + 1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 = 6.0$
+    \item $1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 = -6.0$
+    \item $1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 + 1*1 + 0*2 + -1*3 = 0.0$
+    \item $1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 = 6.0$
+    \item $1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 + 1*1 + 0*2 + -1*3 = -6.0$
+    \item $1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 = 0.0$
+    \item $1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 + 1*1 + 0*2 + -1*3 = 6.0$
+\end{enumerate}
 

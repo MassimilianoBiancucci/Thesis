@@ -8,6 +8,10 @@ Martin Arjovsky, Soumith Chintala, and Léon Bottou.
 George Cybenko.
 \newblock Approximation by superpositions of a sigmoidal function, 1989.
 
+\bibitem{dumoulin2016guide}
+Vincent Dumoulin and Francesco Visin.
+\newblock A guide to convolution arithmetic for deep learning, 2016.
+
 \bibitem{ganbasedaugexample}
 Maayan Frid-Adar, Idit Diamant, Eyal Klang, Michal Amitai, Jacob Goldberger,
   and Hayit Greenspan.
