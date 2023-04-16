@@ -656,15 +656,13 @@ definite da un numero finito di pixel. In questo caso la convoluzione si può de
 \end{equation}
 
 % image explaining the convolution operation
-\vspace{2cm}
-\begin{wrapfigure}{r}{0.30\textwidth}
+\begin{figure}[h]
     \centering
-    \hspace{0cm}
-    \includegraphics[width=0.35\textwidth]{imgs/Comparison_convolution_correlation.png}
+    \includegraphics[width=0.8\textwidth]{imgs/Comparison_convolution_correlation_1.png}
     \caption{L'immagine illustra l'operazione di convoluzione.\\
     credits: Wikipedia. https://en.wikipedia.org /wiki/Convolution}
     \label{fig:convolution_example}
-\end{wrapfigure}
+\end{figure}
 
 Per fare un esempio pratico la convoluzione equivale ad effettuare un prodotto tra due funzioni, ma con un'operazione di shift, che è il motivo per cui
 la convoluzione è anche detta operazione di correlazione. In generale si avrà come risultato una funzione che è più alta dove le due funzioni
@@ -676,21 +674,20 @@ La convoluzione discreta nelle immagini, rispetto al caso continuo tra funzioni,
 finite, che vengono spostate lungo l'immagine, moltiplicandole e sommando i valori in ogni posizione, in modo da produrre un'immagine di output che è
 la convoluzione dell'immagine di input con il kernel.
 
-
+\vspace{1cm}
 \begin{figure}[h]
-    \hspace{-5.5cm}
+    %\hspace{-5.5cm}
     \centering
     \includegraphics[width=0.7\textwidth]{imgs/kernel_convolution.png}
-    \caption{Operazione di convoluzione discreta, in blu abbiamo una matrice 5x5 che rappresenta un'immagine, mentre in verde il risultato di una convoluzione,
+    \caption{Operazione di convoluzione 2D discreta, in blu abbiamo una matrice 5x5 che rappresenta un'immagine, mentre in verde il risultato di una convoluzione,
     con un kernel 3x3. I valori del kernel sono raffigurati in basso a destra delle caselle interessate dalla convoluzione.\\
     credits: Dumoulin et al. 2016 \cite{dumoulin2016guide}.}
     \label{fig:convolution_schematic}
 \end{figure} 
 
-\hspace{0cm}
+%\hspace{0cm}
+\vspace{1cm}
 Vediamo un'esempio pratico, consideriamo due kernel 3x3, uno con un pattern verticale, e l'altro con un pattern orizzontale e un'immagine di input 5x5:
-
-\hspace{0cm}
 \begin{equation}
     \label{eq:kernel_v_det_example}
     \begin{bmatrix}
@@ -711,11 +708,7 @@ Vediamo un'esempio pratico, consideriamo due kernel 3x3, uno con un pattern vert
         1 & 2 & 3 & 2 & 1
     \end{bmatrix}
 \end{equation}
-
-\hspace{0cm}
 Vediamo la convoluzione di questi due kernel con la matrice di esempio 5x5:
-
-\hspace{0cm}
 \begin{equation}
     \label{eq:convolution_example}
     \begin{bmatrix}
@@ -736,7 +729,6 @@ Vediamo la convoluzione di questi due kernel con la matrice di esempio 5x5:
         -6.0 & 0.0 & 6.0 \\
     \end{bmatrix}
 \end{equation}
-
 \begin{equation}
     \label{eq:convolution_example_2}
     \begin{bmatrix}
@@ -762,11 +754,11 @@ In questo modo si ottiene un'immagine di output che ha valori più alti dove i p
 presenti nel kernel sono simili mentre si hanno valori negativi dove il pattern è opposto, nello specifico,
 possiamo vedere come nella convoluzione \ref{eq:convolution_example}, ha un andamento decrescente verso destra, e infatti la convoluzione 
 con l'immagine restituisce un valore elevato dove l'immagine ha un andamento decrescente verso destra.
-
 Vediamo nel dettaglio però quali operazioni vengono effettuate per ottenere l'immagine di output, considerando sempre la convoluzione \ref{eq:convolution_example}, vediamo
 una lista di operazioni, una per ogni valore della matrice di output, che corrispondono alle moltiplicazioni e somme che vengono effettuate tra il kernel e l'immagine, in ogni
 posizione in cui il kernel si sovrappone all'immagine:
-\begin{enumerate}
+%reduce the font size of the itemize
+\begin{itemize}
     \item $1*1 + 0*2 + -1*3 + 1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 = -6.0$
     \item $1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 = 0.0$
     \item $1*1 + 0*2 + -1*3 + 1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 = 6.0$
@@ -776,5 +768,142 @@ posizione in cui il kernel si sovrappone all'immagine:
     \item $1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 + 1*1 + 0*2 + -1*3 = -6.0$
     \item $1*2 + 0*3 + -1*4 + 1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 = 0.0$
     \item $1*3 + 0*4 + -1*5 + 1*2 + 0*3 + -1*4 + 1*1 + 0*2 + -1*3 = 6.0$
-\end{enumerate}
+\end{itemize}
+
+Di seguito è riportata l'immagine \ref{fig:lena} di Lena Forsén, un'attrice svedese la cui foto è usata frequentemente per esempi e test di algoritmi di 
+computer vision, a cui sono stati applicati i due kernel visti prima, alla prima immagine è stato applicato il kernel \ref{eq:convolution_example} mentre alla seconda
+è stato applicato il kernel \ref{eq:convolution_example_2}.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{imgs/lenna_convolution.png}
+        \caption{Immagine di Lena Forsén, prima e dopo la convoluzione con i due kernel, che amplificano i bordi verticali e orizzontali.}
+        \label{fig:lena}
+    \end{figure}
+
+\begin{comment}
+    Link utili per la sezione:
+        - https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1
+        - https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215
+    Come continuare la sezione?
+    - continuare con i possibili parametri della convoluzione:
+        - padding
+        - stride
+        - kernel size
+        - numero di filtri
+    - La convoluzione multicanale
+    - pooling
+    - convoluzione trasposta
+
+\end{comment}
+
+\subsection{I parametri della convoluzione}
+
+In questa sezione andremo a vedere quali sono i principali parametri della convoluzione, e come questi la influenzano, vedremo in particolare: 
+padding, stride, kernel size e numero di filtri.
+
+\subsubsection{Padding}
+Il padding è un parametro che viene utilizzato per aumentare la dimensione dell'immagine di ingresso prima di effettuare la convoluzione,
+e ottenere così una dimensione di output maggiore, questo è utile quando si vuole mantenere la dimensione dell'immagine di output uguale a quella di input,
+tale risultato si ottiene aggiungendo delle righe e colonne di valori intorno alla matrice di input originale.
+Ci sno due tipologie principali di padding:
+\begin{itemize}
+    \item \textbf{Zero padding}: il padding viene aggiunto con dei valori pari a zero, questo è utile quando 
+    si vuole mantenere la dimensione dell'immagine di output uguale a quella di input.
+    \item \textbf{Reflection padding}: il padding viene aggiunto con dei valori uguali ai valori dell'immagine di input, riflessi rispetto ai bordi.
+\end{itemize}
+
+\subsubsection{Stride}
+Lo stride è un parametro che viene utilizzato per decidere di quanto si sposta il kernel durante la convoluzione,
+ad esempio con uno stride pari a 2, il kernel si sposterà di 2 pixel in orizzontale e/o in verticale, questo è utile quando si vuole ridurre la dimensione dell'immagine di output,
+con il giusto stride si può effettuare la convoluzione e ottenere ad esempio un'immagine di output di dimensione pari a $\frac{1}{2}$ dell'immagine di input.
+
+\subsubsection{Kernel size}
+La kernel size o dimensione del kernel è un parametro che viene utilizzato per decidere la dimensione del kernel con cui effettuare la convoluzione.
+tipicamente i kernel sono quadrati, ma è possibile utilizzare anche kernel rettangolari, ad esempio un kernel di dimensione 3x5 o 1x7.
+Per riprendere il collegamento con la controparte biologica delle reti neurali, il kernel è l'equivalente del campo visivo del neurone,
+aumentando la dimensione del kernel aumentiamo il campo visivo del neurone, e quindi aumentiamo la capacità di riconoscere pattern più complessi.
+Uno svantaggio importante di aumentare eccessivamente la dimensione del kernel è che aumenta anche il numero di parametri da apprendere,
+ma ancor di più aumenta considerevolmente il numero di operazioni da effettuare durante la convoluzione, per tale ragione è consuetudine
+utilizzare kernel di dimensione 1x1, 3x3 o 5x5, difficilmente si utilizzano kernel di dimensione maggiore.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{imgs/kernel_convolution_padding_stride.png}
+        \caption{Esempio di convoluzione con un kernel 3x3, stride pari a 2, e padding (zero padding) pari a 1.\\
+        credits: Dumoulin et al. 2016 \cite{dumoulin2016guide}}
+        \label{fig:kernel_convolution_padding_stride}
+    \end{figure}
+
+\subsubsection{Numero di filtri}
+Il numero di filtri è un parametro che viene utilizzato per decidere il numero di filtri da utilizzare per effettuare la convoluzione,
+tipicamente equivale a decidere quanti kernel diversi si vogliono utilizzare per effettuare la convoluzione, ottenendo altrettanti canali nel
+tensore di output. Ad esempio se abbiamo un tensore 1x5x5 in input e decidiamo di utilizzare 3 filtri 3x3 con stride 1 e padding 0,
+otteniamo un tensore 3x3x3 in output, dove ogni canale è il prodotto della convoluzione tra il tensore di input e un kernel diverso.
+
+\subsubsection{La dimensione di output}
+Dopo aver visto i principali parametri della convoluzione, vediamo come questi influenzano la dimensione dell'immagine di output.
+Possiamo calcolare la dimensione dell'immagine di output in base ai seguenti parametri di input:
+\begin{itemize}
+    \item $W_{in}, H_{in}$: dimensione del tensore di input.
+    \item $W_{k}, H_{k}$: dimensione del kernel.
+    \item $P$: padding.
+    \item $S$: stride.
+    \item $W_{out}, H_{out}$: dimensione del tensore di output.
+\end{itemize}
+
+Ipotizzando lo stride e il padding uguali lungo entrambe le direzioni di convoluzione, le dimensioni di output si calcolano come segue:
+\begin{equation}
+    H_{out} = \frac{H_{in} - H_{k} + 2P}{S} + 1
+\end{equation}
+\begin{equation}
+    W_{out} = \frac{W_{in} - W_{k} + 2P}{S} + 1
+\end{equation}
+
+
+\subsection{Il pooling}
+Il pooling è un'operazione che viene utilizzata per ridurre la dimensione di un tensore, tipicamente viene utilizzato dopo una o più convoluzioni,
+in modo da ridurre la quantità di dati da elaborare, rendendo le convoluzioni successive più veloci, e permettendo di lavorare con kernel più piccoli
+su pattern di più alto livello. Infatti riducendo la dimensione di un tensore diciamo della metà, si potrà lavorare con features più complesse,
+senza la necessità di utilizzare kernel più grandi dato che saranno le features stesse a venire ridotte in dimensione.
+Le tipologie principali di pooling sono il max pooling e l'average pooling, entrambe vengono applicate in maniera simile alla convoluzione,
+con lo scorrimento di una finestra, ma invece di effettuare una combinazione lineare dei valori del tensore con i pesi di un kernel, 
+viene applicata una diversa funzione.
+
+Anche per il pooling vale una regola simile alla convoluzione per il calcolo della dimensione dell'immagine di output, con l'unica differenza che nel
+pooling solitamente il padding non viene utilizzato, quindi la dimensione dell'immagine di output si calcola come segue:
+\begin{equation}
+    H_{out} = \frac{H_{in} - H_{k}}{S} + 1
+\end{equation}
+\begin{equation}
+    W_{out} = \frac{W_{in} - W_{k}}{S} + 1
+\end{equation}
+
+\subsubsection{Max pooling}
+Con il \textbf{max pooling} viene applicata la funzione di massimo, ovvero considerando una data finestra di scorrimento, il tensore di output avrà
+per ogni valore il valore massimo presente nella corrispondente finestra del tensore di input.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{imgs/max_pooling.png}
+        \caption{Esempio di max pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.\\
+        credits: Dumoulin et al. 2016 \cite{dumoulin2016guide}}
+        \label{fig:max_pooling}
+    \end{figure}
+
+\subsubsection{Average pooling}
+Con l'\textbf{average pooling} viene applicata la funzione di media, ovvero considerando una data finestra di scorrimento, il tensore di output avrà
+per ogni valore la media dei valori presenti nella corrispondente finestra del tensore di input.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{imgs/avg_pooling.png}
+        \caption{Esempio di average pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.\\
+        credits: Dumoulin et al. 2016 \cite{dumoulin2016guide}}
+        \label{fig:average_pooling}
+    \end{figure}
+
+
+
+
 

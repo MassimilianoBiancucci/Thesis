@@ -19,12 +19,21 @@
 \contentsline {section}{\numberline {1.4}Le reti neurali convoluzionali}{13}{section.1.4}%
 \contentsline {subsection}{\numberline {1.4.1}Storia delle CNN}{13}{subsection.1.4.1}%
 \contentsline {subsection}{\numberline {1.4.2}La convoluzione}{15}{subsection.1.4.2}%
-\contentsline {chapter}{\numberline {2}Stato dell'arte}{18}{chapter.2}%
-\contentsline {chapter}{\numberline {3}Strumenti e metodi }{19}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{19}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Lama: }{19}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Stylegan2: }{19}{section.3.3}%
-\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{20}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Risultati}{21}{chapter.5}%
-\contentsline {chapter}{Elenco delle figure}{22}{chapter*.19}%
-\contentsline {chapter}{Bibliografia}{24}{chapter*.20}%
+\contentsline {subsection}{\numberline {1.4.3}I parametri della convoluzione}{18}{subsection.1.4.3}%
+\contentsline {subsubsection}{Padding}{18}{section*.20}%
+\contentsline {subsubsection}{Stride}{18}{section*.21}%
+\contentsline {subsubsection}{Kernel size}{19}{section*.22}%
+\contentsline {subsubsection}{Numero di filtri}{19}{section*.24}%
+\contentsline {subsubsection}{La dimensione di output}{20}{section*.25}%
+\contentsline {subsection}{\numberline {1.4.4}Il pooling}{20}{subsection.1.4.4}%
+\contentsline {subsubsection}{Max pooling}{21}{section*.26}%
+\contentsline {subsubsection}{Average pooling}{21}{section*.28}%
+\contentsline {chapter}{\numberline {2}Stato dell'arte}{22}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Strumenti e metodi }{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{23}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Lama: }{23}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Stylegan2: }{23}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{24}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Risultati}{25}{chapter.5}%
+\contentsline {chapter}{Elenco delle figure}{26}{chapter*.30}%
+\contentsline {chapter}{Bibliografia}{28}{chapter*.31}%

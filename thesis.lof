@@ -14,7 +14,11 @@
 \contentsline {figure}{\numberline {1.11}{\ignorespaces L'immagine tratta dallo stesso articolo illustra schematicamente l'architettura del modello TDNN. credits: Alex Waibel et al. 1989 \cite {Waibel1989PhonemeRecognition}.\relax }}{14}{figure.caption.15}%
 \contentsline {figure}{\numberline {1.12}{\ignorespaces L'immagine tratta dal medesimo articolo illustra l'architettura proposta. credits: Yann LeCun et al. 1989 \cite {LeCun1989Backpropagation}.\relax }}{15}{figure.caption.16}%
 \contentsline {figure}{\numberline {1.13}{\ignorespaces L'immagine illustra l'operazione di convoluzione. credits: Wikipedia. https://en.wikipedia.org /wiki/Convolution\relax }}{16}{figure.caption.17}%
-\contentsline {figure}{\numberline {1.14}{\ignorespaces Operazione di convoluzione discreta, in blu abbiamo una matrice 5x5 che rappresenta un'immagine, mentre in verde il risultato di una convoluzione, con un kernel 3x3. I valori del kernel sono raffigurati in basso a destra delle caselle interessate dalla convoluzione. credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}.\relax }}{16}{figure.caption.18}%
+\contentsline {figure}{\numberline {1.14}{\ignorespaces Operazione di convoluzione 2D discreta, in blu abbiamo una matrice 5x5 che rappresenta un'immagine, mentre in verde il risultato di una convoluzione, con un kernel 3x3. I valori del kernel sono raffigurati in basso a destra delle caselle interessate dalla convoluzione. credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}.\relax }}{16}{figure.caption.18}%
+\contentsline {figure}{\numberline {1.15}{\ignorespaces Immagine di Lena Forsén, prima e dopo la convoluzione con i due kernel, che amplificano i bordi verticali e orizzontali.\relax }}{18}{figure.caption.19}%
+\contentsline {figure}{\numberline {1.16}{\ignorespaces Esempio di convoluzione con un kernel 3x3, stride pari a 2, e padding (zero padding) pari a 1. credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}\relax }}{19}{figure.caption.23}%
+\contentsline {figure}{\numberline {1.17}{\ignorespaces Esempio di max pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0. credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}\relax }}{21}{figure.caption.27}%
+\contentsline {figure}{\numberline {1.18}{\ignorespaces Esempio di average pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0. credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}\relax }}{21}{figure.caption.29}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
