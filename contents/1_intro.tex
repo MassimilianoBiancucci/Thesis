@@ -259,10 +259,10 @@ in modo lineare, senza retropropagazioni intermedie dell'informazione.
 
     \begin{figure}[H]
         \centering
-        \includesvg[width=0.6\textwidth]{imgs/es_nn_1.svg}
+        \includesvg[width=0.5\textwidth]{imgs/es_nn_2.svg}
         \caption{Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e
-        le interconnessioni tra di essi che definiscono il peso o l'importanza di tale connessione.\\
-        File:Rete-Neurale2.svg. In Wikipedia. https://commons.wikimedia.org/wiki/File:Rete-Neurale2.svg}
+        le interconnessioni tra di essi che definiscono il peso di ogni relazione, con in rosso un peso positivo e in blu un peso negativo,
+        l'intensità del colore indica la forza della relazione.}
         \label{fig:feedforward_nn}
     \end{figure}
 
@@ -882,27 +882,55 @@ pooling solitamente il padding non viene utilizzato, quindi la dimensione dell'i
 \subsubsection{Max pooling}
 Con il \textbf{max pooling} viene applicata la funzione di massimo, ovvero considerando una data finestra di scorrimento, il tensore di output avrà
 per ogni valore il valore massimo presente nella corrispondente finestra del tensore di input.
-
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{imgs/max_pooling.png}
+        \includegraphics[width=0.745\textwidth]{imgs/max_pooling.png}
         \caption{Esempio di max pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.\\
         credits: Dumoulin et al. 2016 \cite{dumoulin2016guide}}
         \label{fig:max_pooling}
     \end{figure}
-
+    
 \subsubsection{Average pooling}
 Con l'\textbf{average pooling} viene applicata la funzione di media, ovvero considerando una data finestra di scorrimento, il tensore di output avrà
 per ogni valore la media dei valori presenti nella corrispondente finestra del tensore di input.
-
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{imgs/avg_pooling.png}
+        \includegraphics[width=0.745\textwidth]{imgs/avg_pooling.png}
         \caption{Esempio di average pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.\\
         credits: Dumoulin et al. 2016 \cite{dumoulin2016guide}}
         \label{fig:average_pooling}
     \end{figure}
 
+\subsection{La convoluzione multichannel}
+Diversamente da quanto visto nei precedenti esempi, le operazioni di convoluzione utilizzate nelle CNN sono applicate a tensori 3D, dunque con più canali,
+perciò si parla di convoluzione 2D su tensori con 3 dimensioni ($W \times H \times C$), dove $W$ e $H$ sono altezza e larghezza del tensore
+mentre $C$ è il numero di canali.
+Le immagini tipicamente hanno questa struttura e si ha che i diversi canali enfatizzano diversi aspetti dell'immagine, per tale ragione non si effettua la convoluzione della 
+stessa matrice di pesi su tutti i canali, ma per un dato filtro si ha una matrice di pesi per ogni canale, il risultato delle n convoluzioni viene poi sommato
+channel-wise per ottenere un canale del tensore di output. 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{imgs/rgb_conv_sum.png}
+        \caption{Esempio di convoluzione di un'immagine rgb.\\
+        credits: Irhum Shafkat \cite{shafkat2018convolutional}}
+        \label{fig:rgb_convolution}
+    \end{figure}
+
+Facciamo però un pò di chiarezza sulla differenza tra kernel e filtro, nella convoluzione 2D, con kernel si intende la matrice di pesi 
+($W_k \times H_k \times 1$) che viene applicata ad un canale di un tensore, mentre con filtro (Il tensore arancio in \ref{fig:multichannel_convolution}) 
+si intende un tensore composto da $C$ kernel, il quale ha una dimensione $W_k \times H_k \times C$, dove $W_k$ e $H_k$ sono altezza e larghezza del kernel, 
+mentre $C$ è il numero di canali del tensore di input.
+Per tale ragione in un dato layer convoluzionale che ha in input un tensore con $n$ canali e in output un tensore con $m$ canali si avranno $m$ filtri, 
+composti a loro vota da $n$ kernel, perciò il numero di parametri di tale layer convoluzionale sarà pari a 
+$m \times n \times W_k \times H_k$, dove $W_k$ e $H_k$ sono le dimensioni del kernel.
+    % image of multichannel_convolution
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{imgs/multichannel_convolution.png}
+        \caption{Esempio di convoluzione multichannel.\\
+        credits: Irhum Shafkat \cite{shafkat2018convolutional}}
+        \label{fig:multichannel_convolution}
+    \end{figure}
 
 
 

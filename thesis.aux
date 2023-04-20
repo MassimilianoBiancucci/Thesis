@@ -62,8 +62,8 @@
 \newlabel{fig:neuron_bio}{{1.5}{7}{Schema di un neurone biologico.\relax }{figure.caption.9}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.3}Le reti neurali feed forward}{7}{section.1.3}\protected@file@percent }
 \BKM@entry{id=12,dest={73756273656374696F6E2E312E332E31},srcline={269}}{496C5C3034306E6575726F6E655C3034306172746966696369616C65}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.6}{\ignorespaces Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e le interconnessioni tra di essi che definiscono il peso o l'importanza di tale connessione.  File:Rete-Neurale2.svg. In Wikipedia. https://commons.wikimedia.org/wiki/File:Rete-Neurale2.svg\relax }}{8}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:feedforward_nn}{{1.6}{8}{Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e le interconnessioni tra di essi che definiscono il peso o l'importanza di tale connessione.\\ File:Rete-Neurale2.svg. In Wikipedia. https://commons.wikimedia.org/wiki/File:Rete-Neurale2.svg\relax }{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.6}{\ignorespaces Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e le interconnessioni tra di essi che definiscono il peso di ogni relazione, con in rosso un peso positivo e in blu un peso negativo, l'intensità del colore indica la forza della relazione.\relax }}{8}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:feedforward_nn}{{1.6}{8}{Esempio di rete neurale feedforward. In tale rete è possibile vedere i neuroni rappresentati dai nodi del grafo, e le interconnessioni tra di essi che definiscono il peso di ogni relazione, con in rosso un peso positivo e in blu un peso negativo, l'intensità del colore indica la forza della relazione.\relax }{figure.caption.10}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}Il neurone artificiale}{8}{subsection.1.3.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1.7}{\ignorespaces Esempio di Neurone artificiale.\relax }}{8}{figure.caption.11}\protected@file@percent }
 \newlabel{fig:artificial_neuron}{{1.7}{8}{Esempio di Neurone artificiale.\relax }{figure.caption.11}{}}
@@ -133,52 +133,70 @@
 \newlabel{fig:kernel_convolution_padding_stride}{{1.16}{19}{Esempio di convoluzione con un kernel 3x3, stride pari a 2, e padding (zero padding) pari a 1.\\ credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}\relax }{figure.caption.23}{}}
 \@writefile{toc}{\contentsline {subsubsection}{Numero di filtri}{19}{section*.24}\protected@file@percent }
 \BKM@entry{id=19,dest={73756273656374696F6E2E312E342E34},srcline={864}}{496C5C303430706F6F6C696E67}
+\citation{dumoulin2016guide}
+\citation{dumoulin2016guide}
 \@writefile{toc}{\contentsline {subsubsection}{La dimensione di output}{20}{section*.25}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4.4}Il pooling}{20}{subsection.1.4.4}\protected@file@percent }
 \citation{dumoulin2016guide}
 \citation{dumoulin2016guide}
-\citation{dumoulin2016guide}
-\citation{dumoulin2016guide}
+\BKM@entry{id=20,dest={73756273656374696F6E2E312E342E35},srcline={904}}{4C615C303430636F6E766F6C757A696F6E655C3034306D756C74696368616E6E656C}
+\citation{shafkat2018convolutional}
+\citation{shafkat2018convolutional}
 \@writefile{toc}{\contentsline {subsubsection}{Max pooling}{21}{section*.26}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1.17}{\ignorespaces Esempio di max pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.  credits: Dumoulin et al. 2016 \cite  {dumoulin2016guide}\relax }}{21}{figure.caption.27}\protected@file@percent }
 \newlabel{fig:max_pooling}{{1.17}{21}{Esempio di max pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.\\ credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}\relax }{figure.caption.27}{}}
 \@writefile{toc}{\contentsline {subsubsection}{Average pooling}{21}{section*.28}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1.18}{\ignorespaces Esempio di average pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.  credits: Dumoulin et al. 2016 \cite  {dumoulin2016guide}\relax }}{21}{figure.caption.29}\protected@file@percent }
 \newlabel{fig:average_pooling}{{1.18}{21}{Esempio di average pooling con una finestra di dimensione 3x3, stride pari a 1 e padding 0.\\ credits: Dumoulin et al. 2016 \cite {dumoulin2016guide}\relax }{figure.caption.29}{}}
-\BKM@entry{id=20,dest={636861707465722E32},srcline={1}}{537461746F5C30343064656C6C2761727465}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Stato dell'arte}{22}{chapter.2}\protected@file@percent }
+\citation{shafkat2018convolutional}
+\citation{shafkat2018convolutional}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.5}La convoluzione multichannel}{22}{subsection.1.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.19}{\ignorespaces Esempio di convoluzione di un'immagine rgb.  credits: Irhum Shafkat \cite  {shafkat2018convolutional}\relax }}{22}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:rgb_convolution}{{1.19}{22}{Esempio di convoluzione di un'immagine rgb.\\ credits: Irhum Shafkat \cite {shafkat2018convolutional}\relax }{figure.caption.30}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.20}{\ignorespaces Esempio di convoluzione multichannel.  credits: Irhum Shafkat \cite  {shafkat2018convolutional}\relax }}{22}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:multichannel_convolution}{{1.20}{22}{Esempio di convoluzione multichannel.\\ credits: Irhum Shafkat \cite {shafkat2018convolutional}\relax }{figure.caption.31}{}}
+\BKM@entry{id=21,dest={636861707465722E32},srcline={1}}{537461746F5C30343064656C6C2761727465}
+\citation{goodfellow2014generative}
+\citation{karras2020analyzing}
+\citation{suvorov2021resolutionrobust}
+\BKM@entry{id=22,dest={73656374696F6E2E322E31},srcline={14}}{496C5C3034307072696D6F5C3034306D6F64656C6C6F5C30343067616E}
+\citation{goodfellow2014generative}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Stato dell'arte}{23}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\BKM@entry{id=21,dest={636861707465722E33},srcline={1}}{537472756D656E74695C303430655C3034306D65746F64695C3034305C3034305C303430}
-\BKM@entry{id=22,dest={73656374696F6E2E332E31},srcline={3}}{496C5C303430446174617365743A5C30343053657665727374616C5C303430737465656C5C3034306465666563745C303430646574656374696F6E5C3034305C303430}
-\BKM@entry{id=23,dest={73656374696F6E2E332E32},srcline={26}}{4C616D613A5C3034305C303430}
-\BKM@entry{id=24,dest={73656374696F6E2E332E33},srcline={32}}{5374796C6567616E323A5C3034305C303430}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Strumenti e metodi   }{23}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Il primo modello gan}{23}{section.2.1}\protected@file@percent }
+\BKM@entry{id=23,dest={636861707465722E33},srcline={1}}{537472756D656E74695C303430655C3034306D65746F64695C3034305C3034305C303430}
+\BKM@entry{id=24,dest={73656374696F6E2E332E31},srcline={3}}{496C5C303430446174617365743A5C30343053657665727374616C5C303430737465656C5C3034306465666563745C303430646574656374696F6E5C3034305C303430}
+\BKM@entry{id=25,dest={73656374696F6E2E332E32},srcline={26}}{4C616D613A5C3034305C303430}
+\BKM@entry{id=26,dest={73656374696F6E2E332E33},srcline={32}}{5374796C6567616E323A5C3034305C303430}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Strumenti e metodi   }{24}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection  }{23}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Lama:  }{23}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Stylegan2:  }{23}{section.3.3}\protected@file@percent }
-\BKM@entry{id=25,dest={636861707465722E34},srcline={1}}{5376696C7570706F5C30343064656C5C30343070726F676574746F}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{24}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection  }{24}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Lama:  }{24}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Stylegan2:  }{24}{section.3.3}\protected@file@percent }
+\BKM@entry{id=27,dest={636861707465722E34},srcline={1}}{5376696C7570706F5C30343064656C5C30343070726F676574746F}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{25}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\BKM@entry{id=26,dest={636861707465722E35},srcline={1}}{526973756C74617469}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Risultati}{25}{chapter.5}\protected@file@percent }
+\BKM@entry{id=28,dest={636861707465722E35},srcline={1}}{526973756C74617469}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Risultati}{26}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\BKM@entry{id=27,dest={636861707465722A2E3330},srcline={36}}{456C656E636F5C30343064656C6C655C303430666967757265}
+\BKM@entry{id=29,dest={636861707465722A2E3332},srcline={36}}{456C656E636F5C30343064656C6C655C303430666967757265}
 \citation{Fukushima1980Neocognitron}
 \citation{Waibel1989PhonemeRecognition}
 \citation{LeCun1989Backpropagation}
 \citation{dumoulin2016guide}
-\@writefile{toc}{\contentsline {chapter}{Elenco delle figure}{26}{chapter*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Elenco delle figure}{27}{chapter*.32}\protected@file@percent }
 \citation{dumoulin2016guide}
 \citation{dumoulin2016guide}
 \citation{dumoulin2016guide}
+\citation{shafkat2018convolutional}
+\citation{shafkat2018convolutional}
 \bibstyle{plain}
 \bibdata{Bibliography}
-\BKM@entry{id=28,dest={636861707465722A2E3331},srcline={1}}{4269626C696F677261666961}
+\BKM@entry{id=30,dest={636861707465722A2E3333},srcline={1}}{4269626C696F677261666961}
 \bibcite{arjovsky2017wasserstein}{{1}{}{{}}{{}}}
 \bibcite{cybenko1989approximation}{{2}{}{{}}{{}}}
 \bibcite{dumoulin2016guide}{{3}{}{{}}{{}}}
@@ -189,15 +207,17 @@
 \bibcite{goodfellow2014generative}{{8}{}{{}}{{}}}
 \bibcite{heusel2018gans}{{9}{}{{}}{{}}}
 \bibcite{isola2018imagetoimage}{{10}{}{{}}{{}}}
-\bibcite{LeCun1989Backpropagation}{{11}{}{{}}{{}}}
-\bibcite{mescheder2018training}{{12}{}{{}}{{}}}
-\bibcite{radford2016unsupervised}{{13}{}{{}}{{}}}
-\bibcite{salimans2016improved}{{14}{}{{}}{{}}}
-\bibcite{suvorov2021resolutionrobust}{{15}{}{{}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliografia}{28}{chapter*.31}\protected@file@percent }
-\bibcite{Waibel1989PhonemeRecognition}{{16}{}{{}}{{}}}
-\bibcite{zhang2018unreasonable}{{17}{}{{}}{{}}}
+\bibcite{karras2020analyzing}{{11}{}{{}}{{}}}
+\bibcite{LeCun1989Backpropagation}{{12}{}{{}}{{}}}
+\bibcite{mescheder2018training}{{13}{}{{}}{{}}}
+\bibcite{radford2016unsupervised}{{14}{}{{}}{{}}}
+\bibcite{salimans2016improved}{{15}{}{{}}{{}}}
+\@writefile{toc}{\contentsline {chapter}{Bibliografia}{29}{chapter*.33}\protected@file@percent }
+\bibcite{shafkat2018convolutional}{{16}{}{{}}{{}}}
+\bibcite{suvorov2021resolutionrobust}{{17}{}{{}}{{}}}
+\bibcite{Waibel1989PhonemeRecognition}{{18}{}{{}}{{}}}
+\bibcite{zhang2018unreasonable}{{19}{}{{}}{{}}}
 \citation{*}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
 \gdef\svg@ink@ver@settings{{\m@ne }{inkscape}{0}}
-\gdef \@abspage@last{34}
+\gdef \@abspage@last{35}

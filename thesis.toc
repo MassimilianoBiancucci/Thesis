@@ -28,12 +28,14 @@
 \contentsline {subsection}{\numberline {1.4.4}Il pooling}{20}{subsection.1.4.4}%
 \contentsline {subsubsection}{Max pooling}{21}{section*.26}%
 \contentsline {subsubsection}{Average pooling}{21}{section*.28}%
-\contentsline {chapter}{\numberline {2}Stato dell'arte}{22}{chapter.2}%
-\contentsline {chapter}{\numberline {3}Strumenti e metodi }{23}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{23}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Lama: }{23}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Stylegan2: }{23}{section.3.3}%
-\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{24}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Risultati}{25}{chapter.5}%
-\contentsline {chapter}{Elenco delle figure}{26}{chapter*.30}%
-\contentsline {chapter}{Bibliografia}{28}{chapter*.31}%
+\contentsline {subsection}{\numberline {1.4.5}La convoluzione multichannel}{22}{subsection.1.4.5}%
+\contentsline {chapter}{\numberline {2}Stato dell'arte}{23}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Il primo modello gan}{23}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Strumenti e metodi }{24}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{24}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Lama: }{24}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Stylegan2: }{24}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{25}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Risultati}{26}{chapter.5}%
+\contentsline {chapter}{Elenco delle figure}{27}{chapter*.32}%
+\contentsline {chapter}{Bibliografia}{29}{chapter*.33}%

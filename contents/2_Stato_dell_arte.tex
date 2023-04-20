@@ -1,8 +1,17 @@
 \chapter{Stato dell'arte}
 \begin{comment}
 Cosa devo mettere in questa sezione??
-    - potrei parlare dello stato dell'arte per quanto rigurda i modelli come lama, e altri modelli che effettuano la segmentazione inversa
-        non mi pare ci siano dei modelli che fanno esattamente quello che fa COIGAN.
-    - potrei parlare dello stato dell'arte delle gan completamente generative, come stylegan.
-    - potrei fare un escursus generico sui modelli piu avanzati come Dall-e che combinano la generazione di immagini al testo.
+
+- L'obbiettivo è arrivare a parlare del modello LAMA e stylegan2, quindi effetturò una serie di passaggi per passare dai primi modelli gan generativi
+(goodfellow2014generative) a quelli più recenti come stylegan2 (karras2019analyzing), che erano i più utilizzati per generare immagini di alta qualità fino a poco tempo fa.
+Per poi passare per pix2pix per introdurre le reti generative condizionate, e quindi dopo una breve introduzione al problema dell'inpainting arrivare a parlare di LAMA.
 \end{comment}
+
+In questa sezione verranno mostrati i principali modelli generativi basati su architettura GAN, che sono stati utilizzati negli ultimi anni, partendo dal 
+primo modello proposto da Goodfellow et al. \cite{goodfellow2014generative} capostipite di questa famiglia di modelli passando per le principali innovazioni
+proposte da altri autori, fino ad arrivare a modelli più recenti come StyleGAN2 \cite{karras2020analyzing} e LAMA \cite{suvorov2021resolutionrobust}.
+
+\section{Il primo modello gan}
+Nel 2014 Ian Goodfellow et al. \cite{goodfellow2014generative} hanno proposto il primo modello generativo basato su architettura GAN (Generative Adversarial Network).),
+Questa pubblicazione ha segnato un punto di svolta nella ricerca dei modelli di deep learning generativi, i quali fino ad allora erano
+basati su architetture ad autoencoder. La differenza sostanziale tra i due tipi di modelli è che i modelli basati su autoencoder 
