@@ -22,6 +22,11 @@
 \contentsline {figure}{\numberline {1.19}{\ignorespaces Esempio di convoluzione di un'immagine rgb. credits: Irhum Shafkat \cite {shafkat2018convolutional}\relax }}{22}{figure.caption.30}%
 \contentsline {figure}{\numberline {1.20}{\ignorespaces Esempio di convoluzione multichannel. credits: Irhum Shafkat \cite {shafkat2018convolutional}\relax }}{22}{figure.caption.31}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Rappresentazione grafica della training pipeline di un modello GAN.\relax }}{24}{figure.caption.32}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Visualizzazione schematica della convergenza della distribuzione dei dati generati verso quelli reali, e dell'uscita del discriminatore al variare di $\mathbf {x}$. Si noti che la line nera tratteggiata rappresenta la distribuzione dei dati reali $p_{data}$, mentre la linea verde continua rappresenta la distribuzione dei dati generati $p_{model}$ e in fine la linea blu tratteggiata rappresenta l'uscita del discriminatore $D(x)$, al variare di $\mathbf {x}$. I 2 assi in fondo sono rispettivamente, l'asse z i valori casuali di input del generatore con distribuzione fissa, e l'asse x, i valori di input del discriminatore, appartenenti alla distribuzione $\mathbf {p_{data}}$ o $\mathbf {p_{g}}$. credits: Goodfellow et al. \cite {goodfellow2014generative}\relax }}{27}{figure.caption.35}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Esempio di corretto apprendimento (prima riga) e di mode collapse (seconda riga). credits: Luke Metz et al. \cite {metz2017unrolled}\relax }}{27}{figure.caption.37}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Architettura del generatore di DCGAN. credits: Alec Radford et al. \cite {radford2016unsupervised}\relax }}{28}{figure.caption.38}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Esempio di algebra vettoriale nello spazio latente Z. credits: Alec Radford et al. \cite {radford2016unsupervised}\relax }}{29}{figure.caption.39}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

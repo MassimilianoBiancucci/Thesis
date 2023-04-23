@@ -63,6 +63,10 @@ Y.~LeCun, B.~Boser, J.~S. Denker, D.~Henderson, R.~E. Howard, W.~Hubbard, and
 Lars Mescheder, Andreas Geiger, and Sebastian Nowozin.
 \newblock Which training methods for gans do actually converge?, 2018.
 
+\bibitem{metz2017unrolled}
+Luke Metz, Ben Poole, David Pfau, and Jascha Sohl-Dickstein.
+\newblock Unrolled generative adversarial networks, 2017.
+
 \bibitem{radford2016unsupervised}
 Alec Radford, Luke Metz, and Soumith Chintala.
 \newblock Unsupervised representation learning with deep convolutional

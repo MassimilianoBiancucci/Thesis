@@ -546,14 +546,7 @@ o il caso con profondita del modello arbitraria.
 %################################################################################
 %################################################################################
 \section{Le reti neurali convoluzionali}
-\begin{comment}
-    indice sotto sezione:
-    - Storia delle CNN
-    - La convoluzione
-        - 
-    - 
 
-\end{comment}
 Le reti neurali convoluzionali sono modelli concepiti per analizzare dati che hanno una struttura spaziale,
 e nei quali le relazioni tra i dati hanno relazioni locali molto forti, come nel caso delle immagini.
 La loro struttura è simile a quella che si trovano nel nervo ottico degli organismi viventi.
@@ -860,7 +853,6 @@ Ipotizzando lo stride e il padding uguali lungo entrambe le direzioni di convolu
     W_{out} = \frac{W_{in} - W_{k} + 2P}{S} + 1
 \end{equation}
 
-
 \subsection{Il pooling}
 Il pooling è un'operazione che viene utilizzata per ridurre la dimensione di un tensore, tipicamente viene utilizzato dopo una o più convoluzioni,
 in modo da ridurre la quantità di dati da elaborare, rendendo le convoluzioni successive più veloci, e permettendo di lavorare con kernel più piccoli
@@ -879,7 +871,7 @@ pooling solitamente il padding non viene utilizzato, quindi la dimensione dell'i
     W_{out} = \frac{W_{in} - W_{k}}{S} + 1
 \end{equation}
 
-\subsubsection{Max pooling}
+\subsubsection{Max pooling} 
 Con il \textbf{max pooling} viene applicata la funzione di massimo, ovvero considerando una data finestra di scorrimento, il tensore di output avrà
 per ogni valore il valore massimo presente nella corrispondente finestra del tensore di input.
     \begin{figure}[H]
@@ -931,7 +923,5 @@ $m \times n \times W_k \times H_k$, dove $W_k$ e $H_k$ sono le dimensioni del ke
         credits: Irhum Shafkat \cite{shafkat2018convolutional}}
         \label{fig:multichannel_convolution}
     \end{figure}
-
-
 
 
