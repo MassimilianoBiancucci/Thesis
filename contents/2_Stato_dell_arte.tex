@@ -5,6 +5,15 @@ Cosa devo mettere in questa sezione??
 - L'obbiettivo è arrivare a parlare del modello LAMA e stylegan2, quindi effetturò una serie di passaggi per passare dai primi modelli gan generativi
 (goodfellow2014generative) a quelli più recenti come stylegan2 (karras2019analyzing), che erano i più utilizzati per generare immagini di alta qualità fino a poco tempo fa.
 Per poi passare per pix2pix per introdurre le reti generative condizionate, e quindi dopo una breve introduzione al problema dell'inpainting arrivare a parlare di LAMA.
+
+SCALETTA:
+    - first gan (goodfellow2014generative)
+    - DCGAN
+    - WGAN
+    - StyleGAN
+    - StyleGAN2
+    - pix2pix
+    - LAMA
 \end{comment}
 
 In questa sezione verranno mostrati i principali modelli generativi basati su architettura GAN, che sono stati utilizzati negli ultimi anni, partendo dal 
@@ -24,6 +33,7 @@ o se arrivano a buoni risultati tipicamente hanno una distribuzione molto concen
     - come funziona il training e la loss function originaria (bce) con riferimenti al gradiente e alla necessità di un addestramento alternato
 \end{comment}
 
+\subsection{L'adversarial training}
 Il modello GAN proposto in questa ricerca si componeva di due attori principali, il \textit{discriminatore} $\mathbf{D}$ e il \textit{generatore} $\mathbf{G}$
 , due modelli neurali MLP, che si affrontano in un gioco a due giocatori a somma zero.
 Il generatore in questo gioco ha il compito di generare dati che siano in grado di ingannare il discriminatore, che ha il compito opposto di distinguere i dati che 
@@ -66,6 +76,7 @@ di questa GAN.
         \label{fig:gan_training}
     \end{figure}
 
+\subsection{La loss function}
 Questo framework utilizza come loss function la Binary Cross Entropy (BCE), utilizzata tipicamente per la classificazione \textbf{binaria}. 
 La BCE in generale è definita come segue:
 
@@ -143,33 +154,13 @@ Tale dinamica di addestramento ha lo scopo di mantenere le uscite
 del discriminatore per i dati generati e reali sufficientemente vicine da non causare problemi di saturazione.
 Altrimenti la saturazione comporta un azzeramento del gradiente e di conseguenza un arresto dell'apprendimento.
 
-Vediamo infatti che l'uscita del discriminatore è caratterizzata da un singolo elemento dotato di funzione di trasferimento sigmoide, la quale nel
-momento in cui restituisce un valore troppo vicino a 0 o 1, ha il gradiente tendente a zero, e di conseguenza dal momento che l'addestramento 
-viene effettuato tramite backpropagation, per quanto visto nel capito precedente anche i gradienti dei layer precedenti tenderanno a zero, e l'addestramento
-si arresterà. Vediamo di eseguito la funzione di trasferimento sigmoide e il suo gradiente nel momento in cui tende a saturare:
-
-\begin{figure}[H]
-    \centering
-    \begin{tabular}{cc}
-        % first row
-        \subfloat[Saturazione per $\mathbf{y \rightarrow 0}$]{
-            \label{fig:sig_grad_0}
-            \centering
-            \includegraphics[width=0.3\textwidth]{imgs/graphs/sigmoid_grad_vanish_0.png}
-        }  &
-        \subfloat[Saturazione per $\mathbf{y \rightarrow 1}$]{
-            \label{fig:sig_grad_1}
-            \centering
-            \includegraphics[width=0.3\textwidth]{imgs/graphs/sigmoid_grad_vanish_1.png}
-        }  \\
-    \end{tabular}
-\end{figure}
-
-Per visualizzare meglio questo fenomeno possiamo utilizzare un grafico, ipotizzando di visualizzare i dati del training set su una sola dimensione,
+\subsection{La convergenza del generatore}
+Per visualizzare meglio le dinamiche dell'addestramento che portano alla convergenza del generatore alla distribuzione del training set 
+possiamo utilizzare un grafico, ipotizzando di visualizzare i dati del training set su una sola dimensione,
 e di visualizzare sull'asse y la densità di probabilità dei dati e il valore dell'uscita del discriminatore, al variare di $\mathbf{x}$, ossia
 della variabile di input del discriminatore, in questo caso unidimensionale ma in generale potrebbe rappresentare immagini, audio video e così via.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{imgs/Gan training convergence.png}
     \caption{Visualizzazione schematica della convergenza della distribuzione dei dati generati verso quelli reali, e dell'uscita del discriminatore al variare di $\mathbf{x}$.\\
@@ -198,19 +189,63 @@ allora considerando $\mathbf{D^*}$ il discriminatore ottimo per un dato $\mathbf
 \begin{equation}
     \mathbf{D^*(x) = \frac{p_{data}(x)}{p_{data}(x) + p_{g}(x)} = \frac{p_{data}(x)}{2p_{data}(x)} = \frac{1}{2}}
 \end{equation}
-\subsubsection{Il mode collapse}
+
+\subsection{Il gradient vanishing}
+Il gradient vanishing è un problema che si verifica nel momento in cui il discriminatore riesce a distinguere con troppa facilità i dati reali da quelli generati,
+consideriamo infatti che questa è caratterizzata da un singolo elemento dotato di funzione di trasferimento sigmoide, la quale nel
+momento in cui restituisce un valore troppo vicino a 0 o 1, ha il gradiente tendente a zero, e di conseguenza dal momento che l'addestramento 
+viene effettuato tramite backpropagation, per quanto visto nel capito precedente anche i gradienti dei layer precedenti tenderanno a zero, e l'addestramento
+si arresterà. Vediamo di eseguito la funzione di trasferimento sigmoide e il suo gradiente nel momento in cui tende a saturare:
+
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{cc}
+        % first row
+        \subfloat[Saturazione per $\mathbf{y \rightarrow 0}$]{
+            \label{fig:sig_grad_0}
+            \centering
+            \includegraphics[width=0.4\textwidth]{imgs/graphs/sigmoid_grad_vanish_0.png}
+        }  &
+        \subfloat[Saturazione per $\mathbf{y \rightarrow 1}$]{
+            \label{fig:sig_grad_1}
+            \centering
+            \includegraphics[width=0.4\textwidth]{imgs/graphs/sigmoid_grad_vanish_1.png}
+        }  \\
+    \end{tabular}
+\end{figure}
+
+\subsection{Il mode collapse}
 Un'altro problema che affligge i modelli gan è quello del mode collapse, che si verifica quando $\mathbf{G}$ apprende una distribuzione 
 che concide con un sottoinsieme di $\mathbf{p_{data}}$. Tale condizione consente comunque di raggiungere
 la condizione di ottimalità sopra descritta con $p_{g} \subset p_{data}$, ottenendo comunque $\mathbf{D^*(x) = \frac{1}{2}}$.
+Per fare un esempio pratico possiamo considerare ad esempio il dataset Minst che contiene immagini di cifre scritte a mano,
+se il generatore impara a generare soltanto cifre dallo 0 al 5 e non quelle dal 6 al 9, siamo in una condizione di mode collapse, 
+in quanto parte della distribuzione dei dati non è stata appresa, ma il sistema può comunque raggiungere la condizione di ottimalità.
 Nella seguente immagine si ha nella prima riga un esempio di corretto apprendimento mentre nella seconda riga si ha un esempio di mode collapse.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{imgs/mode_collapse.png}
+    \includegraphics[width=1.0\textwidth]{imgs/mode_collapse.png}
     \caption{Esempio di corretto apprendimento (prima riga) e di mode collapse (seconda riga).\\
     credits: Luke Metz et al. \cite{metz2017unrolled}}
     \label{fig:mode_collapse}
 \end{figure}
 
+\subsection{Alcuni risultati}
+Vediamo in questa sezione alcuni risultati relativi al modello gan presentato da Goodfellow, relativi a modelli addestrati con
+dataset di facce umane in bassa risoluzione e il dataset Minst. In Questi esempi è possibile vedere sulla destra con contorno giallo
+alcuni esempi di dati provenienti dal dataset di addestramento, mentre sulla sinistra ci sono gli esempi generati dal modello.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{imgs/first_gan_results.png}
+    \caption{Alcuni risultati del modello addestrato in questa ricerca, relativi a un dataset di facce umane in bassa risoluzione (b) e il dataset Minst (a).\\ 
+    credits: Goodfellow et al. \cite{goodfellow2014generative}}
+    \label{fig:first_gan_results}
+\end{figure}
+
+%###############################################################################################################################
+%###############################################################################################################################
+% DCGAN
 \section{DCGAN}
 DCGAN è stata la prima pubblicazione, opera di Alec Radford et. al \cite{radford2016unsupervised}, che ha dimostrato l'applicabilità dell'adversarial 
 training su modelli convoluzionali, ottenendo buoni risultati, aumentando la dimensione delle immagini rispetto a lavori precedenti e mantenendo una buona
@@ -248,11 +283,12 @@ appartenenti alla distribuzione dei dati reali.
 Questo spazio autorganizzato mostra addirittura delle proprietà aritmetiche vettoriali, in quanto sembra possibile effettuare 
 operazioni di somma e sottrazione tra i vettori in Z, ed ottenere dei risultati coerenti in termini di immagini. Le stesse semplici operazioni 
 effettuate a livello di immagine non danno risultati paragonabili, per tale ragione questo comportamento è indice del fatto che il modello
-apprende una rappresentazione dei dati nello spazio latente in maniera profonda e relativa alle caratteristiche che essi presentano.
+apprende una rappresentazione dei dati nello spazio latente in maniera profonda e relativa alle caratteristiche che essi presentano, in 
+maniera del tutto non supervisionata.
 
 Vediamo un esempio tratto dallo stesso articolo, creato attraverso un modello addestrato su un dataset di facce umane.
-Nell'esempio vengono presi 3 vengono presi 3 vettori per ognuna di 3 aree di Z: "donna sorridente", "donna seria", "uomo serio" e viene fatta la media 
-di questi vettori, ottenendo ancora un vettore che rappresenta le stesse caratteristiche, ciò indica che queste tre aree sembrano avere una sorta di 
+Nell'esempio vengono presi 3 vettori per 3 distinte aree di Z: "donna sorridente", "donna seria", "uomo serio" e viene fatta la media 
+di questi vettori, ottenendo ancora un vettore che possiede le stesse caratteristiche, ciò indica che queste tre aree sembrano avere una sorta di 
 convessità, i vettori mediati vengono poi utilizzati per estrarre la caratteristica "sorridente" e aggiungerla al vettore appartenente all'area "uomo serio",
 ottenendo un nuovo vettore che rappresenta un uomo sorridente.
 Ciò significa che nello spazio Z è possibile isolare delle caratteristiche e combinarle tra loro per ottenere nuove immagini, lo svantaggio purtroppo
@@ -266,9 +302,10 @@ non linearità, per cui in generale è difficile effettuare operazioni di questo
         credits: Alec Radford et al. \cite{radford2016unsupervised}}
         \label{fig:DCGAN_vectorial_algebra}
     \end{figure}
-Si noti che le medesime operazioni fatte a livello di pixel danno risultati privi di senso.
 \section{Wasserstein GAN}
+TODO
+\section{Stylegan}
+TODO
 
-    
 
 
