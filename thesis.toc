@@ -42,11 +42,16 @@
 \contentsline {subsection}{\numberline {2.2.2}L'algebra vettoriale nello spazio latente Z}{30}{subsection.2.2.2}%
 \contentsline {section}{\numberline {2.3}Wasserstein GAN}{31}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Stylegan}{31}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Strumenti e metodi }{32}{chapter.3}%
+\contentsline {section}{\numberline {2.5}Stylegan2}{31}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Pix2Pix}{31}{section.2.6}%
+\contentsline {section}{\numberline {2.7}LAMA}{31}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Materiali e metodi }{32}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{32}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Lama: }{32}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Stylegan2: }{32}{section.3.3}%
-\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{33}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Risultati}{34}{chapter.5}%
-\contentsline {chapter}{Elenco delle figure}{35}{chapter*.40}%
-\contentsline {chapter}{Bibliografia}{37}{chapter*.41}%
+\contentsline {subsection}{\numberline {3.1.1}Distribuzione del dataset}{33}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Librerie e Framework }{35}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Numpy }{35}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}OpenCV }{35}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Pytorch }{35}{subsection.3.2.3}%
+\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{36}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Risultati}{37}{chapter.5}%
+\contentsline {chapter}{Elenco delle figure}{38}{chapter*.42}%
