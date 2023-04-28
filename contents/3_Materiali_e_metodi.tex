@@ -37,15 +37,24 @@ tramite FID score.
 In questa sezione viene presentata un'analisi tecnica della distribuzione del dataset, considerando il numero di immagini,
 numero e distribuzione dei poligoni in esse, per comprendere nel dettaglio il dataset e la sua composizione.
 
-Il Severstal dataset è composto come già detto da 12568 immagini di lastre di acciaio con risoluzione 1600x256,
+Il Severstal dataset è composto come già detto da 12568 immagini di lastre di acciaio con risoluzione 256x1600,
 di queste immagini abbiamo 6666 immagini con difetti, e 5902 immagini senza difetti. Il severstal dataset presenta 4 classi di difetti,
 le quali purtroppo, come spesso accade nei dataset provenienti da casi reali, non sono bilanciate, infatti abbiamo:
-\begin{itemize}
-    \item poligoni appartenenti alla classe 1 : 3082 
-    \item poligoni appartenenti alla classe 2 : 321
-    \item poligoni appartenenti alla classe 3 : 14622
-    \item poligoni appartenenti alla classe 4 : 1902
-\end{itemize}
+
+% tabella che riassume i valori sopra citati
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+            & \textbf{Classe 1} & \textbf{Classe 2} & \textbf{Classe 3} & \textbf{Classe 4} \\
+    \hline
+    \textbf{Numero di poligoni} & 3082 & 321 & 14622 & 1902 \\
+    \hline
+    \end{tabular}
+    \caption{Distribuzione delle immagini per classe.}
+    \label{tab:sd_polygons_distribution}
+\end{table}
+
 
     \begin{figure}[H]
         \centering
@@ -64,9 +73,10 @@ le quali purtroppo, come spesso accade nei dataset provenienti da casi reali, no
         \end{tabular}
     \end{figure}
 
-Altri parametri interessanti che vanno presi in considerazione riguardano la distribuzione dei poligoni nelle immagini, sono il numero di poligoni
-per ogni immagine per avere un'idea della distribuzione. Una valutazione è stata fatto anche per l'area di ogni poligono, in quanto ai fini 
-della generazione di difetti sintetici è importante conoscere la quantità di pixel relativa ai difetti a disposizione, consideriamo infatti 
+Altri parametri interessanti che vanno presi in considerazione riguardano la distribuzione dei poligoni nelle immagini, ovvero la distribuzione del
+numero di poligoni in ogni immagine, per avere un'idea della frequenza con cui questi sono presenti. 
+Una valutazione è stata fatta anche per la distribuzione dell'area dei poligoni, in quanto ai fini 
+della generazione dei difetti sintetici è importante conoscere la quantità di pixel relativa ai difetti a disposizione, consideriamo infatti 
 che 10 difetti con area di 100 pixel (1000 pixel) portano con se molta meno informazione di 1 difetto con area di 4000 pixel. 
 Le stesse valutazioni sono poi state fatte per ogni classe di difetti, in quanto ogni classe ha una sua specifica distribuzione.
 
@@ -74,33 +84,139 @@ Le stesse valutazioni sono poi state fatte per ogni classe di difetti, in quanto
         \centering
         \begin{tabular}{cc}
             % first row
-            \subfloat[Distribuzione del numero di poligoni per immagine.]{
+            \subfloat[Distribuzione numero poligoni per immagine.]{
                 \label{fig:sd_polygons_per_image_distribution}
                 \centering
                 \includegraphics[width=0.45\textwidth]{imgs/Severstal/raw_dataset/n_polygons_per_image_histogram.png}
-            }  \\
-            \subfloat[Distribuzione del numero di poligoni di classe 1 per immagine]{
+            }  &
+            \subfloat[Distribuzione area poligoni per immagine.]{
+                \label{fig:sd_polygons_area_distribution}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/raw_dataset/area_of_polygons_per_image_histogram.png}
+            }  \\ \\
+
+            \subfloat[Distribuzione numero poligoni classe 1 per immagine]{
                 \label{fig:sd_polygons_per_image_per_class_distribution_0}
                 \centering
                 \includegraphics[width=0.45\textwidth]{imgs/Severstal/raw_dataset/n_polygons_per_image_per_class_histogram_polygons_0.png}
             }  &
-            \subfloat[Distribuzione del numero di poligoni di classe 2 per immagine]{
+            \subfloat[Distribuzione numero poligoni classe 2 per immagine]{
                 \label{fig:sd_polygons_per_image_per_class_distribution_1}
                 \centering
                 \includegraphics[width=0.45\textwidth]{imgs/Severstal/raw_dataset/n_polygons_per_image_per_class_histogram_polygons_1.png}
-            }  \\
-            \subfloat[Distribuzione del numero di poligoni di classe 3 per immagine]{
+            }  \\ \\
+            
+            \subfloat[Distribuzione numero poligoni classe 3 per immagine]{
                 \label{fig:sd_polygons_per_image_per_class_distribution_2}
                 \centering
                 \includegraphics[width=0.45\textwidth]{imgs/Severstal/raw_dataset/n_polygons_per_image_per_class_histogram_polygons_2.png}
             }  &
-            \subfloat[Distribuzione del numero di poligoni di classe 4 per immagine]{
+            \subfloat[Distribuzione numero poligoni classe 4 per immagine]{
                 \label{fig:sd_polygons_per_image_per_class_distribution_3}
                 \centering
                 \includegraphics[width=0.45\textwidth]{imgs/Severstal/raw_dataset/n_polygons_per_image_per_class_histogram_polygons_3.png}
             }  \\
         \end{tabular}
     \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \begin{tabular}{cc}
+            % first row 
+            \subfloat[Distribuzione area poligoni classe 1.]{
+                \label{fig:sd_polygons_area_distribution_0}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_0/area_hist.png}
+            }  &
+            \subfloat[Distribuzione aspect-ratio poligoni classe 1.]{
+                \label{fig:sd_polygons_aspect_ratio_distribution_0}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_0/shape_scatter.png}
+            } \\
+        \end{tabular}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \begin{tabular}{cc}
+            \subfloat[Distribuzione area poligoni classe 2.]{
+                \label{fig:sd_polygons_area_distribution_1}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_1/area_hist.png}
+            }  &
+            
+            \subfloat[Distribuzione aspect-ratio poligoni classe 2.]{
+                \label{fig:sd_polygons_aspect_ratio_distribution_1}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_1/shape_scatter.png}
+            } \\
+        \end{tabular}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tabular}{cc}
+            \subfloat[Distribuzione area poligoni classe 3.]{
+                \label{fig:sd_polygons_area_distribution_2}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_2/area_hist.png}
+            }  &
+            \subfloat[Distribuzione aspect-ratio poligoni classe 3.]{
+                \label{fig:sd_polygons_aspect_ratio_distribution_2}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_2/shape_scatter.png}
+            } \\
+        \end{tabular}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tabular}{cc}
+            \subfloat[Distribuzione area poligoni classe 4.]{
+                \label{fig:sd_polygons_area_distribution_3}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_3/area_hist.png}
+            }  &
+            \subfloat[Distribuzione aspect-ratio poligoni classe 4.]{
+                \label{fig:sd_polygons_aspect_ratio_distribution_3}
+                \centering
+                \includegraphics[width=0.45\textwidth]{imgs/Severstal/crop_defects_distr/class_3/shape_scatter.png}
+            } \\
+        \end{tabular}
+    \end{figure}
+
+Vediamo di seguito alcuni esempi di difetti estratti dal dataset tramite crop, appartenenti alle quattro classi. 
+Con il dataset non vengono fornite informazioni riguardo alle caratteristiche delle 4 classi ma è possibile dedurre 
+alcune informazioni analizzando le immagini e le distribuzioni mostrate.
+Si noti che gli esempi mostrati di seguito in alcuni casi sono stati ridimensionati o ruotati per una migliore illustrazione.
+
+\begin{figure}[H]
+    \centering 
+    \begin{tabular}{cc}
+        \subfloat[Esempi di difetti classe 1.]{
+            \label{fig:sd_class_0}
+            \centering
+            \includegraphics[width=0.45\textwidth]{imgs/Severstal/defect_samples/samples_class_0.png}
+        }  &
+        \subfloat[Esempi di difetti classe 2.]{
+            \label{fig:sd_class_1}
+            \centering
+            \includegraphics[width=0.2\textwidth]{imgs/Severstal/defect_samples/samples_class_1.png}
+        }  \\
+        \subfloat[Esempi di difetti classe 3.]{
+            \label{fig:sd_class_2}
+            \centering
+            \includegraphics[width=0.45\textwidth]{imgs/Severstal/defect_samples/samples_class_2.png}
+        } &
+        \subfloat[Esempi di difetti classe 4.]{
+            \label{fig:sd_class_3}
+            \centering
+            \includegraphics[width=0.45\textwidth]{imgs/Severstal/defect_samples/samples_class_3.png}
+        } \\
+    \end{tabular}
+\end{figure}
+
+
 
 
 
@@ -131,3 +247,30 @@ In questo progetto è stata utilizzata per effettuare diverse operazioni di pre-
 Pytorch è una libreria open source per il machine learning, sviluppata da Facebook, che permette di effettuare operazioni su tensori in modo efficiente
 sfruttando le GPU, e di effettuare automaticamente il backpropagation, rendendo l'operazione di definire una rete neurale e addestrarla
 molto semplice e veloce.
+
+\begin{comment}
+    Aggiungi un ulteriore strumento degno di nota
+\end{comment}
+
+\section{La macchina utilizzata\ok}
+L'addestramento del modello neurale è stato effettuato mediante l'utilizzo dei servizi di Google Cloud Platform, in particolare è stata 
+utilizzata una macchina virtuale \textbf{n1-standard-8} con le seguenti caratteristiche:
+
+\begin{itemize}
+    \item \textbf{Sistema Operativo:} Ubuntu 18.04
+    \item \textbf{CPU:} 8 vCPU
+    \item \textbf{GPU:} 2x Nvidia Tesla T4 (16 GB)
+    \item \textbf{RAM:} 32 GB 
+\end{itemize}
+
+Questa tipologia di macchina virtuale è una delle consigliate per l'addestramento di modelli di deep learning, in quanto permette di utilizzare
+le GPU T4 di Nvidia, le quali ad oggi costituiscono un ottimo compromesso tra costo e performance. Infatti l'affitto di una macchina
+virtuale con queste caratteristiche, con ben 2 Tesla T4, per un mese ha un costo di circa 500 euro, mentre una macchina virtuale con una sola GPU come una V100 o una A100
+possono superare tranquillamente i 3000€.
+
+Questa configurazione non garantisce le stesse performance delle controparti di fascia alta ma comunque consentono di avere a disposizione
+una potenza di calcolo discreta e un quantitativo di memoria di ben 32 GB di memoria GDDR6, che è più che sufficiente per l'addestramento di modelli
+neurali di modeste dimensioni.
+
+
+
