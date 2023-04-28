@@ -55,3 +55,4 @@
 \contentsline {chapter}{\numberline {4}Sviluppo del progetto}{36}{chapter.4}%
 \contentsline {chapter}{\numberline {5}Risultati}{37}{chapter.5}%
 \contentsline {chapter}{Elenco delle figure}{38}{chapter*.42}%
+\contentsline {chapter}{Bibliografia}{40}{chapter*.43}%
