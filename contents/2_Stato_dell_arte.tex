@@ -2,26 +2,22 @@
 \begin{comment}
 Cosa devo mettere in questa sezione??
 
-- L'obbiettivo è arrivare a parlare del modello LAMA e stylegan2, quindi effetturò una serie di passaggi per passare dai primi modelli gan generativi
-(goodfellow2014generative) a quelli più recenti come stylegan2 (karras2019analyzing), che erano i più utilizzati per generare immagini di alta qualità fino a poco tempo fa.
+- L'obbiettivo è arrivare a parlare del modello LAMA, quindi effetturò una serie di passaggi per passare dai primi modelli gan generativi
+(goodfellow2014generative), che erano i più utilizzati per generare immagini di alta qualità fino a poco tempo fa.
 Per poi passare per pix2pix per introdurre le reti generative condizionate, e quindi dopo una breve introduzione al problema dell'inpainting arrivare a parlare di LAMA.
 
 SCALETTA:
     - first gan (goodfellow2014generative)
     - DCGAN
     - WGAN
-    - StyleGAN
-    - StyleGAN2
     - pix2pix
     - LAMA
 \end{comment}
 
-In questa sezione verranno mostrati i principali modelli generativi basati su architettura GAN, che sono stati utilizzati negli ultimi anni, partendo dal 
-primo modello proposto da Goodfellow et al. \cite{goodfellow2014generative} capostipite di questa famiglia di modelli passando per le principali innovazioni
-proposte da altri autori, fino ad arrivare a modelli più recenti come StyleGAN2 \cite{karras2020analyzing} e LAMA \cite{suvorov2021resolutionrobust}.
+In questa sezione verranno mostrati i principali modelli generativi basati su architettura GAN, che sono stati utilizzati negli ultimi anni, partendo dal primo modello proposto da Goodfellow et al. \cite{goodfellow2014generative} capostipite di questa famiglia di modelli passando per alcune delle principali innovazioni proposte da altri autori, fino ad arrivare al modello LAMA \cite{suvorov2021resolutionrobust}, il quale è stato preso come base per questo progetto e riadattato per l'\textit{inpainting} condizionato. 
 
-\section{Il primo modello gan}
-Nel 2014 Ian Goodfellow et al. \cite{goodfellow2014generative} hanno proposto il primo modello generativo basato su architettura GAN (Generative Adversarial Neural Network).
+\section{Il primo modello GAN}
+Nel 2014 Ian Goodfellow et al. \cite{goodfellow2014generative} hanno proposto il primo modello generativo basato su architettura GAN (\textit{Generative Adversarial Neural Network}).
 Questa pubblicazione ha segnato un punto di svolta nella ricerca dei modelli di deep learning generativi, i quali fino ad allora erano
 basati su architetture come gli \textit{autoencoder} o le \textit{deep Boltzmann machines} (DBM) che non sono in grado di generare dati di alta qualità,
 o se arrivano a buoni risultati tipicamente hanno una distribuzione molto concentrata intorno ai dati del training set, dunque raggiungendo una scarsa generalizzazione.
@@ -43,14 +39,14 @@ I due diventeranno gradualmente sempre più bravi nel loro compito fino al punto
 in cui la distribuzione dei dati generati dal generatore sarà molto simile a quella dei dati del training set.
 Una componente importante che differenzia le GAN da altri modelli generativi è la presenza di un input random $\mathbf{z}$, che viene passato al generatore
 , questo fatto porta il generatore ad una maggiore generalizzazione in quanto questo cercherà naturalmente una 
-funzione che leghi il suo output ad un input random, dunque la sua distribuzione sarà più ampia e non strettamente concentrata intorno ai dati del training set
-come nel case dei variational autoencoder (VAE).
+funzione che leghi il suo output ad un input \textit{random}, dunque la sua distribuzione sarà più ampia e non strettamente concentrata intorno ai dati del training set
+come nel case dei \textit{variational autoencoder} (VAE).
 
 A questo punto, iniziamo ad elencare le componenti che utilizzeremo per descrivere matematicamente come funziona la procedura di addestramento 
 di questa GAN.
 
 \begin{itemize}
-    \item $\mathbf{x}$: data from the training set, $\mathbf{x \in \mathbb{R}^n}$.
+    \item $\mathbf{x}$: esempio proveniente dal training set, $\mathbf{x \in \mathbb{R}^n}$.
     \item $\mathbf{z}$: input casuale, utilizzato per determinare una mappatura nello spazio dei dati, $\mathbf{z \in \mathbb{R}^m}$.
     \item $\mathbf{y}$: uscita del discriminatore, $\mathbf{y \in [0,1]}$, esprime la probabilità che x sia reale.
     \item $\mathbf{\hat{y}}$: uscita desiderata, $\mathbf{\hat{y} \in \{0,1\}}$, può assumere solo due valori, vero o falso.
@@ -62,10 +58,10 @@ di questa GAN.
     \item $\mathbf{G(\theta_G, z)}$: Funzione generatore che mappa lo spazio random $z$ nello spazio dei dati, attraverso i parametri $\mathbf{\theta}_G$.
     definibile come una funzione $\mathbf{f: \mathbb{R}^m \rightarrow \mathbb{R}^n}$.
     \item $\mathbf{D(\theta_D, x)}$: Funzione discriminatore che mappa lo spazio dei dati in un uno spazio $\mathbf{\{0,1\}}$, attraverso i parametri $\mathbf{\theta}_D$. 
-    definibile come una funzione $\mathbf{f:} \mathbf{\mathbb{R}^n \rightarrow \{0,1\}}$. Tale spazio identifica la provenienza di un sample x come segue:
+    definibile come una funzione $\mathbf{f:} \mathbf{\mathbb{R}^n \rightarrow \{0,1\}}$. Tale spazio identifica la provenienza di un esempio x come segue:
     \begin{itemize}
-        \item se $\mathbf{D(\theta_D, x)} = 1 \rightarrow x \in \mathbf{p_{_{data}}}$.
-        \item se $\mathbf{D(\theta_D, x)} = 0 \rightarrow x \in \mathbf{G(\theta_G, z)}$.
+        \item se $\mathbf{D(\theta_D, x)} = 1 \rightarrow \mathbf{x} \in \mathbf{p_{_{data}}}$.
+        \item se $\mathbf{D(\theta_D, x)} = 0 \rightarrow \mathbf{x} \in \mathbf{G(\theta_G, z)}, z \sim p_{z}$.
     \end{itemize}
 \end{itemize}
 
@@ -77,7 +73,29 @@ di questa GAN.
     \end{figure}
 
 \subsection{La loss function}
-Questo framework utilizza come loss function la Binary Cross Entropy (BCE), utilizzata tipicamente per la classificazione \textbf{binaria}. 
+L'\textit{adversarial training} si basa su un concetto innovativo, invece di cercare di definire matematicamente una \textit{loss function} in grado
+di guidare il generatore durante l'addestramento, cerca di apprenderne una, nello specifico il discriminatore rappresenta la \textit{loss function} che viene addestrata.
+Per dare un'idea di che tipo di miglioramento ha introdotto questo approccio facciamo un esempio utilizzando una \textit{loss function} molto utilizzata 
+per addestrare modelli generativi prima dell'introduzione dei modelli GAN, la \textit{Mean Squared Error} (MSE).
+Questa \textit{loss function}, specialmente per generatori di immagini, portava a dei risultati sfocati e poco realistici, in quanto la MSE non è in grado di catturare
+la struttura dei dati, ma solo di portare il generatore verso un punto medio tra i dati del training set, che non necessariamente fa parte della distribuzione,
+tale problema è mostrato graficamente nella seguente figura (Figura: \ref{fig:mse_vs_adversarial}).\\
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{imgs/mse_vs_adversarial.png}
+        \caption{Confronto tra MSE e Adversarial training.\\
+        credits: Goodfellow \cite{goodfellow2016ganintro}}
+        \label{fig:mse_vs_adversarial}
+    \end{figure}
+
+Nella figura possiamo vedere in verde un ipotetico insieme di dati reali e in blu i dati generati dal generatore.
+Nel caso del MSE vediamo come il gradiente della loss spinge il generatore verso la zona centrale in quanto punta alla media dei dati reali, 
+anche se quella zona non fa parte della distribuzione, mentre nel caso dell'\textit{adversarial training} il gradiente punta verso i dati,
+in quanto questa loss è in grado di fare delle considerazioni locali sulla distribuzione dei dati, evitando di cadere in minimi lontani dalla distribuzione reale.\\
+
+Per addestrare il discriminatore e apprendere così una \textit{loss function} aderente ai dati, si è utilizzata come la \textit{Binary Cross Entropy} (BCE), 
+utilizzata tipicamente per la classificazione binaria, la quale risulta logicamente adeguata per valutare l'output del discriminatore.\\
 La BCE in generale è definita come segue:
 
 \begin{equation}
@@ -94,12 +112,12 @@ e $\mathbf{(1-\hat{y}) \cdot \log(1-y)}$ che si attiva quando il risultato attes
         \subfloat[Binary Cross Entropy ($\hat{y} = 0$)]{
             \label{fig:BCE_0}
             \centering
-            \includegraphics[width=0.4\textwidth]{imgs/graphs/bce_0.png}
+            \includegraphics[width=0.425\textwidth]{imgs/graphs/bce_0.png}
         }  &
         \subfloat[Binary Cross Entropy ($\hat{y} = 1$)]{
             \label{fig:BCE_1}
             \centering
-            \includegraphics[width=0.4\textwidth]{imgs/graphs/bce_1.png}
+            \includegraphics[width=0.425\textwidth]{imgs/graphs/bce_1.png}
         }  \\
         \vspace{0.25cm}
         \subfloat{
@@ -157,16 +175,16 @@ Altrimenti la saturazione comporta un azzeramento del gradiente e di conseguenza
 \subsection{La convergenza del generatore}
 Per visualizzare meglio le dinamiche dell'addestramento che portano alla convergenza del generatore alla distribuzione del training set 
 possiamo utilizzare un grafico, ipotizzando di visualizzare i dati del training set su una sola dimensione,
-e di visualizzare sull'asse y la densità di probabilità dei dati e il valore dell'uscita del discriminatore, al variare di $\mathbf{x}$, ossia
+e di visualizzare sull'asse $y$ la densità di probabilità dei dati e il valore dell'uscita del discriminatore, al variare di $\mathbf{x}$, ossia
 della variabile di input del discriminatore, in questo caso unidimensionale ma in generale potrebbe rappresentare immagini, audio video e così via.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{imgs/Gan training convergence.png}
     \caption{Visualizzazione schematica della convergenza della distribuzione dei dati generati verso quelli reali, e dell'uscita del discriminatore al variare di $\mathbf{x}$.\\
-    Si noti che la line nera tratteggiata rappresenta la distribuzione dei dati reali $p_{data}$, mentre la linea verde continua rappresenta la distribuzione dei dati generati $p_{model}$ e
+    Si noti che la linea nera tratteggiata rappresenta la distribuzione dei dati reali $p_{data}$, mentre la linea verde continua rappresenta la distribuzione dei dati generati $p_{model}$ e
     in fine la linea blu tratteggiata rappresenta l'uscita del discriminatore $D(x)$, al variare di $\mathbf{x}$. 
-    I 2 assi in fondo sono rispettivamente, l'asse z i valori casuali di input del generatore con distribuzione fissa, e l'asse x, 
+    I 2 assi in fondo sono rispettivamente, l'asse $z$ i valori casuali di input del generatore con distribuzione fissa, e l'asse $x$, 
     i valori di input del discriminatore, appartenenti alla distribuzione $\mathbf{p_{data}}$ o $\mathbf{p_{g}}$.\\
     credits: Goodfellow et al. \cite{goodfellow2014generative}}
     \label{fig:gan_training_convergence}
@@ -191,6 +209,7 @@ allora considerando $\mathbf{D^*}$ il discriminatore ottimo per un dato $\mathbf
 \end{equation}
 
 \subsection{Il gradient vanishing}
+\label{subsec:gradient_vanishing}
 Il gradient vanishing è un problema che si verifica nel momento in cui il discriminatore riesce a distinguere con troppa facilità i dati reali da quelli generati,
 consideriamo infatti che questa è caratterizzata da un singolo elemento dotato di funzione di trasferimento sigmoide, la quale nel
 momento in cui restituisce un valore troppo vicino a 0 o 1, ha il gradiente tendente a zero, e di conseguenza dal momento che l'addestramento 
@@ -243,6 +262,9 @@ alcuni esempi di dati provenienti dal dataset di addestramento, mentre sulla sin
     \label{fig:first_gan_results}
 \end{figure}
 
+\newpage
+
+
 %###############################################################################################################################
 %###############################################################################################################################
 % DCGAN
@@ -276,7 +298,7 @@ Di seguito vediamo una delle architetture utilizzate in questo articolo per il g
     \end{figure}
 
 \subsection{L'algebra vettoriale nello spazio latente Z}
-Un'altra proprietà interessante messa in luce da questo articolo sui modelli GAN è il fatto che durante l'addestramento, benche l'input 
+Un'altra proprietà interessante messa in luce da questo articolo sui modelli GAN è il fatto che durante l'addestramento, benché l'input 
 $\mathbf{z} \sim \mathbf{p_{z}}$ sia un vettore casuale proveniente da una distribuzione tipicamente gaussiana, il generatore
 mostra delle proprietà di auto organizzazione, associando arbitrariamente diverse zone dello spazio latente a diverse caratteristiche 
 appartenenti alla distribuzione dei dati reali.
@@ -304,16 +326,206 @@ non linearità, per cui in generale è difficile effettuare operazioni di questo
     \end{figure}
 
 \section{Wasserstein GAN}
-TODO
+Uno dei problemi più seri relativi all'addestramento di un modello neurale attraverso l'\textit{adversarial training},
+è la dissolvenza del gradiente durante il training, che porta ad un situazione di stallo in cui il generatore non è più in grado di apprendere.
+Tale condizione viene raggiunta nel momento in cui il discriminatore diventa troppo efficacie nel distinguere gli esempi appartenenti al dataset reale
+da quelli generati dal generatore, in quel caso come già visto precedentemente nella sezione \ref{subsec:gradient_vanishing}, il gradiente dell'errore
+si annulla a causa della saturazione della funzione di attivazione dell'uscita del discriminatore.
+Vediamo di seguito un esempio che mette in luce questo problema ipotizzando di avere 2 distribuzioni di dati unidimensionali,
+una reale $P_{data}$ e una generata dal generatore $P_{G}$, tali distribuzioni sono affiancate dall'uscita del discriminatore $D(x)$ al variare di $x$.
 
-\section{Stylegan}
-TODO
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{imgs/wgan_grphs/wgan_graph_1.png}
+        \caption{Esempio di \textit{gradient vanishing}, causato da un discriminatore
+        addestrato fino all'ottimo per un generatore non ottimo.}
+        \label{fig:WGAN_gradient_vanishing}
+    \end{figure}
 
-\section{Stylegan2}
-TODO
+Una soluzione a questo problema è stata proposta da Martin Arjovsky et al. \cite{arjovsky2017wasserstein} nel 2017, i quali hanno introdotto una nuova tipologia
+di loss function che permette di evitare il problema del \textit{gradient vanishing} e di ottenere una migliore stabilità del training,
+questa rivisitazione del modello GAN è stata chiamata \textit{Wasserstein GAN} (WGAN).
+Per comprendere l'innovazione introdotta da questo lavoro dobbiamo dare uno sguardo alla funzione divergenza alla base della funzione di loss del precedente
+modello GAN, ovvero la \textit{Jensen-Shannon divergence} (JSD), che è definita come segue:
+
+\begin{equation}
+    \label{eq:JSD}
+    JSD(P_{data},P_{G}) = \frac{1}{2}KL(P_{data}||\frac{P_{data}+P_{G}}{2}) + \frac{1}{2}KL(P_{G}||\frac{P_{data}+P_{G}}{2})
+\end{equation}
+
+Questa metrica permette di misurare la distanza tra due distribuzioni di probabilità, e viene utilizzata in quanto presenta due importanti proprietà,
+ovvero è simmetrica ( $JSD(P_{data},P_{G}) = JSD(P_{G},P_{data})$ ) ed è sempre definita.
+La $JSD$ è stata introdotta per risolvere le problematiche della $KL$ \textit{Kullback-Leibler divergence}, che non è simmetrica, ovvero ($KL(P_{data}||P_{G}) \neq KL(P_{G}||P_{data})$),
+e non è sempre definita. In ogni caso quest'ultima è la formulazione matematica alla base della comunemente utilizzata \textit{cross-entropy loss}. 
+vediamo di seguito la definizione della $KL$:
+
+\begin{equation}
+    KL(P_{data}||P_{G}) = \sum_{x}P_{data}(x)log\frac{P_{data}(x)}{P_{G}(x)}
+\end{equation}
+
+Nonostante la $JSD$ abbia dimostrato la sua efficacia con la precedente formulazione del modello GAN, essa risulta poco sensibile alla distanza 
+tra due distribuzioni di probabilità, in particolare quando queste sono molto diverse tra loro, come è possibile vedere graficamente in figura \ref{fig:WGAN_gradient_vanishing}.
+
+\subsection{Earth-Mover distance}
+Per risolvere questo problema gli autori hanno formulato una metrica alternativa, chiamata \textit{Earth-Mover distance} (EMD),
+che concettualmente misura quanto deve essere spostata una distribuzione per farla coincidere con l'altra.
+Concettualmente questa metrica è molto più sensibile di tutte le altre divergenze come la $KL$ e la $JSD$ e altre, in quanto tiene conto della distanza
+in maniera lineare. Vediamo di seguito la definizione matematica della $EMD$ per la quale utilizzeremo la notazione $W(P_{data},P_{G})$:
+
+\begin{equation}
+    W(P_{data},P_{G}) = \inf_{\gamma \in \prod(P_{data},P_{G})}\mathbb{E}_{(x,y)\sim \gamma}[||x-y||]
+\end{equation}
+
+Analizzando le componenti di questa formula possiamo notare che il termine $\prod(P_{data},P_{G})$ rappresenta l'insieme di tutte le possibili distribuzioni
+di probabilità $\gamma$ che hanno come marginali le distribuzioni $P_{data}$ e $P_{G}$, ovvero $\gamma$ è una distribuzione di probabilità congiunta.
+Per tale ragione il fatto che $W(P_{data},P_{G})$ sia definita come l'estremo inferiore di tutte le possibili distribuzioni congiunte $\gamma$ 
+che minimizzano la distanza tra le due distribuzioni $P_{data}$ e $P_{G}$, può essere interpretato come
+il percorso minimo che deve essere fatto da una distribuzione per trasformarsi nell'altra.
+
+Il problema di questa formulazione è che non è possibile calcolare direttamente la $EMD$, in quanto non è possibile calcolare la distribuzione 
+congiunta $\gamma$ che minimizza la distanza, per tale ragione gli autori hanno proposto una formulazione alternativa che permette di calcolare 
+la $EMD$ in maniera approssimata, questa formulazione è la seguente:
+
+\begin{equation}
+    \label{eq:Wasserstein_approx}
+    W(P_{data},P_{G}) = \sup_{||f||_{L} \leq 1}\mathbb{E}_{x\sim P_{data}}[f(x)] - \mathbb{E}_{x\sim P_{G}}[f(x)]
+\end{equation}
+
+L'approssimazione proposta consiste nel calcolare la differenza tra il valore atteso di una funzione $f$ calcolata sui dati reali e il valore atteso
+della stessa funzione calcolata sui dati generati dal generatore, dove $f$ è una funzione arbitraria che rispetta la \textit{Lipschitz continuity} con $K=1$, ovvero:
+
+\begin{equation}
+    ||f||_{L \leq K} \implies \frac{|f(x)-f(y)|}{|x-y|} \leq K, \forall x \neq y
+\end{equation}
+
+In altre parole una funzione che rispetta la \textit{K-Lipschitz continuity} è una funzione che non può avere pendenza (o la derivata) maggiore di $K$ o minore di $-K$,
+vediamo di seguito nella figura \ref{fig:lipschitz_continuity} e \ref{fig:lipschitz_continuity2} due funzioni, una che rispetta la \textit{1-Lipschitz continuity} e una no:
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imgs/graphs/sin_1lipschitz.png}
+        \caption{In questa immagine è possibile vedere la derivata della funzione seno, nei punti $\pi/4$, $\pi/2$ e $\pi$,
+        ed è possibile vedere come tale funzione rispetta la \textit{1-Lipschitz continuity}, essendo la sua derivata 
+        all'interno dell'intervallo ammesso in ogni punto.}
+        \label{fig:lipschitz_continuity}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imgs/graphs/x2_1lipschitz.png}
+        \caption{In questa immagine è possibile vedere la derivata della funzione $x^2$, nei punti 0.2, 0.4 e 0.8,
+        in questo caso la funzione non rispetta la \textit{1-Lipschitz continuity}, in quanto la sua derivata cresce rapidamente 
+        oltre il limite consentito dopo x=0.4.}
+        \label{fig:lipschitz_continuity2}
+    \end{figure}
+
+La funzione $f$ considerata nella equazione \ref{eq:Wasserstein_approx} è detta \textit{critico}, e prende il posto del discriminatore.
+Concettualmente il \textit{critico} e il discriminatore sono uguali eccetto che per l'uscita, infatti il \textit{critico} non ha una funzione di trasferimento
+che vincola l'uscita tra 0 e 1, ma può assumere qualsiasi valore reale.
+Questa peculiarità gli consente di esprimere la distanza tra due distribuzioni in maniera molto più precisa rispetto al discriminatore,
+che a causa dell'equazione \ref{eq:JSD} alla base del suo funzionamento non è in grado di esprimere la distanza tra due distribuzioni in maniera efficacie.
+Vediamo di seguito l'immagine \ref{fig:critic} che mostra come il critico sia in grado di mappare molto più efficacemente la distanza tra due distribuzioni,
+restituendo dei gradienti utili per il generatore anche quando il critico è addestrato all'ottimo, per il dato generatore.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imgs/wgan_grphs/wgan_graph_2.png}
+        \caption{In questa immagine è possibile vedere come il critico $C(x)$ sia in grado di mappare efficacemente la distanza tra due distribuzioni $P_{data}$ e $P_{G}$,
+        restituendo dei gradienti utili per il generatore anche quando il critico è addestrato all'ottimo per il dato generatore.}
+        \label{fig:critic}
+    \end{figure}
+
+Per quanto riguarda la \textit{1-Lipschitz continuity}, fare in modo che un modello neurale la rispetti non è un problema banale, nel quale gli stessi autori
+hanno trovato delle difficoltà, proponendo come soluzione il \textit{weight clipping}, ovvero limitare i pesi del critico ad un intervallo di valori,
+nello specifico nella paper originale è stato proposto l'intervallo $[-0.01,0.01]$.
+Questa soluzione però può portare a problematiche di \textit{vanishing gradient}, un'altra volta, gli autori in ogni caso hanno lasciato aperta
+la questione incoraggiando la ricerca di soluzioni alternative, che potessero risolvere il problema in maniera più efficacie e senza effetti collaterali.
+Le soluzioni che sono state proposte successivamente per risolvere il problema della \textit{1-Lipschitz continuity} sono state principalmente due:
+\begin{itemize}
+    \item \textbf{Gradient Penalty}: Questa soluzione consiste nel penalizzare il gradiente del critico
+    quando questo assume valori che non rispettano la \textit{1-Lipschitz continuity}.
+    \item \textbf{Spectral Normalization}: Questa soluzione consiste nel normalizzare gli autovalori della matrice
+    dei pesi del critico.
+\end{itemize}
+
+\subsection{Alcuni risultati}
+Vediamo di seguito alcuni risultati, che evidenziano l'andamento dell'addestramento di due modelli, una DCGAN e una MLP a 4 strati, con delle immagini
+generate durante l'addestramento, e il valore della \textit{loss function}, nell'immagine \ref{fig:wgan_graph_1}so possiamo vedere la 
+\textit{Wasserstein distance} e nell'immagine \ref{fig:wgan_graph_2} il caso di addestramento con la \textit{JSD}.
+Tale esempio mette in risalto il fatto che la loss proposta dagli autori dimostra una notevole correlazione con la qualità delle immagini generate,
+al contrario l'approccio basato su \textit{Jensen-Shannon divergence} non è in grado di fornire un indicatore di qualità delle immagini generate,
+in quanto la metrica rimane stabile durante l'addestramento o addirittura cresce mediamente, con il miglioramento della qualità delle immagini generate.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{imgs/wgan_wtrain.png}
+        \caption{Andamento del training di una DCGAN e di una MLP addestrate utilizzando la \textit{Wasserstein distance}. 
+        credits: Martin Arjovsky et al. \cite{arjovsky2017wasserstein}}
+        \label{fig:wgan_graph_1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{imgs/wgan_nwtrain.png}
+        \caption{Andamento del training di una DCGAN e di una MLP addestrate utilizzando la \textit{Jensen-Shannon divergence}. 
+        credits: Martin Arjovsky et al. \cite{arjovsky2017wasserstein}}
+        \label{fig:wgan_graph_2}
+    \end{figure}
 
 \section{Pix2Pix}
-TODO
+Un'interessante lavoro presentato poco tempo dopo WGAN è stato Pix2Pix da parte di Phillip Isola et al. \cite{isola2018imagetoimage} nel 2018, i quali hanno proposto 
+un'interessante architettura per la generazione di immagini a partire da un'immagine di input.
+Questa pubblicazione non è stata la prima a presentare un modello che effettuasse la conversione da un'immagine ad un'altra, ma è stata la prima a 
+proporne una variante che sfruttasse l'adversarial training e potesse essere applicata a diversi problemi senza necessità di dover riprogettare
+l'architettura del modello o la \textit{loss function}.
+
+Molte altre pubblicazioni infatti prima di questa hanno ottenuto risultati molto interessanti per quanto riguarda task che effettuavano la conversione
+da un'immagine ad un'altra, come ad esempio: la \textit{colorization}, il \textit{super-resolution}, lo \textit{style transfer}, il \textit{denoising},
+il \textit{future frame prediction} e molti altri, tutti però hanno in comune il fatto che sono architetture o framework specializzati, realizzati appositamente
+per quel task, richiedendo competenze specifiche che hanno richiesto un accurato studio del problema e della soluzione.
+Pix2Pix invece ha proposto un'architettura che potesse essere applicata a diversi task, senza necessità di dover riprogettare l'architettura del modello
+o la \textit{loss function}, ma semplicemente cambiando il dataset di addestramento, in quanto la \textit{loss function} viene appresa in maniera automatica
+dal discriminatore durante l'addestramento.
+
+\subsection{La loss function}
+La \textit{loss function} proposta da Pix2Pix è una variante della \textit{loss function} proposta nella pubblicazione originale della GAN \cite{goodfellow2014generative},
+infatti nonostante questa paper risulta essere pubblicata quasi un'anno dopo la pubblicazione di WGAN, il metodo non si era ancora imposto come standard per
+l'addestramento di modelli GAN.
+Sulla base di precedenti lavori infatti in Pix2Pix è stato utilizzato un discriminatore condizionato, ovvero un discriminatore che riceve in input, oltre
+all'uscita del generatore o l'immagine proveniente dalla distribuzione obbiettivo, anche l'immagine di input, in modo tale che il discriminatore possa
+valutare la qualità dell'immagine generata anche in base a quest'ultima.
+Di seguito vediamo l'equazione \ref{eq:pix2pix_loss} che rappresenta la \textit{loss function} proposta per Pix2Pix detta \textit{Conditional Adversarial Loss}:
+\begin{equation}
+    \label{eq:pix2pix_loss}
+    \mathcal{L}_{cGAN}(G,D) = \mathbb{E}_{x \sim P_X,y \sim P_Y}[\log D(x,y)] + \mathbb{E}_{x \sim P_X,z \sim P_Z}[\log(1-D(x,G(x,z)))]
+\end{equation}
+
+Si noti che in questa equazione rispetto al caso classico precedentemente mostrato vanno identificate due componenti distinte:
+\begin{itemize}
+    \item $\mathbf{x}$ è l'immagine di input
+    \item $\mathbf{P_X}$ è la distribuzione delle immagini di input
+    \item $\mathbf{y}$  è l'immagine di output
+    \item $\mathbf{P_Y}$ è la distribuzione delle immagini di output
+\end{itemize}
+
+Di seguito è mostrato un esempio di training di Pix2Pix per il task \textit{edges to photo}, il quale propone una rappresentazione grafica
+dell'equazione appena mostrata:
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imgs/pix2pix_train.png}
+        \caption{In questa immagine è possibile vedere un esempio di training di Pix2Pix per il task \textit{edges to photo},
+        In tale configurazione il discriminatore apprende come discernere tra coppie di immagini e schizzi, e si può vedere come diversamente
+        dal caso classico sia il generatore che il discriminatore ricevono in ingresso l'immagine di riferimento (lo schizzo)\\
+        credits: Phillip Isola et al. \cite{isola2018imagetoimage}}.
+        \label{fig:pix2pix}
+    \end{figure}
+
+
+\subsection{L'architettura}
+L'architettura proposta per Pix2Pix utilizza dei blocchi convoluzionali ripresi dalla precedentemente discussa DCGAN \cite{radford2016unsupervised},
+composti da tre componenti concatenate \textit{Convolution-BatchNorm-Relu} per ogni layer, sia per il generatore che per il discriminatore.
+Per il generatore, nello specifico, è stata ripresa la struttura di U-Net, la quale è stata utilizzata con successo per il task di \textit{image segmentation}
+da parte di Olaf Ronneberger et al. \cite{ronneberger2015unet} nel 2015.
 
 \section{LAMA}
 TODO

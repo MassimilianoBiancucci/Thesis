@@ -33,10 +33,24 @@ Golnaz Ghiasi, Yin Cui, Aravind Srinivas, Rui Qian, Tsung-Yi Lin, Ekin~D.
 \newblock Simple copy-paste is a strong data augmentation method for instance
   segmentation, 2021.
 
+\bibitem{goodfellow2016ganintro}
+Ian~J. Goodfellow.
+\newblock Introduction to generative adversarial networks, 2016.
+
 \bibitem{goodfellow2014generative}
 Ian~J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David
   Warde-Farley, Sherjil Ozair, Aaron Courville, and Yoshua Bengio.
 \newblock Generative adversarial networks, 2014.
+
+\bibitem{ieee2020dlqualitycontrol}
+Anatoli Gorchet.
+\newblock Deep learning has reinvented quality control in manufacturing—but
+  it hasn t gone far enough, 2020.
+
+\bibitem{havaei2015brain}
+Mohammad Havaei, Axel Davy, David Warde-Farley, Antoine Biard, Aaron Courville,
+  Yoshua Bengio, Chris Pal, Pierre-Marc Jodoin, and Hugo Larochelle.
+\newblock Brain tumor segmentation with deep neural networks, 2015.
 
 \bibitem{heusel2018gans}
 Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp
@@ -59,6 +73,11 @@ Y.~LeCun, B.~Boser, J.~S. Denker, D.~Henderson, R.~E. Howard, W.~Hubbard, and
   L.~D. Jackel.
 \newblock Backpropagation applied to handwritten zip code recognition, 1989.
 
+\bibitem{lei2020deep}
+Yang Lei, Yabo Fu, Tonghe Wang, Richard L.~J. Qiu, Walter~J. Curran, Tian Liu,
+  and Xiaofeng Yang.
+\newblock Deep learning in multi-organ segmentation, 2020.
+
 \bibitem{mescheder2018training}
 Lars Mescheder, Andreas Geiger, and Sebastian Nowozin.
 \newblock Which training methods for gans do actually converge?, 2018.
@@ -67,10 +86,20 @@ Lars Mescheder, Andreas Geiger, and Sebastian Nowozin.
 Luke Metz, Ben Poole, David Pfau, and Jascha Sohl-Dickstein.
 \newblock Unrolled generative adversarial networks, 2017.
 
+\bibitem{minaee2020image}
+Shervin Minaee, Yuri Boykov, Fatih Porikli, Antonio Plaza, Nasser Kehtarnavaz,
+  and Demetri Terzopoulos.
+\newblock Image segmentation using deep learning: A survey, 2020.
+
 \bibitem{radford2016unsupervised}
 Alec Radford, Luke Metz, and Soumith Chintala.
 \newblock Unsupervised representation learning with deep convolutional
   generative adversarial networks, 2016.
+
+\bibitem{ronneberger2015unet}
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+\newblock U-net: Convolutional networks for biomedical image segmentation,
+  2015.
 
 \bibitem{salimans2016improved}
 Tim Salimans, Ian Goodfellow, Wojciech Zaremba, Vicki Cheung, Alec Radford, and
@@ -92,9 +121,19 @@ Roman Suvorov, Elizaveta Logacheva, Anton Mashikhin, Anastasia Remizova,
 A.~Waibel, T.~Hanazawa, G.~Hinton, K.~Shikano, and K.J. Lang.
 \newblock Phoneme recognition using time-delay neural networks, 1989.
 
+\bibitem{wong2021automatic}
+Vivian Wen~Hui Wong, Max Ferguson, Kincho~H. Law, Yung-Tsun~Tina Lee, and Paul
+  Witherell.
+\newblock Automatic volumetric segmentation of additive manufacturing defects
+  with 3d u-net, 2021.
+
 \bibitem{zhang2018unreasonable}
 Richard Zhang, Phillip Isola, Alexei~A. Efros, Eli Shechtman, and Oliver Wang.
 \newblock The unreasonable effectiveness of deep features as a perceptual
   metric, 2018.
+
+\bibitem{zhu2021deep}
+Lili Zhu, Petros Spachos, Erica Pensini, and Konstantinos Plataniotis.
+\newblock Deep learning and machine vision for food processing: A survey, 2021.
 
 \end{thebibliography}

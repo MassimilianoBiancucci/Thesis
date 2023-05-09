@@ -39,16 +39,15 @@ Sottosezioni di introduzione:
 \subsection{Modelli neurali per la segmentazione nel controllo qualità\ok}
 
 Oggi le reti neurali trovano un vasto impiego in moltissimi campi, dall'industria alla medicina, fino alla vita di tutti i giorni.
-Il grande vantaggio che ci portano è la capacità di apprendere da un set di dati, e di generalizzare su di uno nuovo,
+Il grande vantaggio che ci portano è la capacità di apprendere da un insieme di dati, e di generalizzare su di uno nuovo,
 permettendoci di risolvere problemi che altrimenti sarebbero matematicamente troppo complessi da risolvere con un algoritmo.
-Ci sono vari esempi in cui i modelli neurali raggiungono risultati superiori a quelli ottenuti dall'uomo, in determinati task, 
+Ci sono vari esempi in cui i modelli neurali raggiungono risultati superiori a quelli ottenuti dall'uomo, in determinati task,
 o almeno se non lo superano in termini di accuratezza, lo fanno in termini di velocità, scalabilità, costi e prestazioni.
 
-Un task in cui le reti neurali eccellono è la segmentazione di immagini, ovvero la classificazione pixel per pixel di un'immagine,
-questo tipo di task è utilizzato ad esempio nel campo medico per la segmentazione di organi, tumori, o in campo industriale per la segmentazione di difetti,
-per la verifica automatica della qualità di un prodotto o di un semilavorato.
+Un task in cui le reti neurali eccellono è la segmentazione di immagini, ovvero la classificazione pixel per pixel di un'immagine \cite{minaee2020image},
+questo tipo di task è utilizzato ad esempio nel campo medico per la segmentazione di organi \cite{lei2020deep}, tumori \cite{havaei2015brain}, o in campo industriale per la segmentazione di difetti \cite{wong2021automatic}, per la verifica automatica della qualità di un prodotto o di un semilavorato.
 
-Nel caso specifico, per la segmentazione dei difetti l'utilizzo di questo tipo di modelli è molto diffuso, in quanto risolve un grave problema 
+Nel caso specifico, per la segmentazione dei difetti l'utilizzo di questo tipo di modelli è molto diffuso \cite{ieee2020dlqualitycontrol, zhu2021deep}, in quanto risolve un grave problema 
 che affligge i reparti controllo qualità delle aziende, ovvero il calo della concentrazione al quale un operatore è soggetto dopo un certo numero di ore di lavoro.
 Infatti una persona per quanto allenata e preparata, dopo un certo numero di ore di lavoro, è soggetta a stanchezza e con essa
 la sua accuratezza nel riconoscere un difetto diminuisce, mentre un modello neurale adeguatamente addestrato, in condizioni ambientali stabili,
@@ -60,7 +59,7 @@ spese di trasporto aggiuntive per il ritorno o la sostituzione del prodotto, o a
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{imgs/segm_example_1_crop.png}
-    \caption{An example of segmented defects from the "Severstal steel defect dataset".
+    \caption{Un esempio preso dal \textbf{Severstal steel defect dataset} di difetti segmentati.
     credits: Neven Robby and Goedemé Toon, 2021, A Multi-Branch U-Net for Steel Surface Defect Type and Severity Segmentation.
     https://www.mdpi.com/2075-4701/11/6/870}
     \label{fig:segm_example_1}
@@ -74,13 +73,13 @@ spese di trasporto aggiuntive per il ritorno o la sostituzione del prodotto, o a
 
 La problematica di avere un modello con elevata accuratezza per task di segmentazione è relativa alla quantità e qualità dei dati necessari,
 i quali raramente sono disponibili opensource o per l'acquisto, rendendo necessaria la creazione di un dataset apposito.
-Molti task richiedono un grande quantità di dati per essere generalizzati correttamente, e ogni singolo esempio richiede molta concentrazione
-da parte dell'annotatore in quanto non sempre i difetti sono ben visibili. 
-
-In generale la creazione di un dataset è un'operazione molto complessa, non solo dal punto di vista dell'annotatore, ma in oltre da un punto di vista
-organizzativo e logistico. Infatti ci sono diversi step che si devono seguire:
+Molti task richiedono una grande quantità di dati per essere generalizzati correttamente, e ogni singolo esempio può richiede molta concentrazione
+da parte dell'annotatore in quanto non sempre i difetti sono ben visibili, ciò rende questa operazione soggetta ad errori. 
+Per tali ragioni la realizzazione di un dataset può essere un'operazione molto complessa da gestire e portare a termine, ottenendo un
+risultato di qualità.
+Infatti vi sono diversi step che si devono seguire:
 \begin{itemize}
-    \item \textbf{Acquisizione delle immagini}: Le immagini devono essere acquisite in modo da avere una buona qualità, o almeno sufficiente ai fini dell'apprendimento.
+    \item \textbf{Acquisizione delle immagini}: Le immagini devono essere acquisite in modo da avere una buona qualità, in termini di risoluzione, messa a fuoco, illuminazione ecc.
         Se possibile in oltre dovrebbero avere una adeguata uniformità di condizioni (luce, distanza, ...) per garantire le migliori prestazioni da parte del modello,
         ovviamente solo se poi è possibile garantire le stesse condizioni anche nell'utilizzo finale del modello, altrimenti una grande varietà delle condizioni
         è preferibile.
@@ -111,40 +110,40 @@ TODO: aggiungi paper di tecnica copy paste
 \end{comment}
 
 La creazione di un dataset come precedentemente illustrato è un processo complesso e dispendioso, che richiede molte risorse umane e finanziarie,
-dunque l'intento in questo progetto è quello di proporre un approccio alternativo che sia in grado di ridurre per quanto possibile la durata e il costo
+dunque l'intento di questo lavoro di tesi è di proporre un approccio alternativo che sia in grado di ridurre per quanto possibile la durata e il costo
 di questo lavoro.
 Partendo dal presupposto che almeno in parte il dataset deve essere realizzato manualmente, la proposta è quella di realizzare una certa 
 quantità di campioni manualmente seguendo lo schema già visto, per poi addestrare un modello neurale per generare ulteriori esempi sintetici,
 raggiungendo un numero di esempi totali che permetta di addestrare un modello con buone prestazioni, ad un costo ridotto rispetto al caso in cui
 tutti i dati fossero stati realizzati manualmente.
 
-Per la definizione della pipeline di generazione dei dati, si è partiti dal concetto di \textit{generative adversarial network} (GAN), che è una tecnica di machine learning
+Per la definizione della pipeline di generazione dei dati, si è partiti dal concetto di \textit{generative adversarial network} (GAN), che è una tecnica di \textit{machine learning}
 che permette di generare dati sintetici utilizzando come base dati reali, tali dati sintetici possono essere utilizzati per addestrare un modello neurale.
-Tale tecnica ha trovato riscontri positivi in molte ricerche pubblicate in ambito di computer vision \cite{ganbasedaugexample} , in cui i modelli GAN vengono
+Tale tecnica ha trovato riscontri positivi in molte ricerche pubblicate in ambito di \textit{computer vision} \cite{ganbasedaugexample}, in cui i modelli GAN vengono
 utilizzati per espandere il numero di immagini presenti in un dataset e migliorare la generalizzazione di un modello di classificazione.
-Ovviamente gli aumenti di accuratezza, precisione e recall dipendono dal numero di esempi presenti nel dataset e dalla complessità del problema.
+Ovviamente gli aumenti di accuratezza, precisione e \textit{recall} dipendono dal numero di esempi presenti nel dataset e dalla complessità del problema.
 Tale tecnica potrebbe essere considerata una versione più sofisticata di data augmentation, in quanto permette di generare dati sintetici molto più complessi
 e realistici di quelli che si possono ottenere con semplici trasformazioni geometriche o matematiche.
 Per generare dati utilizzabili per addestrare un modello di segmentazione però è necessario risolvere un'ulteriore problema,
 infatti un normale modello GAN, fedele alla sua definizione originale \cite{goodfellow2014generative} , è in grado di generare intere immagini,
 che possono essere utilizzate per addestrare un modello di classificazione, ma non sono utilizzabili per addestrare un modello di segmentazione,
 in quanto per l'addestramento di tale architettura è necessario che gli oggetti di interesse abbiano una maschera che specifichi la loro posizione.
-Ci sono vari approcci di augmentation per la segmentazione che risultano molto più semplici di addestrare un modello GAN, come il caso del metodo "copy paste" \cite{ghiasi2021simple},
-il quale propone come augmentation per i dataset di segmentazione la copia di un oggetto presente in un'immagine, ritagliandolo attraverso la sua maschera,
+Ci sono vari approcci di \textit{augmentation} per la segmentazione che risultano molto più semplici di addestrare un modello GAN, come il caso del metodo "\textit{copy paste}" \cite{ghiasi2021simple},
+il quale propone come \textit{augmentation} per i dataset di segmentazione la copia di un oggetto presente in un'immagine, ritagliandolo attraverso la sua maschera,
 e incollandolo su di un nuovo background potenzialmente in una nuova posizione, tale metodo risulta estremamente efficacie per oggetti indipendenti dal contesto con contorni ben definiti,
 ma risulta inutile nel momento in cui l'oggetto che vogliamo generare ha una interdipendenza forte con l'area immediatamente circostante,
 pensiamo ad esempio un difetto su di un'auto, un graffio o una bozza, non potrà essere copiato da un'auto e incollato su di un'altra in quanto subentreranno una serie di
-di artifacts, come la variazione netta di colore tra l'auto e il difetto, rischiando di introdurre un bias nel modello, il quale finirebbe per cercare la variazione netta di colore
-e non più le features del difetto. Per risolvere questo problema con questa particolare categoria di dataset ci sono 2 principali strade illustrate di seguito.
+di \textit{artifacts}, come la variazione netta di colore tra l'auto e il difetto, rischiando di introdurre un \textit{bias} nel modello, il quale finirebbe per cercare la variazione netta di colore
+e non più le \textit{features} del difetto. Per risolvere questo problema con questa particolare categoria di dataset ci sono 2 principali strade illustrate di seguito.
 
 \subsubsection{Generatore con architettura a solo decoder}
 
-    Questo approccio prevede un'architettura a solo decoder, ovvero un modello che prende in ingresso un tenore di determinate dimensioni e
-    che attraverso una serie di operazioni di upsampling o dilated convolution ad esempio, effettua un'espansione di tale tensore
+    Questo approccio prevede un'architettura a solo \textit{decoder}, ovvero un modello che prende in ingresso un tenore di determinate dimensioni e
+    che attraverso una serie di operazioni di \textit{upsampling} o \textit{dilated convolution} ad esempio, effettua un'espansione di tale tensore
     portandolo alle dimensioni finali. 
-    Generalmente si mette in ingresso un vettore casuale di dimensione definita, ottenendo in uscita un tensore delle dimensioni di un'immagine con i canali rgb 
+    Generalmente si mette in ingresso un vettore casuale di dimensione definita, ottenendo in uscita un tensore delle dimensioni di un'immagine con i canali RGB 
     ed eventualmente altri n canali per la maschere che identificano le classi desiderate.
-    Un'esempio di tale architettura è illustrata di seguito.
+    Un esempio di tale architettura è illustrata di seguito (Figura: \ref{fig:decoder_only_architecture}).
 
     \begin{figure}[H]
         \centering
@@ -166,10 +165,11 @@ e non più le features del difetto. Per risolvere questo problema con questa par
 
     Quest'ultimo è l'approccio scelto in questo progetto, in quanto permette di avere un maggiore controllo sull'output del modello,
     anche se prevede una training pipeline più complessa da gestire.
-    Al contrario del caso precedente Il modello con struttura encoder-decoder permette di passare in ingresso un'immagine base e una o più maschere
-    che identificano le aree dove determinati oggetti devono essere generati, trasformando il task di generazione puro in un task di inpainting.
+    Al contrario del caso precedente Il modello con struttura \textit{encoder-decoder} (Figura: \ref{fig:encoder_decoder_architecture}) permette di passare in ingresso 
+    un'immagine base e una o più maschere che identificano le aree dove determinati oggetti devono essere generati, trasformando il task di generazione puro in 
+    un task di \textit{inpainting}.
     I vantaggi principali di questa tecnica stanno nel fatto che il modello non deve più apprendere la distribuzione degli oggetti nello spazio dell'immagine,
-    nè deve apprendere in maniera troppo approfondita i background, ma si può focalizzare maggiormente sulla struttura degli oggetti da generare.
+    ne deve apprendere in maniera troppo approfondita i background, ma si può focalizzare maggiormente sulla struttura degli oggetti da generare.
     
     \begin{figure}[H]
         \centering
@@ -242,7 +242,7 @@ dall'assone e dalle sinapsi.
     \end{figure}
 Il neurone riceve degli impulsi da altri neuroni o da altri apparati sensoriali attraverso i dendriti, che sono delle strutture ramificate
 che si estendono dalla cellula, questi impulsi vengono accumulati all'interno del soma, e se la somma supera un certo valore di soglia
-si innesca la propagazione di un'impulso, che viene trasmesso attraverso l'assone verso altri neuroni o verso altri organi.
+si innesca la propagazione di un impulso, che viene trasmesso attraverso l'assone verso altri neuroni o verso altri organi.
 L'assone è una struttura che si estende dalla cellula, a seconda della tipologia di neurone può estendersi da pochi micrometri fino anche ad un metro,
 e presenta all'estremità opposta del soma le sinapsi, le quali consentono la propagazione dell'impulso dall'assone ad altri neuroni.
 La struttura dell'assone è rivestita dalla guaina mielinica che ne facilita la conduzione degli impulsi, maggiore è lo spessore della guaina
@@ -539,9 +539,9 @@ Di seguito il relativo teorema:
 \end{theorem}
 
 Con questo teorema Cybenko dimostra che una rete neurale MLP con un solo strato nascosto può approssimare qualsiasi funzione continua
-ma non è in grado di stabilire quante unità deve avere,  in base alla complessità della funzione da approssimare il numero potrebbe essere astronomico.
+ma non è in grado di stabilire quante unità deve avere; in base alla complessità della funzione da approssimare il numero potrebbe essere molto grande.
 Altre ricerche negli anni seguenti hanno studiato molteplici varianti di questo teorema, ad esempio per neuroni con funzione di attivazione RELU 
-o il caso con profondita del modello arbitraria.
+o il caso con profondità del modello arbitraria.
 
 %################################################################################
 %################################################################################
@@ -600,15 +600,15 @@ Sempre a Fukushima si deve anche l'introduzione della funzione di trasferimento 
 \end{wrapfigure}
 
 Seguì poi il lavoro di Alex Waibel \textit{"Phoneme Recognition Using Time-Delay Neural Networks"} \cite{Waibel1989PhonemeRecognition} 
-nel 1989, che segno un'ulteriore passo nella direzione delle CNN, introducendo per la prima volta l'invarianza alla traslazione, 
+che nel 1989 fece un'ulteriore passo verso le moderne CNN, introducendo per la prima volta l'invarianza alla traslazione, 
 ma si parlava ancora di una convoluzione 1D. 
 Questo lavoro però non era focalizzato sulle immagini ma sull'analisi del suono, in particolare sul riconoscimento di fonemi.
-Ma l'utilizzo di questo modello su 2 dimensioni, ovvero il tempo e la frequenza, lo rendeva concettualmente adatto 
-anche all'analisi delle immagini. Un'altro fatto interessante è che in questo lavoro viene introdotto il concetto di \textit{pooling},
+Ma l'utilizzo di questo modello su due dimensioni, ovvero il tempo e la frequenza, lo rendeva concettualmente adatto 
+anche all'analisi delle immagini. Un altro fatto interessante è che in questo lavoro viene introdotto il concetto di \textit{pooling},
 introdotto proprio per ridurre la dimensione dei tensori durante la propagazione nel modello, e ridurre così il numero di parametri da apprendere,
 soluzione oggi molto utilizzata nelle CNN moderne, in diverse varianti che poi verranno discusse.
 Nell'immagine che segue, tratta proprio dall'articolo citato si può vedere come questo modello effettuava la convoluzione 1D nel tempo ed il pooling
-nel tempo e nella frequenza, tra i vari layer.
+nel tempo e nella frequenza, tra i vari \textit{layer}.
 
 In fine una delle prime ricerche che si sono avvicinate di più all'implementazione moderna delle CNN è stata quella di Yann LeCun et al.
 \textit{"Backpropagation applied to handwritten zip code recognition"} \cite{LeCun1989Backpropagation} pubblicato nel 1989, in cui è stato utilizzato
@@ -680,7 +680,7 @@ la convoluzione dell'immagine di input con il kernel.
 
 %\hspace{0cm}
 \vspace{1cm}
-Vediamo un'esempio pratico, consideriamo due kernel 3x3, uno con un pattern verticale, e l'altro con un pattern orizzontale e un'immagine di input 5x5:
+Vediamo un esempio pratico, consideriamo due kernel 3x3, uno con un pattern verticale, e l'altro con un pattern orizzontale e un'immagine di input 5x5:
 \begin{equation}
     \label{eq:kernel_v_det_example}
     \begin{bmatrix}

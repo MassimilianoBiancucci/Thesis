@@ -244,17 +244,26 @@ Ad oggi è una delle librerie più utilizzate per l'elaborazione di immagini e v
 In questo progetto è stata utilizzata per effettuare diverse operazioni di pre-elaborazione del dataset, e per lo script demo di inferenza.
 
 \subsection{Pytorch\ok}
-Pytorch è una libreria open source per il machine learning, sviluppata da Facebook, che permette di effettuare operazioni su tensori in modo efficiente
+Pytorch è un framework open source per il deep learning, sviluppato da Facebook, che permette di effettuare operazioni su tensori in modo efficiente
 sfruttando le GPU, e di effettuare automaticamente il backpropagation, rendendo l'operazione di definire una rete neurale e addestrarla
 molto semplice e veloce.
+
+\subsection{Distributed data parallel}
+Distributed data parallel non è una libreria a se stante ma un modulo integrato nel framework Pytorch,
+che permette di scalare il training di un modello neurale su più GPU in un singolo nodo, o su più nodi.
+DDP parallelizza il training generando un processo separato per ogni GPU, ognuno presenta
+una copia identica del modello, durante il training la retropropagazione dell'errore innesca un hook che effettua la 
+sincronizzazione dei gradienti mediante delle primitive di sincronizzazione tra i processi, in tal modo 
+si ottiene un unico gradiente aggiornato per tutte le istanze.
+
 
 \begin{comment}
     Aggiungi un ulteriore strumento degno di nota
 \end{comment}
 
-\section{La macchina utilizzata\ok}
-L'addestramento del modello neurale è stato effettuato mediante l'utilizzo dei servizi di Google Cloud Platform, in particolare è stata 
-utilizzata una macchina virtuale \textbf{n1-standard-8} con le seguenti caratteristiche:
+\section{Google cloud compute instance\ok}
+L'addestramento del modello neurale è stato effettuato mediante l'utilizzo dei servizi di Google Cloud Platform, 
+in particolare è stata utilizzata una macchina virtuale \textbf{n1-standard-8} con le seguenti caratteristiche:
 
 \begin{itemize}
     \item \textbf{Sistema Operativo:} Ubuntu 18.04
@@ -265,12 +274,19 @@ utilizzata una macchina virtuale \textbf{n1-standard-8} con le seguenti caratter
 
 Questa tipologia di macchina virtuale è una delle consigliate per l'addestramento di modelli di deep learning, in quanto permette di utilizzare
 le GPU T4 di Nvidia, le quali ad oggi costituiscono un ottimo compromesso tra costo e performance. Infatti l'affitto di una macchina
-virtuale con queste caratteristiche, con ben 2 Tesla T4, per un mese ha un costo di circa 500 euro, mentre una macchina virtuale con una sola GPU come una V100 o una A100
-possono superare tranquillamente i 3000€.
+virtuale con queste caratteristiche, con ben 2 Tesla T4, per un mese ha un costo di circa 500 euro, mentre una macchina virtuale con una sola GPU 
+come una V100 o una A100 può superare tranquillamente i 3000€.
 
 Questa configurazione non garantisce le stesse performance delle controparti di fascia alta ma comunque consentono di avere a disposizione
 una potenza di calcolo discreta e un quantitativo di memoria di ben 32 GB di memoria GDDR6, che è più che sufficiente per l'addestramento di modelli
-neurali di modeste dimensioni.
+neurali di modeste dimensioni se pur con dimensioni di batch ridotte.
 
+\section{Repository del progetto}
+Il codice sorgente del progetto è disponibile su GitHub al seguente indirizzo: 
 
+\url{https://github.com/MassimilianoBiancucci/COIGAN-controllable-object-inpainting}
+
+Nel repository è presente il codice effettivo per eseguire un training, il codice per effettuare la preparazione del
+dataset, il quale necessita di un formato particolare, e lo script per effettuare una valutazione interattiva del modello.
+Tutti i passaggi necessari per preparare l'ambiente, e sistemare i file di configurazione sono descritti nel file README.md.
 
