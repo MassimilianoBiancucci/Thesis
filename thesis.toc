@@ -53,26 +53,26 @@
 \contentsline {subsection}{\numberline {2.5.2}La loss function}{41}{subsection.2.5.2}%
 \contentsline {subsubsection}{La perceptual loss PL e la High receptive field perceptual loss HRFPL}{41}{section*.54}%
 \contentsline {subsubsection}{L'adversarial loss}{42}{section*.56}%
-\contentsline {subsubsection}{L'R1 regularization}{42}{section*.57}%
-\contentsline {subsubsection}{La loss finale}{42}{section*.58}%
-\contentsline {subsection}{\numberline {2.5.3}Alcuni risultati}{43}{subsection.2.5.3}%
-\contentsline {chapter}{\numberline {3}Materiali e metodi }{44}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{44}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Distribuzione del dataset}{45}{subsection.3.1.1}%
-\contentsline {section}{\numberline {3.2}Librerie e Framework }{49}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Numpy }{49}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}OpenCV }{49}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Pytorch }{49}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Distributed data parallel}{49}{subsection.3.2.4}%
-\contentsline {section}{\numberline {3.3}Google cloud compute instance }{50}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Repository del progetto}{50}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{51}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Definizione della pipeline di addestramento}{51}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Preparazione dei dati per la pipeline}{51}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Il dataloader}{51}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Il trainer}{51}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Lo script di evaluation}{51}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Tool per l'inferenza interattiva}{51}{section.4.6}%
-\contentsline {chapter}{\numberline {5}Risultati}{52}{chapter.5}%
-\contentsline {chapter}{Elenco delle figure}{53}{chapter*.68}%
-\contentsline {chapter}{Bibliografia}{56}{chapter*.69}%
+\contentsline {subsubsection}{L'R1 regularization}{43}{section*.57}%
+\contentsline {subsubsection}{La loss finale}{44}{section*.59}%
+\contentsline {subsection}{\numberline {2.5.3}Alcuni risultati}{45}{subsection.2.5.3}%
+\contentsline {chapter}{\numberline {3}Materiali e metodi }{46}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Il Dataset: Severstal steel defect detection }{46}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Distribuzione del dataset}{47}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Librerie e Framework }{51}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Numpy }{51}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}OpenCV }{51}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Pytorch }{51}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Distributed data parallel}{51}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}Google cloud compute instance }{52}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Repository del progetto}{52}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Sviluppo del progetto}{53}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Definizione della pipeline di addestramento}{53}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Preparazione dei dati per la pipeline}{53}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Il dataloader}{53}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Il trainer}{53}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Lo script di evaluation}{53}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Tool per l'inferenza interattiva}{53}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Risultati}{54}{chapter.5}%
+\contentsline {chapter}{Elenco delle figure}{55}{chapter*.69}%
+\contentsline {chapter}{Bibliografia}{59}{chapter*.70}%

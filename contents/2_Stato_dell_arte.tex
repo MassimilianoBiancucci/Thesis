@@ -692,7 +692,7 @@ come forme o comunque strutture più complesse. Per tale ragione tale loss può 
 In generale la perceptual loss è definita in \cite{johnson2016perceptual} come:
 
 \begin{equation}
-    \mathcal{L}_{\phi}(\hat{y}, y) = \sum_{i=1}^{N} \frac{1}{C_i H_i W_i} \sum_{c=1}^{C_i} \sum_{h=1}^{H_i} \sum_{w=1}^{W_i} \left( \phi_i(\hat{y})_{c,h,w} - \phi_i(y)_{c,h,w} \right)^2
+    \mathcal{L}_{PL_\phi}(\hat{y}, y) = \sum_{i=1}^{N} \frac{1}{C_i H_i W_i} \sum_{c=1}^{C_i} \sum_{h=1}^{H_i} \sum_{w=1}^{W_i} \left( \phi_i(\hat{y})_{c,h,w} - \phi_i(y)_{c,h,w} \right)^2
 \end{equation}
 
 Tale implementazione della perceptual loss calcola la distanza $L_2$ layer per layer del modello $\phi$ tra l'immagine ricostruita $\hat{y}$ e l'immagine originale $y$ al quadrato,
@@ -715,13 +715,103 @@ tale proprieta può essere ottenuta utilizzando un modello che sfrutti la \texti
 precedentemente illustrata.
 
 \subsubsection{L'adversarial loss}
-Un'ulteriore loss utilizzata per l'addestramento di LaMa è la \textit{non-saturating adversarial loss} 
+Un'ulteriore loss utilizzata per l'addestramento di LaMa è la \textit{non-saturating adversarial loss}, utilizzata 
+nella prima versione del modello GAN del 2014, con adeguati accorgimenti per il caso dell'inpainting.\\
+In particolare è stata ripresa la struttura del \textit{PatchGAN discriminator} proposto per Pix2Pix in \cite{isola2018imagetoimage},
+Tale approccio utilizza un discriminatore che viene applicato a patch di dimensioni prefissate, utilizzando la tecnica dello \textit{sliding window}.
+Diversamente da quando avveniva per Pix2Pix, in LaMa il discriminatore nelle immagini su cui viene effettuato l'inpainting non considera ogni
+patch come un esempio "falso", ma considera false solo le patch che contengono un'area rigenerata.
+
+Consideriamo a questo punto il generatore $G$ definito dai parametri $\theta$ e il discriminatore $D$ definito dai parametri $\xi$,
+un'immagine $x$ e la sua maschera binaria $m$, l'immagine $x'=stack(x \odot m, \overline{m})$ è l'input del generatore $G$ 
+(dove $\odot$ indica il prodotto elemento per elemento), l'immagine $\hat{x} = G_{\theta}(x, m)$ è l'immagine ricostruita definita 
+come $\hat{x} = G_{\theta}(x')$.\\
+Abbiamo dunque l'adversarial loss $\mathcal{L}_{adv}$ definita come la somma delle loss del generatore $\mathcal{L}_{G}$ 
+e del discriminatore $\mathcal{L}_{D}$:
+
+\begin{equation}
+    \label{eq:lama_adv_loss_D}
+    \mathcal{L}_{D} = - \mathbb{E}_{x} \left[ \log D_{\xi}(x) \right] - \mathbb{E}_{x, m} \left[ \log \left(D_{\xi}(\hat{x}) \right) \odot \overline{m} \right]
+    - \mathbb{E}_{x, m} \left[ \log \left( 1 - D_{\xi}(\hat{x})\right) \odot m \right]
+\end{equation}
+
+\begin{equation}
+    \label{eq:lama_adv_loss_G}
+    \mathcal{L}_{G} = - \mathbb{E}_{x, m} \left[ \log D_{\xi}(\hat{x}) \right]
+\end{equation}
+
+\begin{equation}
+    \label{eq:lama_adv_loss}
+    \mathcal{L}_{adv} = \mathcal{L}_{D} + \mathcal{L}_{G}
+\end{equation}
+
+Si noti che per $\mathcal{L}_{D}$ i gradienti vengono propagati soltanto attraverso il discriminatore, mentre per $\mathcal{L}_{G}$ i gradienti
+vengono propagati fino al generatore, ma non vengono applicati al discriminatore.
+Un'altro fatto importante che va considerato nell'equazione \ref{eq:lama_adv_loss_D} è che il termine $\log \left(D_{\xi}(\hat{x}) \right) \odot \overline{m}$
+viene applicato soltanto alle patch dell'immagine ricostruita $\hat{x}$ che non presentano parti rigenerate, mentre il termine $\log \left( 1 - D_{\xi}(\hat{x})\right) \odot m$
+viene applicato soltanto alle patch dell'immagine ricostruita che presentano parti rigenerate.
+
 
 \subsubsection{L'R1 regularization}
-TODO
+Un'importante accorgimento che è stato introdotto per migliorare la stabilità dell'addestramento di LaMa è l'R1 regularization,
+proposta da Lars Mescheder et al. in \cite{mescheder2018training}, nel 2018.\\
+In questo articolo Mescheder et al. hanno investigato il problema dell'instabilità dell'addestramento dei modelli GAN, studiano
+un caso estremamente semplificato la \textit{Dirac-GAN} in cui il generatore $G$ è un modello definito da un solo parametro, appunto 
+rappresentante una delta di Dirac, e il discriminatore $D$ è un modello che deve distinguere tra la delta di Dirac di riferimento e la delta di Dirac generata.
+L'esperimento per quanto banale ha permesso di evidenziare l'incapacità del modello di convergere alla sovrapposizione delle due Delta, 
+ovvero la condizione di Equilibrio di Nash, in quanto nel punto di convergenza il gradiente del discriminatore non è nullo e dunque spinge 
+via il generatore da tale punto di equilibrio, il quale rappresenterebbe la soluzione ottima per il problema.
+
+In tale lavoro sono state confrontate diverse tecniche di regolarizzazione per risolvere il problema, come la \textit{WGAN-GP} o 
+\textit{l'instance noise regularization} e altre, ma in particolare è stata proposta la \textit{R1 regularization}, 
+questa regolarizzazione ha dimostrato di riuscire a risolvere il problema, in un modo migliore rispetto ad altri metodi, 
+ma sopratutto utilizzando una quantità contenuta di risorse computazionali.
+Di seguito la formulazione matematica della \textit{R1 regularization}:
+
+\begin{equation}
+    \label{eq:r1_reg}
+    \mathcal{L}_{R1} = \frac{\gamma}{2} \mathbb{E}_{x \sim p_{data}(x)} \left[ \left\| \nabla_{x} D_{\xi}(x) \right\|_{2}^{2} \right]
+\end{equation}
+
+Dietro questa equazione si nasconde un concetto tanto semplice quanto efficacie, infatti l'obbiettivo della \textit{R1 regularization}
+è proprio quello di ridurre il gradiente del discriminatore nei pressi del punto di equilibrio, in modo da evitare che il generatore
+venga spinto via da tale punto.
+
+Per ottenere questo risultato con la \textit{R1} si applica una penalità al discriminatore come componente della loss totale, tale penalità come si
+può vedere dall'equazione \ref{eq:r1_reg} è proporzionale alla media del quadrato della norma del gradiente del discriminatore, per i sample reali.
+Infatti si parla di $x \sim p_{data}(x)$, ovvero si considerano tutti i sample reali, e non quelli generati dal generatore, in quanto l'obbiettivo
+è minimizzare il gradiente del discriminatore nei pressi del punto di equilibrio, che corrisponde alla distribuzione reale dei dati.
+
+Questa strategia permette di ottenere un risultato ottimo comparato ad altre tecniche come è possibile vedere nella Figura \ref{fig:r1reg},
+vediamo infatti un'ulteriore esempio in cui una semplice gan deve generare sample di una distribuzione bidimensionale, la quale è a 
+forma di anello. Nella figura i punti blu rappresentano i sample reali, mentre i punti arancioni i sample generati dalla gan, 
+mentre sullo sfondo da viola (min) a giallo(max) è rappresentata l'intensità del gradiente del discriminatore per i vari punti 
+dello spazio bidimensionale, si può notare come il gradiente per il caso in cui è stata utilizzata la R1 o la R2 
+(una variante della R1) sia quasi nullo rispetto agli altri casi.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{imgs/r1_reg.png}
+        \caption{In questa immagine sono mostrati i risultati ottenuti da Mescheder et al. in \cite{mescheder2018training} 
+            utilizzando la R1 regularization. In blu è rappresentata la distribuzione di riferimento, in arancione i campioni generati.}
+        \label{fig:r1_reg}
+    \end{figure}
 
 \subsubsection{La loss finale}
-TODO
+Vediamo in fine la loss finale che si compone come la somma delle componenti descritte in precedenza, ovvero 
+la \textit{High receptive field loss} $\mathcal{L}_{HRF}$, la \textit{Adversarial loss} $\mathcal{L}_{adv}$ 
+e la \textit{R1 regularization} $\mathcal{L}_{R1}$. Oltre a queste componenti vi è una ulteriore loss che è stata utilizzata,
+la quale ha il medesimo funzionamento della \textit{Perceptual loss}, ma utilizza il le features del discriminatore invece che quelle
+del modello addestrato su ImageNet, tale loss è stata chiamata \textit{Discriminator-based perceptual loss} $\mathcal{L}_{DiscPL}$.\\
+Di seguito la formulazione matematica della loss finale:
+
+\begin{equation}
+    \label{eq:final_loss}
+    \mathcal{L}_{final} = \kappa \mathcal{L}_{adv} + \alpha \mathcal{L}_{HRFPL} + \beta \mathcal{L}_{DiscPL} + \gamma \mathcal{L}_{R1} 
+\end{equation}
+
+Si noti che ogni loss è provvista di un coefficiente moltiplicativo che permette di bilanciare le varie componenti, 
+in modo da ottenere un risultato ottimale, in base al dataset o in base ad altri fattori.
 
 \subsection{Alcuni risultati}
 Sono mostrati in seguito alcuni risultati ottenuti da LaMa, in cui è possibile osservare come il modello sia in grado di ricostruire
@@ -736,6 +826,7 @@ strutture periodiche, come ad esempio le finestre di un edificio, o i fori sulla
             credits: Roman Suvorov et al. \cite{suvorov2021resolutionrobust}}.
         \label{fig:lama_results}
     \end{figure}
+
 
 
 
