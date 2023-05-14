@@ -847,9 +847,11 @@ Possiamo calcolare la dimensione dell'immagine di output in base ai seguenti par
 
 Ipotizzando lo stride e il padding uguali lungo entrambe le direzioni di convoluzione, le dimensioni di output si calcolano come segue:
 \begin{equation}
+    \label{eq:convolution_output_size_h}
     H_{out} = \frac{H_{in} - H_{k} + 2P}{S} + 1
 \end{equation}
 \begin{equation}
+    \label{eq:convolution_output_size_w}
     W_{out} = \frac{W_{in} - W_{k} + 2P}{S} + 1
 \end{equation}
 

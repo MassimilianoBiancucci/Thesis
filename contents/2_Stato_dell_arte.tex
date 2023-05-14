@@ -268,6 +268,7 @@ alcuni esempi di dati provenienti dal dataset di addestramento, mentre sulla sin
 %###############################################################################################################################
 %###############################################################################################################################
 % DCGAN
+
 \section{DCGAN}
 DCGAN è stata la prima pubblicazione, opera di Alec Radford et. al \cite{radford2016unsupervised}, che ha dimostrato l'applicabilità dell'adversarial 
 training su modelli convoluzionali, ottenendo buoni risultati, aumentando la dimensione delle immagini rispetto a lavori precedenti e mantenendo una buona
@@ -480,11 +481,11 @@ l'architettura del modello o la \textit{loss function}.
 
 Molte altre pubblicazioni infatti prima di questa hanno ottenuto risultati molto interessanti per quanto riguarda task che effettuavano la conversione
 da un'immagine ad un'altra, come ad esempio: la \textit{colorization}, il \textit{super-resolution}, lo \textit{style transfer}, il \textit{denoising},
-il \textit{future frame prediction} e molti altri, tutti però hanno in comune il fatto che sono architetture o framework specializzati, realizzati appositamente
-per quel task, richiedendo competenze specifiche che hanno richiesto un accurato studio del problema e della soluzione.
-Pix2Pix invece ha proposto un'architettura che potesse essere applicata a diversi task, senza necessità di dover riprogettare l'architettura del modello
+il \textit{future frame prediction} e molti altri, tutti però hanno in comune il fatto di essere architetture o framework specializzati, 
+realizzati appositamente per quel task, infatti la realizzazione di tali progetti ha richiesto competenze specifiche e un accurato studio del problema.
+Pix2Pix invece si propone come un'architettura che può essere applicata a diversi task, senza necessità di dover riprogettare l'architettura del modello
 o la \textit{loss function}, ma semplicemente cambiando il dataset di addestramento, in quanto la \textit{loss function} viene appresa in maniera automatica
-dal discriminatore durante l'addestramento.
+dal discriminatore durante l'addestramento e la struttura del modello si presta bene a numerosi task.
 
 \subsection{La loss function}
 La \textit{loss function} proposta da Pix2Pix è una variante della \textit{loss function} proposta nella pubblicazione originale della GAN \cite{goodfellow2014generative},
@@ -499,7 +500,7 @@ Di seguito vediamo l'equazione \ref{eq:pix2pix_loss} che rappresenta la \textit{
     \mathcal{L}_{cGAN}(G,D) = \mathbb{E}_{x \sim P_X,y \sim P_Y}[\log D(x,y)] + \mathbb{E}_{x \sim P_X,z \sim P_Z}[\log(1-D(x,G(x,z)))]
 \end{equation}
 
-Si noti che in questa equazione rispetto al caso classico precedentemente mostrato vanno identificate due componenti distinte:
+Si noti che in questa equazione, rispetto al caso classico precedentemente mostrato, spiccano due componenti distinte:
 \begin{itemize}
     \item $\mathbf{x}$ è l'immagine di input
     \item $\mathbf{P_X}$ è la distribuzione delle immagini di input
@@ -524,10 +525,217 @@ dell'equazione appena mostrata:
 \subsection{L'architettura}
 L'architettura proposta per Pix2Pix utilizza dei blocchi convoluzionali ripresi dalla precedentemente discussa DCGAN \cite{radford2016unsupervised},
 composti da tre componenti concatenate \textit{Convolution-BatchNorm-Relu} per ogni layer, sia per il generatore che per il discriminatore.
-Per il generatore, nello specifico, è stata ripresa la struttura di U-Net, la quale è stata utilizzata con successo per il task di \textit{image segmentation}
+Per il generatore, nello specifico, è stata ripresa la struttura di U-Net, la quale è stata presentata ed utilizzata con successo per il task di \textit{image segmentation}
 da parte di Olaf Ronneberger et al. \cite{ronneberger2015unet} nel 2015.
+Tale struttura è in sostanza un \textit{encoder} ed un \textit{decoder} accoppiati con un \textit{bottleneck} centrale, il quale funge 
+da ponte tra le due metà e nel quale vengono estratte le informazioni globali dell'immagine, Il decoder in seguito utilizza queste informazioni
+per generare l'immagine di output. L'innovazione portata da U-Net è stata quella di aggiungere delle \textit{skip connection} tra l'encoder e il decoder,
+in modo da poter utilizzare le informazioni globali estratte al livello del \textit{bottleneck} e di unirle alle informazioni locali presenti nei layer
+dell'encoder, in modo tale da poter generare un'output più dettagliato e fedele all'immagine di riferimento. 
+Di seguito possiamo vedere la Figura \ref{fig:encoder_decode_unet} che illustra sinteticamente  le differenze tra un modello con struttura ad \textit{encoder-decoder} e U-net.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{imgs/encoder_decoder_unet.png}
+        \caption{In questa immagine è illustrata intuitivamente la differenza tra un comune modello ad \textit{encoder-decoder} e l'architettura di U-net.\\
+        credits: Phillip Isola et al. \cite{isola2018imagetoimage}}.
+        \label{fig:encoder_decode_unet}
+    \end{figure}
+
+Tale risultato è giustificato dal fatto che, le informazioni dell'immagine di input trovano difficoltà ad essere propagate efficacemente dopo una serie di
+\textit{pooling layer}, dunque le \textit{skip connection} permettono di bypassare questi layer e di poter utilizzare le informazioni locali presenti 
+nel \textit{encoder}. 
+Nella stessa paper sono stati fatti dei test con e senza \textit{skip connection}, e si è visto che l'aggiunta di queste ultime ha portato ad un 
+miglioramento delle prestazioni del modello in diversi task. Un chiaro esempio è mostrato in figura \ref{fig:unet_comparison}, 
+dove è possibile vedere una comparazione di un sample generato da 4 diversi modelli per il task \textit{labels to scene},
+questi quattro modelli alternano l'utilizzo o meno delle \textit{skip connection} e l'utilizzo di una loss L1 a una loss L1 più \textit{conditional adversarial loss}.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{imgs/unet_comparison.png}
+        \caption{In questa immagine è possibile vedere una comparazione di un sample generato da 4 diversi modelli per il task \textit{labels to scene},
+            i quattro esempi illustrano l'utilizzo o meno delle \textit{skip connection} e l'utilizzo di una loss L1 a una loss L1 più \textit{conditional adversarial loss}.\\
+            credits: Phillip Isola et al. \cite{isola2018imagetoimage}}.
+        \label{fig:unet_comparison}
+    \end{figure}
+
+\subsection{Alcuni esempi di applicazione}
+Di seguito sono mostrati alcuni esempi di applicazione del modello pix2pix, tra i quali: \textit{colorization}, \textit{edges to photo}, \textit{aerial to map},
+\textit{labels to scene}, \textit{labels to facade}, \textit{day to night} e \textit{edges to photo}.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.85\textwidth]{imgs/pix2pix_example_tasks.png}
+        \caption{In questa immagine sono mostrati alcuni esempi di applicazione di pix2pix.\\
+            credits: Phillip Isola et al. \cite{isola2018imagetoimage}}.
+        \label{fig:pix2pix_example_tasks}
+    \end{figure}
+
 
 \section{LAMA}
+\begin{comment}
+    Punti chiave di cui discutere per LAMA:
+        - Introduzione al task dell'inpainting
+        - Struttura del modello e inserto sulla FFC
+        - Discussione sulle loss utilizzate
+        - Alcuni risultati
+        
+\end{comment}
+
+Arriviamo in fine al lavoro più recente presentato in questa tesi, e uno dei principali al quale il progetto che verrà illustrato
+successivamente è ispirato. LaMa (Large Mask inpainting with fast fourier convolution) è un modello proposto da Roman Suvorov et al. 
+\cite{suvorov2021resolutionrobust} nel 2021, tale architettura è stata proposta per il task dell'\textit{inpainting}, il quale consiste
+nella ricostruzione di una porzione di immagine mancante, data la restante parte.
+LaMa si distingue dagli altri modelli proposti per l'inpainting per una caratteristica peculiare, 
+l'utilizzo della \textit{Fast Fourier Convolution} (FFC) \cite{chi2020ffc}, un operatore proposto da Lu Chi et al. nel 2020, la quale
+consente di elaborare informazioni globali dell'immagine sin dai primi layer mantenendo
+un costo computazionale simile a quello di una convoluzione standard con kernel di dimensioni ridotte. 
+Un problema noto delle reti neurali convoluzionali è infatti il legame tra kernel size e receptive field, tanto più sarà grande il kernel size
+tanto più velocemente la rete sarà in grado di elaborare informazioni globali, tuttavia ciò comporta un aumento del costo computazionale
+che cresce in maniera esponenziale con l'aumentare delle dimensioni del kernel, al contrario la FFC si propone di risolvere questo problema
+ad un costo computazionale ridotto, infatti LaMa nei risultati presentati oltre a risultare mediamente migliore rispetto ai concorrenti,
+eccelle proprio per i suoi risultati su immagini in cui la parte da ricostruire è molto estesa.
+
+\subsection{Struttura del modello}
+In questa sezione vedremo la struttura del modello, analizzando l'input e la struttura dei blocchi principali che lo compongono,
+analizzando nello specifico il punto di forza di questa architettura, ovvero l'utilizzo della FFC.
+
+L'input del modello è costituito da un'immagine $x$ e una maschera $m$, dove $m$ è una matrice binaria che ha dimensioni di $x$ ma un solo canale,
+e presenta valori 1 nelle posizioni in cui l'immagine è presente e 0 nelle posizioni in cui l'immagine deve essere ricostruita.
+Viene quindi effettuata un \textit{element-wise multiplication} tra $x$ e $m$, e si concatena il risultato con $\overline{m}$,
+ottenendo il tensore di input $x' = [x \odot m, \overline{m}]$.\\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{imgs/lama_model.png}
+    \caption{In questa immagine è illustrata schematicamente la struttura di LaMa.\\
+        credits: Roman Suvorov et al. \cite{suvorov2021resolutionrobust}}.
+    \label{fig:lama_architecture}
+\end{figure}
+
+Un'ulteriore operazione che è possibile effettuare per aumentare la variabilità dell'output è quella di aggiungere rumore gaussiano alla matrice
+$\overline{m}$, considerando una matrice di rumore gaussiano $z$ con le stesse dimensioni di $\overline{m}$, procedendo come segue:
+$ x' = [x \odot m, z \odot \overline{m}]$.
+
+
+
+Il modello nella versione base con FCC è costituito inizialmente da 3 blocchi FFC con i seguenti valori stride 2, kernel size 3 e padding 1,
+ottenendo dunque per le equazioni [\ref{eq:convolution_output_size_h}, \ref{eq:convolution_output_size_w}] un output di dimensioni dimezzate rispetto all'input
+su ogni layer, dunque ottenendo dopo i primi 3 blocchi un output di dimensioni $\frac{1}{8}$ rispetto all'input.\\
+Dopo questa prima operazione di downsampling in cui comunque vengono utilizzati blocchi FCC, vengono aggiunti ulteriori 9 blocchi
+chiamati dall'autore \textit{Fast Fourier Convolutional Residual Blocks}, costituiti semplicemente da 2 blocchi FCC con stride 1, kernel size 3 e padding 1,
+dunque mantenendo le dimensioni dell'input invariato, con in parallelo una connessione residuale che concatena l'input con l'output del secondo blocco FCC,
+è possibile osservare il collegamento tra i blocchi FCC nella Figura \ref{fig:lama_architecture}.\\
+In fine seguono 3 layer di upsampling, attraverso \textit{transposed convolution} con stride 2, kernel size 3 e padding 1, che riportano l'output alla 
+dimensione originale, senza utilizzare blocchi FCC.
+
+\subsubsection{Fast Fourier Convolution}
+A questo punto dopo aver snocciolato il contenuto del modello, scendiamo di un'ulteriore livello andando ad analizzare il contenuto dei blocchi FCC,
+i quali come visto sopra sono le componenti principali di questa architettura.\\
+Prendendo come riferimento il rettangolo tratteggiato in blu in Figura \ref{fig:lama_architecture}, possiamo notare come il tensore in input al
+blocco FFC di dimensioni [N, C, H, W] venga diviso in due parti una viene utilizza per l'estrazione delle feature globali e una per l'estrazione delle
+feature locali, ovvero un blocco di dimensioni [N, C*(1-$\alpha$), H, W] e un blocco di dimensioni
+[N, C*$\alpha$, H, W], dove $\alpha$ è un valore compreso tra 0 e 1, e rappresenta la percentuale di canali che vengono utilizzati per ognuna delle
+due componenti.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Imposta il fattore di scala per l'altezza delle righe
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Label} & \textbf{Operazione} & \textbf{Dimensioni ingresso uscita} \\ \hline
+        \textbf{a} & \textbf{Convolution1x1 $\circ$ BatchNorm $\circ$ ReLU} & $\mathbb{R}^{C \times H \times W} \rightarrow \mathbb{R}^{C \times H \times W}$ \\ \hline
+        \textbf{b} & \textbf{Real FFT2d} & $\mathbb{R}^{C \times H \times W} \rightarrow \mathbb{C}^{C \times H \times \frac{W}{2}+1}$ \\ \hline
+        \textbf{c} & \textbf{Complex to real} & $\mathbb{C}^{C \times H \times \frac{W}{2}+1} \rightarrow \mathbb{R}^{2C \times H \times \frac{W}{2}+1}$ \\ \hline
+        \textbf{d} & \textbf{Convolution1x1 $\circ$ BatchNorm $\circ$ ReLU} & $\mathbb{R}^{2C \times H \times \frac{W}{2}+1} \rightarrow \mathbb{R}^{2C \times H \times \frac{W}{2}+1}$ \\ \hline
+        \textbf{e} & \textbf{Real to complex} & $\mathbb{R}^{2C \times H \times \frac{W}{2}+1} \rightarrow \mathbb{C}^{C \times H \times \frac{W}{2}+1}$ \\ \hline
+        \textbf{f} & \textbf{Inverse Real FFT2d} & $\mathbb{C}^{C \times H \times \frac{W}{2}+1} \rightarrow \mathbb{R}^{C \times H \times W}$ \\ \hline
+        \textbf{g} & \textbf{Concat(a, f)} & $\mathbb{R}^{C \times H \times W} \rightarrow \mathbb{R}^{2C \times H \times W}$ \\ \hline
+        \textbf{h} & \textbf{Convolution1x1 $\circ$ BatchNorm $\circ$ ReLU} & $\mathbb{R}^{2C \times H \times W} \rightarrow \mathbb{R}^{2C \times H \times W}$ \\ \hline
+    \end{tabular}
+    \caption{Operazioni che compongono il sotto blocco \textit{Spectral Transformation}.}
+    \label{tab:spectral_transformation}
+\end{table}
+
+A questo punto il tensore contenente le informazioni locali (in verde) viene sottoposto a due blocchi convoluzionali standard, mentre il tensore contenente
+le informazioni globali (in viola) viene sottoposto ad una operazione di convoluzione standard e ad una operazione detta di \textit{Spectral Transformation},
+quest'ultima nello specifico presenta un'operazione in sequenza un operazione di convoluzione standard seguitada un layer per la batch normalization e 
+un layer di attivazione ReLU, successivamente viene applicata la \textit{Real Fast Fourier Transform} (RFFT), la quale è una trasformata di Fourier
+che opera solo su metà dello spettro. Dopo la trasformazione nel dominio della frequenza, viene applicato un ulteriore layer di convoluzione
+(\textit{Convolution-BatchNorm-ReLU}) e successivamente viene applicata la \textit{Inverse Real Fast Fourier Transform} (IRFFT), che è l'inversa della RFFT,
+e permette di riportare il tensore a valori reali. Le operazioni del sotto blocco di \textit{Spectral Transformation} sono riassunte nella tabella \ref{tab:spectral_transformation}.
+
+\subsection{La loss function}
+
+L'addestramento di un modello per l'inpainting porta con se una serie di sfide non indifferenti, prima fra tutte è l'ambiguità del task, mentre per altri
+la soluzione è unica o comunque limitata ad un numero ristretto di possibilità.
+Nel task dell'inpainting i possibili riempimenti per un dato buco in un immagine sono molto numerosi, 
+e non è possibile stabilire a priori quale sia la soluzione migliore, specialmente nel caso di aree da rigenerare
+di elevata dimensione rispetto all'immagine, ciò rende difficile la definizione di una loss efficacie.
+
+\subsubsection{La perceptual loss PL e la High receptive field perceptual loss HRFPL}
+\label{subsubsection:perceptual_loss}
+
+Precedenti tentativi di altri autori di utilizzare loss supervisionate per l'inpainting o la generazione di immagini hanno portato a risultati 
+non soddisfacenti, in quanto queste loss tipicamente forzano il generatore a ricostruire l'immagine originale in maniera esatta, 
+questo metodo infatti porta il generatore a generare immagini sfocate che sono la media delle possibili soluzioni presentate nel dataset di addestramento.
+
+Un'alternativa alle tradizionali loss supervisionate è data dalla \textit{perceptual loss} proposta per i task di \textit{style transfer}
+e \textit{super-resolution} da Justin Johnson et al. \cite{johnson2016perceptual}. Questa particolare loss sfrutta un
+modello pre-addestrato $\phi$ per l'estrazione delle feature, in questo modo è possibile definire una loss che misuri la distanza tra le feature
+di tale modello, dunque in uno spazio semanticamente più significativo rispetto allo spazio dei pixel, tale proprietà consente alla loss di valutare
+la somiglianza semantica tra due immagini, piuttosto che la somiglianza pixel per pixel, permettendo al modello di ricevere un feedback
+molto più veritiero sulla bontà del suo output, nonostante questo non sia identico all'immagine originale.\\
+
+Come ben noto all'interno dei modelli convoluzionali si va a creare una stratificazione di feature in cui quelle di basso livello (vicine all'input)
+sono associate a caratteristiche locali dell'immagine, mentre quelle di alto livello (vicine all'output) sono associate a caratteristiche globali
+come forme o comunque strutture più complesse. Per tale ragione tale loss può essere anche influenzata per dare più peso a caratteristiche globali o locali.
+
+In generale la perceptual loss è definita in \cite{johnson2016perceptual} come:
+
+\begin{equation}
+    \mathcal{L}_{\phi}(\hat{y}, y) = \sum_{i=1}^{N} \frac{1}{C_i H_i W_i} \sum_{c=1}^{C_i} \sum_{h=1}^{H_i} \sum_{w=1}^{W_i} \left( \phi_i(\hat{y})_{c,h,w} - \phi_i(y)_{c,h,w} \right)^2
+\end{equation}
+
+Tale implementazione della perceptual loss calcola la distanza $L_2$ layer per layer del modello $\phi$ tra l'immagine ricostruita $\hat{y}$ e l'immagine originale $y$ al quadrato,
+in tal modo si ottengono $n$ distanze $L_2$ una per ogni layer del modello $\phi$, successivamente si effettua la somma di tali distanze e si ottiene 
+la perceptual loss. Una possibile alternativa consiste nell'effettuare la media delle distanze $L_2$ invece della somma, comme mostrato nella
+Figura \ref{fig:perceptual_loss} presa da \cite{zhang2018unreasonable}.\\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imgs/perceptual_loss.png}
+    \caption{In questa immagine sono mostrati schematicamente i passaggi che permettono di calcolare la perceptual loss da un modello convoluzionale.\\
+        credits: Richard Zhang et al. \cite{zhang2018unreasonable}}
+    \label{fig:perceptual_loss}
+\end{figure}
+
+Per LaMa è stata proposta una variante della PL, denominata \textit{High receptive field perceptual loss} (HRFPL), la quale
+presenta le medesime caratteristiche appena descritte per la classica PL ma con la differenza che il modello $\phi$ utilizzato
+per il calcolo delle feature presenta delle caratteristiche particolari, ovvero un campo ricettivo esteso come dice il nome stesso (HRF),
+tale proprieta può essere ottenuta utilizzando un modello che sfrutti la \textit{dilated convolution} o la \textit{Fast Fourier Convolution} (FFC)
+precedentemente illustrata.
+
+\subsubsection{L'adversarial loss}
+Un'ulteriore loss utilizzata per l'addestramento di LaMa è la \textit{non-saturating adversarial loss} 
+
+\subsubsection{L'R1 regularization}
 TODO
+
+\subsubsection{La loss finale}
+TODO
+
+\subsection{Alcuni risultati}
+Sono mostrati in seguito alcuni risultati ottenuti da LaMa, in cui è possibile osservare come il modello sia in grado di ricostruire
+porzioni di immagine molto estese, e di come l'utilizzo della FFC dia al modello delle eccezionali capacità di ricostruire 
+strutture periodiche, come ad esempio le finestre di un edificio, o i fori sulla lamiera di una serranda.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{imgs/lama_results.png}
+        \caption{In questa immagine sono mostrati alcuni risultati ottenuti da LaMa. In blu sono 
+            rappresentate le maschere applicate alle immagini, e dunque corrispondenti alle arre che sono state rimosse prima
+            della propagazione nella rete per la ricostruzione. Le immagini sulla destra rappresentano l'output del modello.\\
+            credits: Roman Suvorov et al. \cite{suvorov2021resolutionrobust}}.
+        \label{fig:lama_results}
+    \end{figure}
+
 
 

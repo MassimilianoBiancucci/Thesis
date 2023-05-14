@@ -4,6 +4,10 @@
 Martin Arjovsky, Soumith Chintala, and Léon Bottou.
 \newblock Wasserstein gan, 2017.
 
+\bibitem{chi2020ffc}
+Lu~Chi, Borui Jiang, and Yadong Mu.
+\newblock Fast fourier convolution, 2020.
+
 \bibitem{cybenko1989approximation}
 George Cybenko.
 \newblock Approximation by superpositions of a sigmoidal function, 1989.
@@ -62,6 +66,11 @@ Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp
 Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, and Alexei~A. Efros.
 \newblock Image-to-image translation with conditional adversarial networks,
   2018.
+
+\bibitem{johnson2016perceptual}
+Justin Johnson, Alexandre Alahi, and Li~Fei-Fei.
+\newblock Perceptual losses for real-time style transfer and super-resolution,
+  2016.
 
 \bibitem{karras2020analyzing}
 Tero Karras, Samuli Laine, Miika Aittala, Janne Hellsten, Jaakko Lehtinen, and
