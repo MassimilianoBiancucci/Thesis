@@ -47,7 +47,7 @@
 \contentsline {subsection}{\numberline {2.4.1}La loss function}{36}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}L'architettura}{37}{subsection.2.4.2}%
 \contentsline {subsection}{\numberline {2.4.3}Alcuni esempi di applicazione}{38}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}LAMA}{39}{section.2.5}%
+\contentsline {section}{\numberline {2.5}LaMa}{39}{section.2.5}%
 \contentsline {subsection}{\numberline {2.5.1}Struttura del modello}{39}{subsection.2.5.1}%
 \contentsline {subsubsection}{Fast Fourier Convolution}{40}{section*.52}%
 \contentsline {subsection}{\numberline {2.5.2}La loss function}{41}{subsection.2.5.2}%

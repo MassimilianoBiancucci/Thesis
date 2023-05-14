@@ -570,14 +570,13 @@ Di seguito sono mostrati alcuni esempi di applicazione del modello pix2pix, tra 
     \end{figure}
 
 
-\section{LAMA}
+\section{LaMa}
 \begin{comment}
     Punti chiave di cui discutere per LAMA:
         - Introduzione al task dell'inpainting
         - Struttura del modello e inserto sulla FFC
         - Discussione sulle loss utilizzate
         - Alcuni risultati
-        
 \end{comment}
 
 Arriviamo in fine al lavoro più recente presentato in questa tesi, e uno dei principali al quale il progetto che verrà illustrato
@@ -614,7 +613,6 @@ ottenendo il tensore di input $x' = [x \odot m, \overline{m}]$.\\
 Un'ulteriore operazione che è possibile effettuare per aumentare la variabilità dell'output è quella di aggiungere rumore gaussiano alla matrice
 $\overline{m}$, considerando una matrice di rumore gaussiano $z$ con le stesse dimensioni di $\overline{m}$, procedendo come segue:
 $ x' = [x \odot m, z \odot \overline{m}]$.
-
 
 
 Il modello nella versione base con FCC è costituito inizialmente da 3 blocchi FFC con i seguenti valori stride 2, kernel size 3 e padding 1,
@@ -751,7 +749,6 @@ Un'altro fatto importante che va considerato nell'equazione \ref{eq:lama_adv_los
 viene applicato soltanto alle patch dell'immagine ricostruita $\hat{x}$ che non presentano parti rigenerate, mentre il termine $\log \left( 1 - D_{\xi}(\hat{x})\right) \odot m$
 viene applicato soltanto alle patch dell'immagine ricostruita che presentano parti rigenerate.
 
-
 \subsubsection{L'R1 regularization}
 Un'importante accorgimento che è stato introdotto per migliorare la stabilità dell'addestramento di LaMa è l'R1 regularization,
 proposta da Lars Mescheder et al. in \cite{mescheder2018training}, nel 2018.\\
@@ -782,7 +779,7 @@ può vedere dall'equazione \ref{eq:r1_reg} è proporzionale alla media del quadr
 Infatti si parla di $x \sim p_{data}(x)$, ovvero si considerano tutti i sample reali, e non quelli generati dal generatore, in quanto l'obbiettivo
 è minimizzare il gradiente del discriminatore nei pressi del punto di equilibrio, che corrisponde alla distribuzione reale dei dati.
 
-Questa strategia permette di ottenere un risultato ottimo comparato ad altre tecniche come è possibile vedere nella Figura \ref{fig:r1reg},
+Questa strategia permette di ottenere un risultato ottimo comparato ad altre tecniche come è possibile vedere nella Figura \ref{fig:r1_reg},
 vediamo infatti un'ulteriore esempio in cui una semplice gan deve generare sample di una distribuzione bidimensionale, la quale è a 
 forma di anello. Nella figura i punti blu rappresentano i sample reali, mentre i punti arancioni i sample generati dalla gan, 
 mentre sullo sfondo da viola (min) a giallo(max) è rappresentata l'intensità del gradiente del discriminatore per i vari punti 
