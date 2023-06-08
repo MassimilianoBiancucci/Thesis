@@ -62,43 +62,16 @@
 \usepackage{enumitem}
 \usepackage{bookmark}
 
-\definecolor{light-gray}{gray}{0.95}
+
+\definecolor{light-gray}{gray}{0.9}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+
 \newcommand{\code}[1]{\colorbox{light-gray}{\Verb+#1+}}
 
 \usepackage{minted}
 
 \tcbuselibrary{minted,skins}
-
-
-\newtcblisting[auto counter, number within=section]{bashcode}[2]{
-    listing engine=minted,
-    colback=light-gray,
-    colframe=black!50,
-    listing only,
-    minted style=colorful,
-    minted language=bash,
-    minted options={
-		linenos=true,
-		numbersep=3mm,
-		texcl=true,
-        %#2,
-		breaklines,
-		texcomments,
-		fontsize=\footnotesize
-	},
-    overlay={
-        \begin{tcbclipinterior}
-            \fill[black!25] (frame.south west)
-              rectangle ([xshift=5mm]frame.north west);
-        \end{tcbclipinterior}
-    },
-    coltitle=white,
-    boxrule=0.5mm,
-    left=5mm,
-    title={\large \textit{#1}\hfill code: \thetcbcounter},
-    label=code:#2,
-    enhanced jigsaw,
-}
 
 %***************************************************
 %TOC settings

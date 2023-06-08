@@ -1,0 +1,73 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{def} \PYG{n+nf}{calculate\PYGZus{}fid\PYGZus{}given\PYGZus{}paths}\PYG{p}{(}
+        \PYG{n}{paths}\PYG{p}{,}
+        \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{8}\PYG{p}{,}
+        \PYG{n}{device}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}cuda\PYGZsq{}}\PYG{p}{,}
+        \PYG{n}{dims}\PYG{o}{=}\PYG{l+m+mi}{2048}\PYG{p}{,}
+        \PYG{n}{n\PYGZus{}imgs}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}
+        \PYG{n}{seed}\PYG{o}{=}\PYG{l+m+mi}{42}
+    \PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Calculates the FID of two paths}
+
+\PYG{l+s+sd}{        Args:}
+\PYG{l+s+sd}{            paths: list of two paths to the generated images and real images}
+\PYG{l+s+sd}{            batch\PYGZus{}size: batch size for inception v3}
+\PYG{l+s+sd}{            device: device to run on. Default is cuda}
+\PYG{l+s+sd}{            dims: number of dimensions of Inception features to use [2048, 768, 192, 64]}
+\PYG{l+s+sd}{            n\PYGZus{}imgs: number of images to use for FID calculation. Default is \PYGZhy{}1 (use all images).}
+\PYG{l+s+sd}{                If exeeding the number of images in the folder, the maximum number of images is used.}
+\PYG{l+s+sd}{            seed: random seed for shuffling the images. Default is 42.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{paths}\PYG{p}{:}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{p}\PYG{p}{):}
+                \PYG{k}{raise} \PYG{n+ne}{RuntimeError}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Invalid path: }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{)}
+
+        \PYG{n}{block\PYGZus{}idx} \PYG{o}{=} \PYG{n}{InceptionV3}\PYG{o}{.}\PYG{n}{BLOCK\PYGZus{}INDEX\PYGZus{}BY\PYGZus{}DIM}\PYG{p}{[}\PYG{n}{dims}\PYG{p}{]}
+
+        \PYG{n}{model} \PYG{o}{=} \PYG{n}{InceptionV3}\PYG{p}{([}\PYG{n}{block\PYGZus{}idx}\PYG{p}{])}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{device}\PYG{p}{)}
+
+        \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Calculating the Inception mean and std of }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{ images.\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{))}
+        \PYG{n}{m1}\PYG{p}{,} \PYG{n}{s1} \PYG{o}{=} \PYG{n}{\PYGZus{}compute\PYGZus{}statistics\PYGZus{}of\PYGZus{}path}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{device}\PYG{p}{,} \PYG{n}{dims}\PYG{p}{,} \PYG{n}{n\PYGZus{}smpl}\PYG{o}{=}\PYG{n}{n\PYGZus{}imgs}\PYG{p}{)}
+
+        \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Calculating the Inception mean and std of }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{ images.\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{))}
+        \PYG{n}{m2}\PYG{p}{,} \PYG{n}{s2} \PYG{o}{=} \PYG{n}{\PYGZus{}compute\PYGZus{}statistics\PYGZus{}of\PYGZus{}path}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{device}\PYG{p}{,} \PYG{n}{dims}\PYG{p}{,} \PYG{n}{n\PYGZus{}smpl}\PYG{o}{=}\PYG{n}{n\PYGZus{}imgs}\PYG{p}{)}
+
+        \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Calculating FID..\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{fid\PYGZus{}value} \PYG{o}{=} \PYG{n}{calculate\PYGZus{}frechet\PYGZus{}distance}\PYG{p}{(}\PYG{n}{m1}\PYG{p}{,} \PYG{n}{s1}\PYG{p}{,} \PYG{n}{m2}\PYG{p}{,} \PYG{n}{s2}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{fid\PYGZus{}value}
+\PYGZbs{}\PYG{n}{end}\PYG{p}{\PYGZob{}}\PYG{n}{lstlisting}\PYG{p}{\PYGZcb{}}
+
+\PYGZbs{}\PYG{n}{begin}\PYG{p}{\PYGZob{}}\PYG{n}{minted}\PYG{p}{\PYGZcb{}[}
+    \PYG{n}{frame}\PYG{o}{=}\PYG{n}{lines}\PYG{p}{,}
+    \PYG{n}{framesep}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{n}{mm}\PYG{p}{,}
+    \PYG{n}{baselinestretch}\PYG{o}{=}\PYG{l+m+mf}{1.2}\PYG{p}{,}
+    \PYG{n}{bgcolor}\PYG{o}{=}\PYG{n}{light}\PYG{o}{\PYGZhy{}}\PYG{n}{gray}\PYG{p}{,}
+    \PYG{n}{fontsize}\PYG{o}{=}\PYGZbs{}\PYG{n}{footnotesize}\PYG{p}{,}
+    \PYG{n}{linenos}
+    \PYG{p}{]\PYGZob{}}\PYG{n}{python}\PYG{p}{\PYGZcb{}}
+    \PYG{k}{def} \PYG{n+nf}{\PYGZus{}compute\PYGZus{}statistics\PYGZus{}of\PYGZus{}path}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{device}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}cuda\PYGZsq{}}\PYG{p}{,} \PYG{n}{dims}\PYG{o}{=}\PYG{l+m+mi}{2048}\PYG{p}{,} \PYG{n}{n\PYGZus{}smpl}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n}{path}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.npz\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{f} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{path}\PYG{p}{)}
+            \PYG{n}{m}\PYG{p}{,} \PYG{n}{s} \PYG{o}{=} \PYG{n}{f}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}mu\PYGZsq{}}\PYG{p}{][:],} \PYG{n}{f}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}sigma\PYGZsq{}}\PYG{p}{][:]}
+            \PYG{n}{f}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{path} \PYG{o}{=} \PYG{n}{pathlib}\PYG{o}{.}\PYG{n}{Path}\PYG{p}{(}\PYG{n}{path}\PYG{p}{)}
+            \PYG{n}{files} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{path}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}*.jpg\PYGZsq{}}\PYG{p}{))} \PYG{o}{+} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{path}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}*.png\PYGZsq{}}\PYG{p}{))}
+
+            \PYG{k}{if} \PYG{n}{n\PYGZus{}smpl} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{random}\PYG{o}{.}\PYG{n}{shuffle}\PYG{p}{(}\PYG{n}{files}\PYG{p}{)}
+                \PYG{n}{n\PYGZus{}smpl} \PYG{o}{=} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{n\PYGZus{}smpl}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{files}\PYG{p}{))}
+                \PYG{n}{files} \PYG{o}{=} \PYG{n}{files}\PYG{p}{[:}\PYG{n}{n\PYGZus{}smpl}\PYG{p}{]}
+
+            \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Using }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{files}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ samples from }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ for embedded mean and std calculation.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{m}\PYG{p}{,} \PYG{n}{s} \PYG{o}{=} \PYG{n}{calculate\PYGZus{}activation\PYGZus{}statistics}\PYG{p}{(}\PYG{n}{files}\PYG{p}{,} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{dims}\PYG{p}{,} \PYG{n}{device}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{m}\PYG{p}{,} \PYG{n}{s}
+\PYGZbs{}\PYG{n}{end}\PYG{p}{\PYGZob{}}\PYG{n}{lstlisting}\PYG{p}{\PYGZcb{}}
+
+
+
+
+\end{Verbatim}

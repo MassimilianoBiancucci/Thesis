@@ -1,0 +1,138 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{def} \PYG{n+nf}{calculate\PYGZus{}fid\PYGZus{}given\PYGZus{}paths}\PYG{p}{(}
+        \PYG{n}{paths}\PYG{p}{,}
+        \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{8}\PYG{p}{,}
+        \PYG{n}{device}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}cuda\PYGZsq{}}\PYG{p}{,}
+        \PYG{n}{dims}\PYG{o}{=}\PYG{l+m+mi}{2048}\PYG{p}{,}
+        \PYG{n}{n\PYGZus{}imgs}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}
+        \PYG{n}{seed}\PYG{o}{=}\PYG{l+m+mi}{42}
+    \PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Calculates the FID of two paths}
+
+\PYG{l+s+sd}{        Args:}
+\PYG{l+s+sd}{            paths: list of two paths to the generated images and real images}
+\PYG{l+s+sd}{            batch\PYGZus{}size: batch size for inception v3}
+\PYG{l+s+sd}{            device: device to run on. Default is cuda}
+\PYG{l+s+sd}{            dims: number of dimensions of Inception features to use [2048, 768, 192, 64]}
+\PYG{l+s+sd}{            n\PYGZus{}imgs: number of images to use for FID calculation. Default is \PYGZhy{}1 (use all images).}
+\PYG{l+s+sd}{                If exeeding the number of images in the folder, the maximum number of images is used.}
+\PYG{l+s+sd}{            seed: random seed for shuffling the images. Default is 42.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{paths}\PYG{p}{:}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{p}\PYG{p}{):}
+                \PYG{k}{raise} \PYG{n+ne}{RuntimeError}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Invalid path: }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{)}
+
+        \PYG{n}{block\PYGZus{}idx} \PYG{o}{=} \PYG{n}{InceptionV3}\PYG{o}{.}\PYG{n}{BLOCK\PYGZus{}INDEX\PYGZus{}BY\PYGZus{}DIM}\PYG{p}{[}\PYG{n}{dims}\PYG{p}{]}
+
+        \PYG{n}{model} \PYG{o}{=} \PYG{n}{InceptionV3}\PYG{p}{([}\PYG{n}{block\PYGZus{}idx}\PYG{p}{])}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{device}\PYG{p}{)}
+
+        \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Calculating the Inception mean and std of }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{ images.\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{))}
+        \PYG{n}{m1}\PYG{p}{,} \PYG{n}{s1} \PYG{o}{=} \PYG{n}{\PYGZus{}compute\PYGZus{}statistics\PYGZus{}of\PYGZus{}path}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{device}\PYG{p}{,} \PYG{n}{dims}\PYG{p}{,} \PYG{n}{n\PYGZus{}smpl}\PYG{o}{=}\PYG{n}{n\PYGZus{}imgs}\PYG{p}{)}
+
+        \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Calculating the Inception mean and std of }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{ images.\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{))}
+        \PYG{n}{m2}\PYG{p}{,} \PYG{n}{s2} \PYG{o}{=} \PYG{n}{\PYGZus{}compute\PYGZus{}statistics\PYGZus{}of\PYGZus{}path}\PYG{p}{(}\PYG{n}{paths}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{device}\PYG{p}{,} \PYG{n}{dims}\PYG{p}{,} \PYG{n}{n\PYGZus{}smpl}\PYG{o}{=}\PYG{n}{n\PYGZus{}imgs}\PYG{p}{)}
+
+        \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Calculating FID..\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{fid\PYGZus{}value} \PYG{o}{=} \PYG{n}{calculate\PYGZus{}frechet\PYGZus{}distance}\PYG{p}{(}\PYG{n}{m1}\PYG{p}{,} \PYG{n}{s1}\PYG{p}{,} \PYG{n}{m2}\PYG{p}{,} \PYG{n}{s2}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{fid\PYGZus{}value}
+\PYGZbs{}\PYG{n}{end}\PYG{p}{\PYGZob{}}\PYG{n}{lstlisting}\PYG{p}{\PYGZcb{}}
+
+\PYGZbs{}\PYG{n}{begin}\PYG{p}{\PYGZob{}}\PYG{n}{minted}\PYG{p}{\PYGZcb{}[}
+    \PYG{n}{frame}\PYG{o}{=}\PYG{n}{lines}\PYG{p}{,}
+    \PYG{n}{framesep}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{n}{mm}\PYG{p}{,}
+    \PYG{n}{baselinestretch}\PYG{o}{=}\PYG{l+m+mf}{1.2}\PYG{p}{,}
+    \PYG{n}{bgcolor}\PYG{o}{=}\PYG{n}{light}\PYG{o}{\PYGZhy{}}\PYG{n}{gray}\PYG{p}{,}
+    \PYG{n}{fontsize}\PYG{o}{=}\PYGZbs{}\PYG{n}{footnotesize}\PYG{p}{,}
+    \PYG{n}{linenos}
+    \PYG{p}{]\PYGZob{}}\PYG{n}{python}\PYG{p}{\PYGZcb{}}
+    \PYG{k}{def} \PYG{n+nf}{\PYGZus{}compute\PYGZus{}statistics\PYGZus{}of\PYGZus{}path}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{device}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}cuda\PYGZsq{}}\PYG{p}{,} \PYG{n}{dims}\PYG{o}{=}\PYG{l+m+mi}{2048}\PYG{p}{,} \PYG{n}{n\PYGZus{}smpl}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n}{path}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.npz\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{f} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{path}\PYG{p}{)}
+            \PYG{n}{m}\PYG{p}{,} \PYG{n}{s} \PYG{o}{=} \PYG{n}{f}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}mu\PYGZsq{}}\PYG{p}{][:],} \PYG{n}{f}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}sigma\PYGZsq{}}\PYG{p}{][:]}
+            \PYG{n}{f}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{path} \PYG{o}{=} \PYG{n}{pathlib}\PYG{o}{.}\PYG{n}{Path}\PYG{p}{(}\PYG{n}{path}\PYG{p}{)}
+            \PYG{n}{files} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{path}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}*.jpg\PYGZsq{}}\PYG{p}{))} \PYG{o}{+} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{path}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}*.png\PYGZsq{}}\PYG{p}{))}
+
+            \PYG{k}{if} \PYG{n}{n\PYGZus{}smpl} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{random}\PYG{o}{.}\PYG{n}{shuffle}\PYG{p}{(}\PYG{n}{files}\PYG{p}{)}
+                \PYG{n}{n\PYGZus{}smpl} \PYG{o}{=} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{n\PYGZus{}smpl}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{files}\PYG{p}{))}
+                \PYG{n}{files} \PYG{o}{=} \PYG{n}{files}\PYG{p}{[:}\PYG{n}{n\PYGZus{}smpl}\PYG{p}{]}
+
+            \PYG{n}{LOGGER}\PYG{o}{.}\PYG{n}{info}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Using }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{files}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ samples from }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ for embedded mean and std calculation.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{m}\PYG{p}{,} \PYG{n}{s} \PYG{o}{=} \PYG{n}{calculate\PYGZus{}activation\PYGZus{}statistics}\PYG{p}{(}\PYG{n}{files}\PYG{p}{,} \PYG{n}{model}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{dims}\PYG{p}{,} \PYG{n}{device}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{m}\PYG{p}{,} \PYG{n}{s}
+\PYGZbs{}\PYG{n}{end}\PYG{p}{\PYGZob{}}\PYG{n}{lstlisting}\PYG{p}{\PYGZcb{}}
+
+\PYGZbs{}\PYG{n}{begin}\PYG{p}{\PYGZob{}}\PYG{n}{minted}\PYG{p}{\PYGZcb{}[}
+    \PYG{n}{frame}\PYG{o}{=}\PYG{n}{lines}\PYG{p}{,}
+    \PYG{n}{framesep}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{n}{mm}\PYG{p}{,}
+    \PYG{n}{baselinestretch}\PYG{o}{=}\PYG{l+m+mf}{1.2}\PYG{p}{,}
+    \PYG{n}{bgcolor}\PYG{o}{=}\PYG{n}{light}\PYG{o}{\PYGZhy{}}\PYG{n}{gray}\PYG{p}{,}
+    \PYG{n}{fontsize}\PYG{o}{=}\PYGZbs{}\PYG{n}{footnotesize}\PYG{p}{,}
+    \PYG{n}{linenos}
+    \PYG{p}{]\PYGZob{}}\PYG{n}{python}\PYG{p}{\PYGZcb{}}
+    \PYG{k}{def} \PYG{n+nf}{calculate\PYGZus{}frechet\PYGZus{}distance}\PYG{p}{(}\PYG{n}{mu1}\PYG{p}{,} \PYG{n}{sigma1}\PYG{p}{,} \PYG{n}{mu2}\PYG{p}{,} \PYG{n}{sigma2}\PYG{p}{,} \PYG{n}{eps}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}6}\PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Numpy implementation of the Frechet Distance.}
+\PYG{l+s+sd}{        The Frechet distance between two multivariate Gaussians X\PYGZus{}1 \PYGZti{} N(mu\PYGZus{}1, C\PYGZus{}1)}
+\PYG{l+s+sd}{        and X\PYGZus{}2 \PYGZti{} N(mu\PYGZus{}2, C\PYGZus{}2) is}
+\PYG{l+s+sd}{                d\PYGZca{}2 = ||mu\PYGZus{}1 \PYGZhy{} mu\PYGZus{}2||\PYGZca{}2 + Tr(C\PYGZus{}1 + C\PYGZus{}2 \PYGZhy{} 2*sqrt(C\PYGZus{}1*C\PYGZus{}2)).}
+
+\PYG{l+s+sd}{        Stable version by Dougal J. Sutherland.}
+
+\PYG{l+s+sd}{        Params:}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} mu1   : Numpy array containing the activations of a layer of the}
+\PYG{l+s+sd}{                inception net (like returned by the function \PYGZsq{}get\PYGZus{}predictions\PYGZsq{})}
+\PYG{l+s+sd}{                for generated samples.}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} mu2   : The sample mean over activations, precalculated on an}
+\PYG{l+s+sd}{                representative data set.}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} sigma1: The covariance matrix over activations for generated samples.}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} sigma2: The covariance matrix over activations, precalculated on an}
+\PYG{l+s+sd}{                representative data set.}
+
+\PYG{l+s+sd}{        Returns:}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}   : The Frechet Distance.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+        \PYG{n}{mu1} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}1d}\PYG{p}{(}\PYG{n}{mu1}\PYG{p}{)}
+        \PYG{n}{mu2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}1d}\PYG{p}{(}\PYG{n}{mu2}\PYG{p}{)}
+
+        \PYG{n}{sigma1} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}2d}\PYG{p}{(}\PYG{n}{sigma1}\PYG{p}{)}
+        \PYG{n}{sigma2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}2d}\PYG{p}{(}\PYG{n}{sigma2}\PYG{p}{)}
+
+        \PYG{k}{assert} \PYG{n}{mu1}\PYG{o}{.}\PYG{n}{shape} \PYG{o}{==} \PYG{n}{mu2}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{,} \PYGZbs{}
+            \PYG{l+s+s1}{\PYGZsq{}Training and test mean vectors have different lengths\PYGZsq{}}
+        \PYG{k}{assert} \PYG{n}{sigma1}\PYG{o}{.}\PYG{n}{shape} \PYG{o}{==} \PYG{n}{sigma2}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{,} \PYGZbs{}
+            \PYG{l+s+s1}{\PYGZsq{}Training and test covariances have different dimensions\PYGZsq{}}
+
+        \PYG{n}{diff} \PYG{o}{=} \PYG{n}{mu1} \PYG{o}{\PYGZhy{}} \PYG{n}{mu2}
+
+        \PYG{c+c1}{\PYGZsh{} Product might be almost singular}
+        \PYG{n}{covmean}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{linalg}\PYG{o}{.}\PYG{n}{sqrtm}\PYG{p}{(}\PYG{n}{sigma1}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{sigma2}\PYG{p}{),} \PYG{n}{disp}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{np}\PYG{o}{.}\PYG{n}{isfinite}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{)}\PYG{o}{.}\PYG{n}{all}\PYG{p}{():}
+            \PYG{n}{msg} \PYG{o}{=} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fid calculation produces singular product; \PYGZsq{}}
+                \PYG{l+s+s1}{\PYGZsq{}adding }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{ to diagonal of cov estimates\PYGZsq{}}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{eps}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{)}
+            \PYG{n}{offset} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n}{sigma1}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])} \PYG{o}{*} \PYG{n}{eps}
+            \PYG{n}{covmean} \PYG{o}{=} \PYG{n}{linalg}\PYG{o}{.}\PYG{n}{sqrtm}\PYG{p}{((}\PYG{n}{sigma1} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{)}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{sigma2} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Numerical error might give slight imaginary component}
+        \PYG{k}{if} \PYG{n}{np}\PYG{o}{.}\PYG{n}{iscomplexobj}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{):}
+            \PYG{c+c1}{\PYGZsh{} if not np.allclose(np.diagonal(covmean).imag, 0, atol=1e\PYGZhy{}3):}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{np}\PYG{o}{.}\PYG{n}{allclose}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{diagonal}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{)}\PYG{o}{.}\PYG{n}{imag}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{atol}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}2}\PYG{p}{):}
+                \PYG{n}{m} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{covmean}\PYG{o}{.}\PYG{n}{imag}\PYG{p}{))}
+                \PYG{k}{raise} \PYG{n+ne}{ValueError}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Imaginary component }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{m}\PYG{p}{))}
+            \PYG{n}{covmean} \PYG{o}{=} \PYG{n}{covmean}\PYG{o}{.}\PYG{n}{real}
+
+        \PYG{n}{tr\PYGZus{}covmean} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{p}{(}\PYG{n}{diff}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{diff}\PYG{p}{)} \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{sigma1}\PYG{p}{)} \PYG{o}{+}
+                \PYG{n}{np}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{sigma2}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{tr\PYGZus{}covmean}\PYG{p}{)}
+
+\PYGZbs{}\PYG{n}{end}\PYG{p}{\PYGZob{}}\PYG{n}{lstlisting}\PYG{p}{\PYGZcb{}}
+
+
+\end{Verbatim}

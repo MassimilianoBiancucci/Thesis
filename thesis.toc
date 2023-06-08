@@ -68,11 +68,32 @@
 \contentsline {section}{\numberline {3.4}Repository del progetto}{52}{section.3.4}%
 \contentsline {chapter}{\numberline {4}Sviluppo del progetto}{53}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Definizione della pipeline di addestramento}{53}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Preparazione dei dati per la pipeline}{53}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Il dataloader}{53}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Il trainer}{53}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Lo script di evaluation}{53}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Tool per l'inferenza interattiva}{53}{section.4.6}%
-\contentsline {chapter}{\numberline {5}Risultati}{54}{chapter.5}%
-\contentsline {chapter}{Elenco delle figure}{55}{chapter*.69}%
-\contentsline {chapter}{Bibliografia}{59}{chapter*.70}%
+\contentsline {section}{\numberline {4.2}Preparazione dei dati per la pipeline}{55}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Severstal steel defect detection dataset reader}{55}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Conversione del formato del dataset}{56}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Split in train e test set}{58}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Creazione del dataset degli oggetti}{59}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Creazione del dataset di immagini base}{60}{subsection.4.2.5}%
+\contentsline {subsection}{\numberline {4.2.6}Creazione del dataset utilizzati come riferimento}{61}{subsection.4.2.6}%
+\contentsline {section}{\numberline {4.3}Il dataloader}{61}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}L'oggetto Augmentor}{61}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Gli oggetti JsonLineObjectDataset e JsonLineMaskObjectDataset}{63}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}L'oggetto ObjectDataloader e ShapeObjectDataloader}{64}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}L'oggetto ImageFolder}{64}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Il Noise Generator}{65}{subsection.4.3.5}%
+\contentsline {subsection}{\numberline {4.3.6}L'oggetto CoiganSeverstalSteelDefectsDataset}{67}{subsection.4.3.6}%
+\contentsline {section}{\numberline {4.4}La pipeline di addestramento}{68}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Il generatore}{68}{subsection.4.4.1}%
+\contentsline {subsubsection}{La non saturating loss}{69}{section*.86}%
+\contentsline {subsubsection}{La loss L1 smooth masked}{69}{section*.87}%
+\contentsline {subsubsection}{La path-length regularization}{71}{section*.89}%
+\contentsline {subsection}{\numberline {4.4.2}La perceptual loss smooth masked}{72}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Il discriminatore dei difetti}{74}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Il discriminatore di riferimento}{76}{subsection.4.4.4}%
+\contentsline {section}{\numberline {4.5}La valutazione del modello}{77}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Fréchet Inception Distance FID}{78}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}I risultati}{79}{subsection.4.5.2}%
+\contentsline {chapter}{\numberline {5}Conclusioni e sviluppi futuri}{80}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Sviluppi futuri}{80}{section.5.1}%
+\contentsline {chapter}{Elenco delle figure}{81}{chapter*.94}%
+\contentsline {chapter}{Bibliografia}{86}{chapter*.95}%

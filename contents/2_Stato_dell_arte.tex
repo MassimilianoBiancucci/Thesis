@@ -571,6 +571,7 @@ Di seguito sono mostrati alcuni esempi di applicazione del modello pix2pix, tra 
 
 
 \section{LaMa}
+\label{sec:lama}
 \begin{comment}
     Punti chiave di cui discutere per LAMA:
         - Introduzione al task dell'inpainting
@@ -750,6 +751,7 @@ viene applicato soltanto alle patch dell'immagine ricostruita $\hat{x}$ che non 
 viene applicato soltanto alle patch dell'immagine ricostruita che presentano parti rigenerate.
 
 \subsubsection{L'R1 regularization}
+\label{subsubsection:r1_reg}
 Un'importante accorgimento che è stato introdotto per migliorare la stabilità dell'addestramento di LaMa è l'R1 regularization,
 proposta da Lars Mescheder et al. in \cite{mescheder2018training}, nel 2018.\\
 In questo articolo Mescheder et al. hanno investigato il problema dell'instabilità dell'addestramento dei modelli GAN, studiano
@@ -790,7 +792,8 @@ dello spazio bidimensionale, si può notare come il gradiente per il caso in cui
         \centering
         \includegraphics[width=1.0\textwidth]{imgs/r1_reg.png}
         \caption{In questa immagine sono mostrati i risultati ottenuti da Mescheder et al. in \cite{mescheder2018training} 
-            utilizzando la R1 regularization. In blu è rappresentata la distribuzione di riferimento, in arancione i campioni generati.}
+            utilizzando la R1 regularization. In blu è rappresentata la distribuzione di riferimento, in arancione i campioni generati, mentre da viola a giallo
+            si ha l'intensità del gradiente di $D$.}
         \label{fig:r1_reg}
     \end{figure}
 

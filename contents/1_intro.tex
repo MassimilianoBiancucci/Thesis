@@ -1,38 +1,4 @@
 \chapter{Introduzione}
-\begin{comment}
-
-la scaletta dei capitoli è:
-- introduzione
-- stato dell'arte
-- metodi e strumenti
-- sviluppo del progetto
-- risultati
-
-Sottosezioni di introduzione:
-- Motivazione
-
-    - modelli neurali per la segmentazione dei difetti
-        - applicazioni
-        - il dataset e i requisiti per l'addestramento
-
-- Approccio al problema
-
-    - La generazione di un dataset sintetico
-
-- introduzione alle reti neurali
-
-    - feedforward networks
-        - il neurone
-        - la funzione di attivazione
-        - backpropagation
-
-    - convolutional neural networks
-        - la convoluzione
-        - il pooling
-        - l'upsampling
-
-\end{comment}
-
 
 \section{Motivazione \ok}
 
@@ -67,9 +33,6 @@ spese di trasporto aggiuntive per il ritorno o la sostituzione del prodotto, o a
 
 
 \subsection{Il dataset, requisiti e problematiche di realizzazione \ok}
-\begin{comment}
-    Va rivisto il contenuto e integrate le parti provenienti dalla sezione precedente.
-\end{comment}
 
 La problematica di avere un modello con elevata accuratezza per task di segmentazione è relativa alla quantità e qualità dei dati necessari,
 i quali raramente sono disponibili opensource o per l'acquisto, rendendo necessaria la creazione di un dataset apposito.
@@ -104,10 +67,6 @@ Infatti vi sono diversi step che si devono seguire:
 \end{itemize} 
 
 \subsection{Approccio al problema \ok}
-\begin{comment}
-Realizzare un architettura in grado di generare un buona quantità di dati annotati a partire da una quantità ridotta.
-TODO: aggiungi paper di tecnica copy paste
-\end{comment}
 
 La creazione di un dataset come precedentemente illustrato è un processo complesso e dispendioso, che richiede molte risorse umane e finanziarie,
 dunque l'intento di questo lavoro di tesi è di proporre un approccio alternativo che sia in grado di ridurre per quanto possibile la durata e il costo
@@ -138,7 +97,7 @@ e non più le \textit{features} del difetto. Per risolvere questo problema con q
 
 \subsubsection{Generatore con architettura a solo decoder}
 
-    Questo approccio prevede un'architettura a solo \textit{decoder}, ovvero un modello che prende in ingresso un tenore di determinate dimensioni e
+    Questo approccio prevede un'architettura a solo \textit{decoder}, ovvero un modello che prende in ingresso un tensore di determinate dimensioni e
     che attraverso una serie di operazioni di \textit{upsampling} o \textit{dilated convolution} ad esempio, effettua un'espansione di tale tensore
     portandolo alle dimensioni finali. 
     Generalmente si mette in ingresso un vettore casuale di dimensione definita, ottenendo in uscita un tensore delle dimensioni di un'immagine con i canali RGB 
@@ -179,29 +138,7 @@ e non più le \textit{features} del difetto. Per risolvere questo problema con q
     \end{figure}
 
 \section{La nascita del deep learning \ok}
-\begin{comment}
-    Breve sezione che ripercorre le strutture base utilizzate in questa tipologia di reti neurali.
 
-    indice di questa sezione:
-    - Dal machine learning al deep learning
-
-    - feedforward networks
-        - il neurone
-        - la funzione di trasferimento
-        - Una semplice rete neurale
-        - backpropagation
-
-    - convolutional neural networks
-        - la convoluzione
-        - il pooling
-        - l'upsampling
-        - downsampling
-        - atrous convolution
-        - separable convolution
-        - depthwise separable convolution
-        - dilated convolution
-        
-\end{comment}
 In questa sezione si darà un'idea generale di cos'è il deep learning e di come questo campo di ricerca sia nato dallo studio della
 neuroscienza e del machine learning.
 

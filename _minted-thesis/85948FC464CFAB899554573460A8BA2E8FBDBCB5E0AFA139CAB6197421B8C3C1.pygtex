@@ -1,0 +1,36 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+        \PYG{k}{def} \PYG{n+nf}{forward}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{pred}\PYG{p}{,} \PYG{n}{target}\PYG{p}{,} \PYG{n}{input\PYGZus{}mask}\PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Compute the ResNet perceptual loss for the input and target.}
+\PYG{l+s+sd}{        Args:}
+\PYG{l+s+sd}{            pred: predicted tensor}
+\PYG{l+s+sd}{            target: target tensor}
+\PYG{l+s+sd}{            input\PYGZus{}mask: input mask tensor}
+\PYG{l+s+sd}{        Returns:}
+\PYG{l+s+sd}{            ResNet perceptual loss}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{pred} \PYG{o}{=} \PYG{p}{(}\PYG{n}{pred} \PYG{o}{\PYGZhy{}} \PYG{n}{IMAGENET\PYGZus{}MEAN}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{pred}\PYG{p}{))} \PYG{o}{/} \PYG{n}{IMAGENET\PYGZus{}STD}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{pred}\PYG{p}{)}
+        \PYG{n}{target} \PYG{o}{=} \PYG{p}{(}\PYG{n}{target} \PYG{o}{\PYGZhy{}} \PYG{n}{IMAGENET\PYGZus{}MEAN}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{target}\PYG{p}{))} \PYG{o}{/} \PYG{n}{IMAGENET\PYGZus{}STD}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{target}\PYG{p}{)}
+        \PYG{n}{pred\PYGZus{}feats} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{impl}\PYG{p}{(}\PYG{n}{pred}\PYG{p}{,} \PYG{n}{return\PYGZus{}feature\PYGZus{}maps}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n}{target\PYGZus{}feats} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{impl}\PYG{p}{(}\PYG{n}{target}\PYG{p}{,} \PYG{n}{return\PYGZus{}feature\PYGZus{}maps}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Compute the mask}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kernel\PYGZus{}size} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{mask} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{conv2d}\PYG{p}{(}\PYG{n}{input\PYGZus{}mask}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kernel}\PYG{p}{,} \PYG{n}{padding}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kernel\PYGZus{}size} \PYG{o}{//} \PYG{l+m+mi}{2}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} convert the mask in a weight mask}
+        \PYG{n}{weight\PYGZus{}mask} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{obj\PYGZus{}weight} \PYG{o}{*} \PYG{n}{mask} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bg\PYGZus{}weight} \PYG{o}{*} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{mask}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} create a weight mask for each feature layer}
+        \PYG{n}{resized\PYGZus{}weight\PYGZus{}masks} \PYG{o}{=} \PYG{p}{[}\PYG{n}{F}\PYG{o}{.}\PYG{n}{interpolate}\PYG{p}{(}\PYG{n}{weight\PYGZus{}mask}\PYG{p}{,} \PYG{n}{size}\PYG{o}{=}\PYG{n}{feat}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{:],} \PYGZbs{}
+                \PYG{n}{mode}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{interpolation\PYGZus{}mode}\PYG{p}{,} \PYG{n}{align\PYGZus{}corners}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{allign\PYGZus{}corners}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{feat} \PYG{o+ow}{in} \PYG{n}{pred\PYGZus{}feats}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} Compute the loss}
+        \PYG{n}{layer\PYGZus{}losses} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{cur\PYGZus{}pred}\PYG{p}{,} \PYG{n}{cur\PYGZus{}target}\PYG{p}{,} \PYG{n}{w\PYGZus{}mask} \PYG{o+ow}{in} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{pred\PYGZus{}feats}\PYG{p}{,} \PYG{n}{target\PYGZus{}feats}\PYG{p}{,} \PYG{n}{resized\PYGZus{}weight\PYGZus{}masks}\PYG{p}{):}
+            \PYG{n}{layer\PYGZus{}loss} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{mse\PYGZus{}loss}\PYG{p}{(}\PYG{n}{cur\PYGZus{}pred}\PYG{p}{,} \PYG{n}{cur\PYGZus{}target}\PYG{p}{,} \PYG{n}{reduction}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{masked\PYGZus{}layer\PYGZus{}loss} \PYG{o}{=} \PYG{n}{layer\PYGZus{}loss}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{dim}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{keepdim}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)} \PYG{o}{*} \PYG{n}{w\PYGZus{}mask}
+            \PYG{n}{layer\PYGZus{}losses}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{masked\PYGZus{}layer\PYGZus{}loss}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()} \PYG{o}{/} \PYG{n}{w\PYGZus{}mask}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{())}
+        \PYG{k}{return} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{stack}\PYG{p}{(}\PYG{n}{layer\PYGZus{}losses}\PYG{p}{)}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{()}
+\end{Verbatim}

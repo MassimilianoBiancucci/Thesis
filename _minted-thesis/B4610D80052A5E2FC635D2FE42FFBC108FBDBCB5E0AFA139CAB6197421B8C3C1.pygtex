@@ -1,0 +1,24 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}call\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{pred}\PYG{p}{,} \PYG{n}{target}\PYG{p}{,} \PYG{n}{mask}\PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Args:}
+\PYG{l+s+sd}{            pred (torch.Tensor): prediction tensor}
+\PYG{l+s+sd}{            target (torch.Tensor): target tensor, reference for the prediction}
+\PYG{l+s+sd}{            mask (torch.Tensor): mask tensor, with values in \PYGZob{}0, 1\PYGZcb{},}
+\PYG{l+s+sd}{                where 1 means the pixel correspond to an impainted area.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+        \PYG{c+c1}{\PYGZsh{} create the smoothed mask}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kernel\PYGZus{}size} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{mask} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{conv2d}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kernel}\PYG{p}{,} \PYG{n}{padding}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kernel\PYGZus{}size} \PYG{o}{//} \PYG{l+m+mi}{2}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} convert the mask in a weight mask}
+        \PYG{n}{weight\PYGZus{}mask} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{obj\PYGZus{}weight} \PYG{o}{*} \PYG{n}{mask} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bg\PYGZus{}weight} \PYG{o}{*} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{mask}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} apply the masked L1 loss}
+        \PYG{n}{loss} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{l1\PYGZus{}loss}\PYG{p}{(}\PYG{n}{pred}\PYG{p}{,} \PYG{n}{target}\PYG{p}{,} \PYG{n}{reduction}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{loss} \PYG{o}{=} \PYG{n}{loss} \PYG{o}{*} \PYG{n}{weight\PYGZus{}mask}
+
+        \PYG{k}{return} \PYG{n}{loss}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()} \PYG{o}{/} \PYG{n}{weight\PYGZus{}mask}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()}
+\end{Verbatim}

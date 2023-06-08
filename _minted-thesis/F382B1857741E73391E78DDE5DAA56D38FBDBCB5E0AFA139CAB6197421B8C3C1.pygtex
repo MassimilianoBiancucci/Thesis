@@ -1,0 +1,63 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{def} \PYG{n+nf}{calculate\PYGZus{}frechet\PYGZus{}distance}\PYG{p}{(}\PYG{n}{mu1}\PYG{p}{,} \PYG{n}{sigma1}\PYG{p}{,} \PYG{n}{mu2}\PYG{p}{,} \PYG{n}{sigma2}\PYG{p}{,} \PYG{n}{eps}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}6}\PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Numpy implementation of the Frechet Distance.}
+\PYG{l+s+sd}{        The Frechet distance between two multivariate Gaussians X\PYGZus{}1 \PYGZti{} N(mu\PYGZus{}1, C\PYGZus{}1)}
+\PYG{l+s+sd}{        and X\PYGZus{}2 \PYGZti{} N(mu\PYGZus{}2, C\PYGZus{}2) is}
+\PYG{l+s+sd}{                d\PYGZca{}2 = ||mu\PYGZus{}1 \PYGZhy{} mu\PYGZus{}2||\PYGZca{}2 + Tr(C\PYGZus{}1 + C\PYGZus{}2 \PYGZhy{} 2*sqrt(C\PYGZus{}1*C\PYGZus{}2)).}
+
+\PYG{l+s+sd}{        Stable version by Dougal J. Sutherland.}
+
+\PYG{l+s+sd}{        Params:}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} mu1   : Numpy array containing the activations of a layer of the}
+\PYG{l+s+sd}{                inception net (like returned by the function \PYGZsq{}get\PYGZus{}predictions\PYGZsq{})}
+\PYG{l+s+sd}{                for generated samples.}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} mu2   : The sample mean over activations, precalculated on an}
+\PYG{l+s+sd}{                representative data set.}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} sigma1: The covariance matrix over activations for generated samples.}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{} sigma2: The covariance matrix over activations, precalculated on an}
+\PYG{l+s+sd}{                representative data set.}
+
+\PYG{l+s+sd}{        Returns:}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}   : The Frechet Distance.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+        \PYG{n}{mu1} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}1d}\PYG{p}{(}\PYG{n}{mu1}\PYG{p}{)}
+        \PYG{n}{mu2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}1d}\PYG{p}{(}\PYG{n}{mu2}\PYG{p}{)}
+
+        \PYG{n}{sigma1} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}2d}\PYG{p}{(}\PYG{n}{sigma1}\PYG{p}{)}
+        \PYG{n}{sigma2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{atleast\PYGZus{}2d}\PYG{p}{(}\PYG{n}{sigma2}\PYG{p}{)}
+
+        \PYG{k}{assert} \PYG{n}{mu1}\PYG{o}{.}\PYG{n}{shape} \PYG{o}{==} \PYG{n}{mu2}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{,} \PYGZbs{}
+            \PYG{l+s+s1}{\PYGZsq{}Training and test mean vectors have different lengths\PYGZsq{}}
+        \PYG{k}{assert} \PYG{n}{sigma1}\PYG{o}{.}\PYG{n}{shape} \PYG{o}{==} \PYG{n}{sigma2}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{,} \PYGZbs{}
+            \PYG{l+s+s1}{\PYGZsq{}Training and test covariances have different dimensions\PYGZsq{}}
+
+        \PYG{n}{diff} \PYG{o}{=} \PYG{n}{mu1} \PYG{o}{\PYGZhy{}} \PYG{n}{mu2}
+
+        \PYG{c+c1}{\PYGZsh{} Product might be almost singular}
+        \PYG{n}{covmean}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{linalg}\PYG{o}{.}\PYG{n}{sqrtm}\PYG{p}{(}\PYG{n}{sigma1}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{sigma2}\PYG{p}{),} \PYG{n}{disp}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{np}\PYG{o}{.}\PYG{n}{isfinite}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{)}\PYG{o}{.}\PYG{n}{all}\PYG{p}{():}
+            \PYG{n}{msg} \PYG{o}{=} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fid calculation produces singular product; \PYGZsq{}}
+                \PYG{l+s+s1}{\PYGZsq{}adding }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s1}{ to diagonal of cov estimates\PYGZsq{}}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{eps}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{)}
+            \PYG{n}{offset} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n}{sigma1}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])} \PYG{o}{*} \PYG{n}{eps}
+            \PYG{n}{covmean} \PYG{o}{=} \PYG{n}{linalg}\PYG{o}{.}\PYG{n}{sqrtm}\PYG{p}{((}\PYG{n}{sigma1} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{)}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{sigma2} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Numerical error might give slight imaginary component}
+        \PYG{k}{if} \PYG{n}{np}\PYG{o}{.}\PYG{n}{iscomplexobj}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{):}
+            \PYG{c+c1}{\PYGZsh{} if not np.allclose(np.diagonal(covmean).imag, 0, atol=1e\PYGZhy{}3):}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{np}\PYG{o}{.}\PYG{n}{allclose}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{diagonal}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{)}\PYG{o}{.}\PYG{n}{imag}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{atol}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}2}\PYG{p}{):}
+                \PYG{n}{m} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{covmean}\PYG{o}{.}\PYG{n}{imag}\PYG{p}{))}
+                \PYG{k}{raise} \PYG{n+ne}{ValueError}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Imaginary component }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{m}\PYG{p}{))}
+            \PYG{n}{covmean} \PYG{o}{=} \PYG{n}{covmean}\PYG{o}{.}\PYG{n}{real}
+
+        \PYG{n}{tr\PYGZus{}covmean} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{covmean}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{p}{(}\PYG{n}{diff}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{diff}\PYG{p}{)} \PYG{o}{+} \PYG{n}{np}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{sigma1}\PYG{p}{)} \PYG{o}{+}
+                \PYG{n}{np}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{(}\PYG{n}{sigma2}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{tr\PYGZus{}covmean}\PYG{p}{)}
+
+\PYGZbs{}\PYG{n}{end}\PYG{p}{\PYGZob{}}\PYG{n}{lstlisting}\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{test}
+
+\end{Verbatim}

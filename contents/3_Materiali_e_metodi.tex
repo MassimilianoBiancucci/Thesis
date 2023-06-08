@@ -14,7 +14,7 @@ ma è difficile per gli operatori umani rilevare difetti come graffi, crepe, ecc
 è necessario adottare sistemi automatizzati che siano in grado di rilevare difetti in modo affidabile e veloce.
 
 L'automatizzazione del controllo qualità è stata la scelta fatta da Severstal, una delle principali aziende produttrici di acciaio in Russia, che produce circa 10 milioni di tonnellate di acciaio 
-all'anno. Severstal ha messo a disposizione \"Severstal steel defect detection\" dataset nel 2019 per permettere a chiunque di testarvi le proprie idee, 
+all'anno. Severstal ha messo a disposizione \textbf{Severstal steel defect detection dataset} nel 2019 per permettere a chiunque di testarvi le proprie idee, 
 sperando di riuscire ad aumentare l'affidabilità del proprio sistema di rilevazione difetti sfruttando la comunita di Kaggle.
 Il dataset è disponibile al seguente link: \url{https://www.kaggle.com/c/severstal-steel-defect-detection/data}.
 
@@ -23,7 +23,7 @@ il modello sul test set originale e verranno dunque utilizzati solo i dati del t
 Il training set originale  è composto da 12568 immagini, che verranno divise in un 50\% per il nuovo training set e 50\% per il nuovo test set, 
 quindi un totale di 6284 immagini per il training set e 6284 immagini per il test set. 
 Questo numero è stato scelto in modo da garantire un numero minimo di immagini per effettuare l'addestramento del modello, in quanto 
-lo scopo non è addestrare un modello perfetto ma valutare l'efficacia del metodo per dataset di piccole dimensioni. 
+lo scopo non è addestrare un buon modello ma valutare l'efficacia del metodo per dataset di piccole dimensioni. 
 
 il training set è stato poi utilizzato per il training del generatore di difetti sintetici, mentre il test set per valutare la qualità dei dati generati
 tramite FID score.
@@ -254,7 +254,7 @@ molto semplice e veloce.
 Distributed data parallel non è una libreria a se stante ma un modulo integrato nel framework Pytorch,
 che permette di scalare il training di un modello neurale su più GPU in un singolo nodo, o su più nodi.
 DDP parallelizza il training generando un processo separato per ogni GPU, ognuno presenta
-una copia identica del modello, durante il training la retropropagazione dell'errore innesca un hook che effettua la 
+una copia identica del modello, durante il training la retropropagazione dell'errore innesca un \textit{hook} che effettua la 
 sincronizzazione dei gradienti mediante delle primitive di sincronizzazione tra i processi, in tal modo 
 si ottiene un unico gradiente aggiornato per tutte le istanze.
 

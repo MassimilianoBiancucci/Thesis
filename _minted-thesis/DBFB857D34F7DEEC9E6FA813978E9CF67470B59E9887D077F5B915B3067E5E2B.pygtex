@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}img\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}0\PYGZus{}0.jpg\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}polygons\PYGZdq{}}\PYG{p}{:} \PYG{p}{[\PYGZob{}}\PYG{n+nt}{\PYGZdq{}label\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}3\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}points\PYGZdq{}}\PYG{p}{:} \PYG{p}{[[[}\PYG{l+m+mi}{1048}\PYG{p}{,} \PYG{l+m+mi}{250}\PYG{p}{],} \PYG{err}{...}\PYG{p}{]]\PYGZcb{}]\PYGZcb{}}
+    \PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}img\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}1\PYGZus{}0.jpg\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}polygons\PYGZdq{}}\PYG{p}{:} \PYG{p}{[\PYGZob{}}\PYG{n+nt}{\PYGZdq{}label\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}2\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}points\PYGZdq{}}\PYG{p}{:} \PYG{p}{[[[}\PYG{l+m+mi}{917}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{913}\PYG{p}{,} \PYG{l+m+mi}{62}\PYG{p}{],} \PYG{err}{...}\PYG{p}{]]\PYGZcb{}]\PYGZcb{}}
+    \PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}img\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}2\PYGZus{}0.jpg\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}polygons\PYGZdq{}}\PYG{p}{:} \PYG{p}{[]\PYGZcb{}}
+    \PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}img\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}3\PYGZus{}0.jpg\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}polygons\PYGZdq{}}\PYG{p}{:} \PYG{p}{[]\PYGZcb{}}
+    \PYG{err}{...}
+\end{Verbatim}

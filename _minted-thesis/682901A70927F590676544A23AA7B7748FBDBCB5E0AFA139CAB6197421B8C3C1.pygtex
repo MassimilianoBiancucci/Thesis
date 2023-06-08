@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{def} \PYG{n+nf}{g\PYGZus{}nonsaturating\PYGZus{}loss}\PYG{p}{(}\PYG{n}{discriminator\PYGZus{}output}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n}{loss} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{softplus}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{discriminator\PYGZus{}output}\PYG{p}{)}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{()}
+\end{Verbatim}

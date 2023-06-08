@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+        \PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}img\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}0.jpg\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}points\PYGZdq{}}\PYG{p}{:} \PYG{p}{[[[}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{],} \PYG{err}{...}\PYG{p}{]],} \PYG{n+nt}{\PYGZdq{}shape\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{246}\PYG{p}{,} \PYG{l+m+mi}{22}\PYG{p}{]\PYGZcb{}}
+        \PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}img\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}1.jpg\PYGZdq{}}\PYG{p}{,} \PYG{n+nt}{\PYGZdq{}points\PYGZdq{}}\PYG{p}{:} \PYG{p}{[[[}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{],} \PYG{err}{...}\PYG{p}{]],} \PYG{n+nt}{\PYGZdq{}shape\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{249}\PYG{p}{,} \PYG{l+m+mi}{25}\PYG{p}{]\PYGZcb{}}
+        \PYG{err}{...}
+\end{Verbatim}
