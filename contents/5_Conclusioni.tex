@@ -5,12 +5,12 @@ Uno dei punti focali che probabilmente hanno influito negativamente, come già d
 troppo piccolo per poter essere utilizzato in una pipeline di questo tipo.\\
 Un'ulteriore punto sul quale è possibile migliorare la pipeline è relativo alla struttura del modello (LaMa-fourier), il quale è ottimizzato per l'estrazione
 del contesto dell'immagine già dai primi layer, in quanto il suo task originale era l'inpainting di aree di immagini mancanti, in tale contesto il modello
-necessita di estrarre quante più informazioni dalle parti presenti il prima possibile, mentre nel contesto
+necessita di estrarre quante più informazioni dalle parti dell'immagine presenti il prima possibile, mentre nel contesto
 della generazione dei difetti queste caratteristiche non hanno avuto particolare rilevanza, come invece si era presupposto.
 
 \section{Sviluppi futuri}
 Un'idea per migliorare le prestazioni del framework, sul quale il progetto verterà se verrà continuato è sicuramente quella di partire dalla struttura del
 modello \textbf{Stylegan 2}, presentato da Tero Karras et al. \cite{karras2020analyzing}, il quale ha dimostrato eccezionali capacità di generalizzazione
 e di generazione di immagini di alta qualità.\\
-Una potenziale struttura potrebbe essere sempre basata su layer convoluzionali, ma con le \textit{style injection} con i layer AdaIn proposte in \textbf{Stylegan 2},
+Una potenziale struttura potrebbe essere sempre basata su layer convoluzionali, ma con le \textit{style injection} attraverso i layer AdaIn proposti in \textbf{Stylegan 2},
 e utilizzando la \textit{Fast Fourier Convolution} utilizzata in \textbf{LaMa-fourier} sempre utilizzando una struttura a encoder-decoder U-net like.

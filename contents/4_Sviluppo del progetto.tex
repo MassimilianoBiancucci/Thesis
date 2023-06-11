@@ -34,19 +34,19 @@ mentre i successivi 4 canali rappresentano le maschere per il condizionamento de
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.9\textwidth]{imgs/Coigan/G_input.png}
-        \caption{Figura che illustra un esempio di input di COIGAN, il quale è un tensore di 7 canali in questo caso con un'immagine RGB e 4 canali
+        \caption{Figura che illustra un esempio di input di COIGAN, il quale è un tensore di 7 canali, in questo caso con un'immagine RGB e 4 canali
         per le maschere che effettuano il condizionamento della generazione dei difetti.} 
         \label{fig:Coigan input}
     \end{figure}
 
-Nella Pipeline di LaMa come visto nella sezione \ref{sec:lama}, ci sono 3 loss principali, esclusa la regolarizzazione, che sono:
+Nella Pipeline di LaMa come visto nella sezione \ref{sec:lama}, ci sono 3 loss principali, esclusa la regolarizzazione, le quali sono:
 la loss L1, la \textit{Adversarial loss} e la \textit{Perceptual loss}. La loss L1 è una componente della loss che spinge il generatore verso
 il centro della distribuzione dei dati, la quale anche se come illustrato da Goodfellow può portare a risultati non ottimali, per quanto visto
 nella pubblicazione di Pix2Pix, se utilizzata con il giusto peso in congiunzione con l'\textit{Adversarial loss} sembra migliorare i risultati generali.
 La \textit{Adversarial loss} è la componente principale della loss, che spinge il generatore a generare immagini che abbiano delle caratteristiche
-appartenenti alla distribuzione del \textit{training set}, e in fine la \textit{Perceptual loss} che è una componente che spinge
+appartenenti alla distribuzione del \textit{training set}. In fine la \textit{Perceptual loss} è una componente che spinge
 il generatore a completare l'immagine con delle caratteristiche che siano coerenti con quelle della parte rimossa dell'immagine originale, senza bisogno di effettuare
-un match perfetto, quest'ultima applicata con le features di un modello preaddestrato e con le features estratte dal discriminatore.
+un match perfetto, quest'ultima applicata con le \textit{features} di un modello preaddestrato e attraverso quelle estratte dal discriminatore.
 
     \begin{figure}[H]
         \centering
@@ -83,7 +83,7 @@ e di come sono stati creati i dataset degli oggetti, delle immagini base e dei d
 Tutte queste operazioni vengono effettuate dallo script \path{scripts/prepare_severstal_dataset.py}.
 
 \subsection{Severstal steel defect detection dataset reader}
-Il dataset \textit{Severstal steel defect detection dataset} contiene 2 set di immagini, il train set e il test set, solo per il
+Il dataset \textit{Severstal steel defect detection} contiene 2 set di immagini, il train set e il test set, solo per il
 training set è presente un file csv che contiene le annotazioni per i difetti presenti nelle immagini.
 Il file CSV contiene 3 colonne, con un elemento per ogni difetto presente nelle immagini, le colonne sono le seguenti:
 
@@ -115,9 +115,9 @@ ogni coppia di numeri rappresentano una riga di pixel nella maschera, il primo n
 di una riga mentre il secondo numero rappresenta la lunghezza della riga di pixel con valore 1.\\
 Tale codifica però considera la posizione di un pixel rispetto all'immagine come se questa fosse un vettore monodimensionale,
 quindi considerando un vettore di lunghezza $l = w * h$, dove $w$ è la larghezza dell'immagine e $h$ è l'altezza, corrispondenti nel nostro caso
-a $w = 1600$ e $h = 256$, dunque con un vettore di lunghezza $l = 409600$, per ogni coppia di numeri nella sequenza che chiamiamo $p1$ e $p2$,
+a $w = 1600$ e $h = 256$, dunque con un vettore di lunghezza $l = 409600$. Per ogni coppia di numeri nella sequenza che chiamiamo $p1$ e $p2$,
 per la decodifica sarà sufficiente settare a 1 tutti i pixel compresi tra $p1$ e $p1 + p2$, escluso il pixel in posizione $p1 + p2$,
-per poi effettuare un reshape del vettore in una matrice di dimensioni $w * h$.\\
+per poi effettuare un \textit{reshape} del vettore in una matrice di dimensioni $w * h$.\\
 Tale processo è effettuato dalla seguente funzione che prende come argomento la stringa contenente la sequenza di numeri e le dimensioni dell'immagine:
 
 \begin{figure}[H]
@@ -154,24 +154,24 @@ Tale processo è effettuato dalla seguente funzione che prende come argomento la
     \caption{Funzione che effettua la decodifica di una maschera codificata in RLE.}
 \end{figure}
 
-Questa che è mostrata è la funzione principale dell'oggetto che effettua la lettura del dataset originale e funge da iteratore 
+Questa che è mostrata è la funzione principale dell'oggetto che effettua la lettura del dataset originale, il quale funge da iteratore 
 per l'estrazione dell'immagine e delle maschere corrispondenti in formato numpy con un tensore per l'immagine di dimensione $w * h * 3$, 
 e un tensore di dimensioni $n * w * h$ per le maschere, dove $n$ è il numero di classi di difetti presenti nel dataset.
 
 
-\subsection{Conversione del formato del dataset}
-Il formato utilizzato per manipolare il dataset nel progetto è  il formato \textit{line json}.
+\subsection{Conversione nel formato line json}
+Il formato utilizzato per manipolare il dataset nel progetto è il formato \textit{line json}.
 Questo formato permette di codificare le annotazioni come una serie di json suddivisi in righe in uno stesso file,
 ognuno dei quali contiene i metadati di un'immagine e le annotazioni per i difetti presenti in essa.
 Questa tipologia di formato consente di avere un buon rapporto tra struttura dei dati e efficienza in lettura,
 in quanto i sample codificati come json danno molta libertà per quanto riguarda la struttura dei metadati, 
-mentre l'utilizzo di un singolo file permette di tenere aperto un singolo file che contiene tutte le annotazioni, 
+mentre l'utilizzo di un singolo file permette un accesso più agevole alle annotazioni rispetto al caso con un file per ogni \textit{sample}, 
 e di poter leggere una singola riga alla volta, senza necessità di caricare tutto il file in memoria.\\
 Questa struttura presenta soltanto il problema di dover conoscere la posizione del carattere di inizio di ogni json file,
 almeno se si vuole effettuare una lettura casuale degli esempi, ma questo problema è facilmente risolvibile tenendo traccia dei caratteri di
 inizio riga in un file separato, il quale può essere caricato in memoria prima della lettura del file contenente le annotazioni.
-A quel punto per accedere ad uno specifico esempio basterà scegliere il numero dell'esempio, convertire l'indice dell'esempio con il carattere
-di inizio riga corrispondente, e leggere la riga fino al carattere di fine riga, per poi effettuare la conversione ed utilizzare i dati.
+Per accedere ad uno specifico elemento basterà scegliere il numero dell'esempio, convertire l'indice dell'esempio con la posizione del carattere
+di inizio riga corrispondente, e leggere la riga fino al carattere di fine riga, per poi effettuare la conversione da stringa a dict.
 
 Di seguito è possibile vedere un esempio di come sono strutturati i dati nel formato \textit{line json}:
 
@@ -245,7 +245,7 @@ L'algoritmo implementato per lo scopo è presente nel file \path{COIGAN/training
 calcolando per ogni sample il set con cui ha la maggiore affinità, ovvero viene assegnato al set che ha la maggiore distanza tra il numero di
 difetti attuale e quello obbiettivo, considerando le variazioni di distanza che si avrebbero assegnando il sample a tale set.
 
-Vediamo di seguito infatti le distribuzioni dei difetti in due set (train e test) generati con questo algoritmo e divisi esattamente in due parti uguali:
+Vediamo di seguito infatti le distribuzioni dei difetti in due set (train e test) generati con questo algoritmo, i quali hanno lo stesso numero di esempi:
 
 \begin{figure}[H]
     \centering
@@ -294,10 +294,10 @@ Si ottengono dunque 4 dataset con immagini quadrate di dimensioni arbitrarie per
     \label{fig:object_dataset_generation}
 \end{figure}
 
-Per questa tipologia di dataset è stata mantenuto come standard il \textit{line json}, ma in quanto in questo caso ad ogni elemento (o immagine) 
+Per questa tipologia di dataset è stata mantenuto come standard il formato \textit{line json}, ma in quanto in questo caso ad ogni elemento (o immagine) 
 corrisponde una sola annotazione è stata modificata la struttura del json, associando ad ogni elemento una lista di punti di un singolo poligono,
-ed è stata aggiunto un campo che che indica la dimensione del crop del difetto, tale accortezza permette il caricamento della maschera
-senza la necessità di caricare l'immagine per caricare le dimensioni della maschera.Di seguito è mostrato un'esempio di come sono strutturati 
+ed è stato aggiunto un campo che che indica la dimensione del crop del difetto, tale accortezza permette il caricamento della maschera
+senza la necessità di caricare l'immagine per caricare le dimensioni della maschera. Di seguito è mostrato un'esempio di come sono strutturati 
 i dati nel formato \textit{line json} per i dataset degli oggetti:
 
 \begin{figure}[H]
@@ -340,7 +340,7 @@ non sprecare nessuna parte dell'immagine.\\
     \label{fig:tiling}
 \end{figure}
 
-\subsection{Creazione del dataset utilizzati come riferimento}
+\subsection{Creazione del dataset utilizzato come riferimento}
 Il dataset di riferimento segue la stessa procedura effettuata per il dataset di immagini base, con la differenza che in questo caso
 non sono state selezionate immagini specifiche dal training set, ma sono state semplicemente estratte 7 patch di dimensione 256x256 da ogni immagine.
 Lo scopo di questo dataset è fornire una distribuzione di riferimento per un discriminatore che confronta le immagini generate con quelle reali,
@@ -353,7 +353,7 @@ Il dataloader in questo progetto ha richiesto più lavoro rispetto ad un modello
 in quanto doveva gestire 10 sorgenti di dati differenti, le quali poi venivano successivamente combinate, principalmente in tre tensori
 utilizzati come input per i vari modelli della pipeline.\\
 Data la complessità del dataloader è stato scelto un'approccio modulare, dove ogni componente del dataloader è rappresentata da una classe
-che ha sua volta incapsula o estende altre classi, in modo da rendere più semplice la gestione delle varie operazioni di caricamento dei dati,
+che a sua volta incapsula o estende altre classi, in modo da rendere più semplice la gestione delle varie operazioni di caricamento dei dati,
 in Figura \ref{fig:dataloader} è mostrato un diagramma UML semplificato del dataloader e delle classi principali che lo compongono, per dare un'idea
 della struttura dell'oggetto.\\
 
@@ -392,7 +392,7 @@ che verranno applicate esclusivamente alle immagini, e una per le trasformazioni
 
 Una peculiarità di questo oggetto è che consente oltre alle trasformazioni di \textit{data augmentation} anche di applicare delle trasformazioni
 fisse alla dimensione dei tensori dopo l'augmentation, così da poter adattare le immagini all'input di un modello con dimensione fissa, o semplicemente
-permettendo di avere tensori di dimensione medesima che possono essere impilati per formare dei batch, in base al caso d'uso.
+permettendo di avere tensori della stessa dimensione che possono essere impilati per formare dei batch, in base al caso d'uso.
 
 
 
@@ -407,23 +407,23 @@ basato su questa struttura.
 
 La prima estensione di questa classe è data da \textbf{JsonLineObjectDataset}, la quale estende la classe base aggiungendo la funzionalità di caricamento
 dei dati contenuti negli esempi, ovvero non solo è in grado di caricare i metadati ma anche anche di caricare l'immagine dell'oggetto e la relativa maschera binaria come \textbf{torch.Tensor},
-in quanto in questo caso il dataloader si aspetta una determinata struttura all'interno dei sample ottenuti dai metodi della classe madre \textbf{JsonLineDatasetBase}.
+in quanto il \textbf{JsonLineObjectDataset} si aspetta una determinata struttura all'interno dei sample ottenuti dai metodi della classe madre \textbf{JsonLineDatasetBase}.
 In fine l'oggetto \textbf{JsonLineMaskObjectDataset} estende \textbf{JsonLineObjectDataset} effettuando un override del metodo \textbf{\_\_getitem\_\_$()$} per restituire esclusivamente la maschera
-senza effettuare il caricamento dell'immagine, in quanto questo oggetto è utilizzato nei i casi in cui questa non è necessaria.
+senza effettuare il caricamento dell'immagine, in quanto questo oggetto è utilizzato nei i casi in cui l'immagine RGB non è necessaria.
 
 Entrambi questi oggetti accettano come argomento del costruttore un oggetto \textbf{Augmentor} preconfigurato, il quale viene utilizzato per applicare le trasformazioni
-agli esempi caricati, direttamente durante l'operazione di caricamento, così da avere in uscita da tali oggetti gli esempi ai quali è gia stata applicata l'augmentation.
+agli esempi caricati, direttamente durante l'operazione di caricamento, così da avere in uscita da tali oggetti gli esempi con l'\textit{augmentation} già applicata.
 
 
 
 \subsection{L'oggetto ObjectDataloader e ShapeObjectDataloader}
 Un'ulteriore layer di astrazione tra l'uscita del dataloader e i dati sono gli oggetti \textbf{ObjectDataloader} e \textbf{ShapeObjectDataloader}, questi due infatti
 vengono caricati nel oggetto \textbf{CoiganSeverstalSteelDefectsDataset} e vengono utilizzati per supportare la creazione degli effettivi tensori di uscita.
-Lo scopo di questi oggetti infatti è quello di caricare gli oggetti provenienti dai dataset degli oggetti e di posizionarli in dei tensori delle dimensioni adatte all apipeline di training
-in maniera casuale, evitando di posizionarli in sovrapposizione ad altri oggetti nello stesso tensore.\\
-Questo due oggetti si differenziano principalmente per il fatto che \textbf{ObjectDataloader} carica le immagini degli oggetti e le loro maschere restituendo un tensore per entrambi, mentre 
-\textbf{ShapeObjectDataloader} carica solamente le maschere restituendo un'unico tensore.
-Di seguito in figura \ref{fig:object_dataloader_sample} un esempio di come gli oggetti vengono caricati dal \textbf{JsonLineObjectDataset} e poi vengono trasformati dal \textbf{ObjectDataloader}.
+Lo scopo di questi oggetti è quello di caricare i difetti provenienti dai dataset degli oggetti precedentemente menzionati e di posizionarli in dei tensori delle dimensioni adatte alla pipeline di training
+in maniera casuale, evitando di posizionarli in sovrapposizione ad altri difetti nello stesso tensore.\\
+I due oggetti del dataloader si differenziano principalmente per il fatto che \textbf{ObjectDataloader} carica le immagini dei difetti e le loro maschere restituendo un tensore per entrambi, mentre lo 
+\textbf{ShapeObjectDataloader} carica solamente le maschere restituendo un unico tensore.
+Di seguito in figura \ref{fig:object_dataloader_sample} un esempio di come i difetti vengono caricati dal \textbf{JsonLineObjectDataset} e poi vengono trasformati dal \textbf{ObjectDataloader}.
 
 \begin{figure}[H]
     \centering
@@ -434,7 +434,7 @@ Di seguito in figura \ref{fig:object_dataloader_sample} un esempio di come gli o
 
 
 \subsection{L'oggetto ImageFolder}
-La classe ImageFolder è una classe fornita da PyTorch per la gestione di dataset di immagini in modo semplice ed efficiente. 
+La classe ImageFolder è una classe fornita da PyTorch per gestire dataset di immagini in modo semplice ed efficiente. 
 È progettata per lavorare con dataset che seguono una struttura a directory, ed è principalmente utilizzata per dataset di classificazione.
 La struttura delle directory richiesta da ImageFolder è la seguente:
 
@@ -458,14 +458,14 @@ Nel caso di COIGAN è stata utilizzata una sola classe, in quanto l'obbiettivo e
 Il Noise generator è un oggetto che viene utilizzato all'interno di \textbf{CoiganSeverstalSteelDefectsDataset} per introdurre del
 rumore nelle maschere di input del generatore, dove ci si aspetta che il generatore vada a generare dei difetti sull'immagine di input.\\
 L'architettura scelta (vedi \ref{sec:lama}) prevede che il generatore riceva in input un'immagine e delle maschere ma
-non ha nessun ingresso preferenziale per il rumore per garantire una variabilità dell'output, per tale ragione questo viene introdotto 
-direttamente nelle maschere di input.\\
-gli oggetti figli dell'interfaccia \textbf{BaseNoiseGenerator}, ovvero: \textbf{GassianNoiseGenerator} e \textbf{MultiscaleNoiseGenerator},
+non ha nessun ingresso preferenziale per il rumore, per tale ragione questo viene introdotto 
+direttamente nelle maschere di input, per garantire una buona variabilità dell'output.\\
+Le classi figlie dell'interfaccia \textbf{BaseNoiseGenerator}, ovvero: \textbf{GassianNoiseGenerator} e \textbf{MultiscaleNoiseGenerator},
 implementano due metodi di immissione del rumore differenti ma in sintesi, entrambi prendono in ingresso un tensore contenente una maschera
 binaria e restituiscono un tensore della stessa dimensione con del rumore applicato in corrispondenza dei pixel con valore 1 nella maschera.
 
 Il \textbf{GassianNoiseGenerator} è un generatore molto semplice che applica del rumore gaussiano con media e deviazione standard configurabili
-in corrispondenza dei pixel con valore 1 nella maschera, producendo risultati normali, come mostrato in Figura \ref{fig:gaussian_noise}.
+in corrispondenza dei pixel con valore 1 nella maschera, come mostrato in Figura \ref{fig:gaussian_noise}.
 
 \begin{figure}[H]
     \centering
@@ -476,7 +476,7 @@ in corrispondenza dei pixel con valore 1 nella maschera, producendo risultati no
 
 Il \textbf{MultiscaleNoiseGenerator} invece è un generatore più articolato il quale può ospitare al suo interno un'ulteriore 
 generatore di rumore, ed è in grado di applicare il rumore proveniente dal generatore interno a diverse scale per dare una variabilità più realistica al rumore applicato.
-Per ottenere tale effetto date $n$ scale, ad esempio [1, 8, 16], dato un tenore di ingresso di dimensioni $h$ $w$, il generatore crea 3 tensori di rumore con rispettivamente
+Per ottenere tale effetto date $n$ scale, ad esempio [1, 8, 16], dato un tensore di ingresso di dimensioni $h$ $w$, il generatore crea 3 tensori di rumore con rispettivamente
 dimensioni $h$ $w$, $\frac{h}{8}$ $\frac{w}{8}$ e $\frac{h}{16}$ $\frac{w}{16}$, e riporta tramite interpolazione bilineare tutti i tensori alla dimensione $h$ $w$,
 per poi sommarli, come è illustrato nella figura \ref{fig:multiscale_noise_generation}.
 
@@ -550,7 +550,7 @@ In sintesi vediamo le operazioni svolte da questo oggetto:
     \item Estrae un'immagine base dal dataset delle immagini base.
     \item Estrae un'immagine di riferimento dal dataset di riferimento.
     \item Estrae delle immagini e delle maschere dei difetti dall'\textbf{ObjectDataloader} per ogni classe.
-    \item Estrae delle maschere dei difetti dallo ShapeObjectDataloader per ogni classe, se specificato nel conf altrimenti riutilizza le maschere caricate in precedenza.
+    \item Estrae delle maschere dei difetti dallo ShapeObjectDataloader per ogni classe, se specificato nelle configurazioni altrimenti riutilizza le maschere caricate in precedenza.
     \item Se richiesto effettua il masking della base image, con le maschere dei difetti che verranno passate in input al generatore.
     \item Applica il rumore alle maschere di input del generatore.
     \item Effettua la \textit{stack} dei tensori per creare i tensori di input per il generatore e i discriminatori.
@@ -582,7 +582,7 @@ e le regolarizzazioni per l'addestramento dei modelli.
 Il generatore è la componente principale della pipeline, e come già detto utilizza la medesima architettura di LaMa, l'unica modifica che
 è stata apportata alla struttura del modello è la dimensione del tensore di ingresso il quale può variare in base al numero di classi di oggetti che
 si vogliono generare.\\
-La loss di questo modello è composta da 4 elementi come mostrato nella figura \ref{fig:pipeline_di_addestramento} più uno, ovvero: le non saturating loss 
+La loss di questo modello è composta da 4 elementi come mostrato nella figura \ref{fig:pipeline_di_addestramento} più la regolarizzazione, ovvero: le non saturating loss 
 calcolate con l'output dei discriminatori, la perceptual loss, la L1 e in fine la \textit{path-length regularization}.\\
 In questa parte andiamo ad analizzare in dettaglio come sono state implementate la \textit{non saturating loss}, la \textit{path-length regularization} e la L1 loss,
 mentre la perceptual loss varrà discussa in seguito.
@@ -605,8 +605,7 @@ Nella loss totale del generatore sono presenti due componenti relative al discri
 \end{minted}
 
 Tale formulazione della \textit{non saturating loss} è comprensiva della funzione di attivazione sigmoide, 
-infatti che i modelli dei discriminatori non comprensivi della funzione di attivazione sigmoide nell'ultimo layer, 
-infatti abbiamo:
+in quanto i modelli dei discriminatori non ne sono provvisti, infatti abbiamo:
 
 %sigmoide
 \begin{equation}
@@ -678,12 +677,12 @@ il quale effettua i seguenti passaggi:
         assegnato alle aree in cui è stato effettuato l'inpainting, mentre la maschera invertita viene moltiplicata per il peso assegnato al resto dell'immagine.
     \item \textbf{Riga 19:} Applica la L1 loss tra l'immagine generata e l'immagine base, senza effettuare la riduzione, in modo da ottenere un tensore di loss
         con la stessa dimensione dell'immagine.
-    \item \textbf{Riga 20:} Moltiplica la loss per il tensore di pesi, in modo da pesare in maniera differente la loss associata alle diverse aree.
-    \item \textbf{Riga 22:} Effettua la riduzione della loss, dividendo la somma di tutti i valori della loss per la somma di tutti i valori del tensore di pesi,
-        in modo da ottenere una loss normalizzata.
+    \item \textbf{Riga 20:} Moltiplica il tensore della loss per il tensore dei pesi, in modo da pesare in maniera differente la loss associata alle diverse aree.
+    \item \textbf{Riga 22:} Effettua la riduzione della loss, dividendo la somma del tensore di loss per la somma del tensore di pesi,
+        in modo da ottenere una loss normalizzata rispetto ai pesi.
 \end{itemize}
 
-Vediamo di seguito la figura \ref{fig:l1_smooth_masked_example} la quale illustra graficamente i passaggi della loss L1 smooth masked,applicati ad una immagine 
+Vediamo di seguito la figura \ref{fig:l1_smooth_masked_example} la quale illustra graficamente i passaggi della loss L1 smooth masked, applicati ad un'immagine 
 esempio alla quale simuliamo di applicare l'inpainting dove è specificato da una maschera binaria, per simulare il processo è stato applicato del rumore gaussiano
 su tale punto, ed è si è utilizzato un peso di 1.0 per il background mentre si è utilizzato un peso di 0.0 per l'area indicata dalla maschera, e si è utilizzato un
 kernel di dimensione 5x5 per lo smoothing della maschera.
@@ -691,16 +690,16 @@ kernel di dimensione 5x5 per lo smoothing della maschera.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{imgs/Coigan/L1_smooth_masked.png}
-    \caption{Figura che illustra concettualmente il processo di calcolo della loss L1 smooth masked.}
+    \caption{Figura che illustra graficamente il processo di calcolo della loss L1 smooth masked.}
     \label{fig:l1_smooth_masked_example}
 \end{figure}
 
 Il risultato di questa operazione è che anche un'area localizzata intorno al bordo dell'area generata sarà soggetta ad una penalizzazione, dovendo
 restare simile all'immagine base, con un peso che scende gradualmente dall'esterno verso l'interno della maschera, in tal modo non vi è più 
-una transizione netta, che spinge il modello a generare un difetto che abbia una maggiore coerenza con l'immagine base, e penalizza maggiormente la
+una transizione netta, in tal modo si spinge il modello a generare un difetto che abbia una maggiore coerenza con l'immagine base, e penalizza maggiormente la
 creazione di bordi netti tra le due aree e la generazione di artifacts.
-Si noti che il medesimo codice senza lo smoothing della maschera utilizzata per calcolare la matrice dei pesi avrebbe ottenuto 
-una loss nulla, in quanto il peso associato alle aree della maschera con valore 1 avrebbero avuto peso 0.
+Si noti che per l'esempio il rumore è stato generato con la maschera, dunque il calcolo della loss senza lo smoothing della maschera utilizzata per calcolare
+la matrice dei pesi avrebbe ottenuto una loss nulla, in quanto le aree con un valore della \textit{Raw L1 loss} sarebbero state associate a pesi nulli.
 
 \subsubsection{La path-length regularization}
 La \textit{path-length regularization} è una tecnica utilizzata per stabilizzare il training del generatore, la quale è stata introdotta nella paper 
@@ -795,8 +794,8 @@ Non verrà illustrato graficamente a causa della elevata dimensionalità dei ten
 
 Nel codice presentato sono effettuati i seguenti passaggi:
 \begin{itemize}
-    \item \textbf{Riga 11-12:} Effettua la normalizzazione dei tensori di input e target, utilizzando i valori di media e deviazione standard del dataset di ImageNet.
-    \item \textbf{Riga 13-14:} Estrae le features interne dei due tensori, utilizzando il modello ResNet50.
+    \item \textbf{Riga 11-12:} Effettua la normalizzazione dei tensori di input e target, utilizzando i valori di media e deviazione standard del dataset \textit{ImageNet}.
+    \item \textbf{Riga 13-14:} Estrae le features interne del modello ResNet50 per i due tensori di input.
     \item \textbf{Riga 18:} Effettua lo smoothing della maschera di input, utilizzando una convoluzione 2D.
     \item \textbf{Riga 21:} Effettua la conversione della maschera in un tensore di pesi della loss.
     \item \textbf{Riga 24-26:} Effettua la generazione delle copie della maschera dei pesi scalate per le dimensioni dei tensori delle features interne
@@ -827,12 +826,12 @@ attraverso una interpolazione bilineare nel dominio spaziale, per poi riportare 
 Una parte importante dell'addestramento di questo discriminatore, risiede nel preprocessamento dell'input, infatti il
 modello non riceve in input l'immagine generata così come è ma, riceve esclusivamente le aree relative ai difetti.
 Oltre all'operazione di \textit{masking} è stata applicata una separazione dei difetti in base alla classe ottenendo così
-un'immagine per ogni classe, le quali vengono poi messe in \textit{stack} per ottenere un tensore di dimensione $n \times c \times h \times w$,
+un'immagine per ogni classe, le quali vengono poi messe in \textit{stack} per ottenere un tensore di dimensione $(n \cdot c) \times h \times w$,
 dove $n$ è il numero di classi, $c$ è il numero di canali di ogni immagine, $h$ e $w$ sono rispettivamente l'altezza e la larghezza dell'immagine.
-Tale tensore è poi passato in input al discriminatore, il quale restituisce un singolo valore che indica quanto se l'immagine in input è stata generata o appartiene
+Tale tensore è poi passato in input al discriminatore, il quale restituisce un singolo valore che indica se l'immagine in input è stata generata o appartiene
 alla distribuzione reale.\\
 Di seguito è rappresentata l'operazione di estrazione dei difetti dall'immagine generata. 
-I blocchi con sfondo arancione rappresentano dei tensori, i quali contengono in \textit{stack} le immagini contenute,
+I blocchi con sfondo arancione rappresentano dei tensori, i quali contengono in \textit{stack} le immagini al loro interno,
 in particolare abbiamo nel primo blocco l'immagine base con le maschere associate alla posizione dove andranno generati i difetti,
 mentre nel secondo blocco è presente l'immagine generata, e nel terzo blocco sono presenti le immagini dei difetti estratti dall'immagine generata.
 
@@ -846,17 +845,17 @@ mentre nel secondo blocco è presente l'immagine generata, e nel terzo blocco so
 Per l'addestramento del discriminatore è stata utilizzata la loss function proposta nella paper originale di Goodfellow et al. 
 \cite{goodfellow2014generative}:
 \begin{equation}
-    L_{D}(G) = \mathbb{E}_{x \sim p_{data}(x)}[- \log(D(x))] + \mathbb{E}_{y \sim p_{base}(y)}[- \log(1 - D(G(y)))]
+    L_{D}(G) = \mathbb{E}_{x \sim p_{data}(x)}[- \log(D(x))] + \mathbb{E}_{x \sim p_{data}(x)}[- \log(1 - D(G(x)))]
     \label{eq:discriminator_loss}
 \end{equation}
 
 Allo stesso modo anche la adversarial loss per il generatore ottenuta da questo discriminatore è quella originale
 proposta nella medesima pubblicazione:
 \begin{equation}
-    L_{G}(D) = \mathbb{E}_{y \sim p_{base}(y)}[- \log(D(G(y)))]
+    L_{G}(D) = \mathbb{E}_{x \sim p_{data}(x)}[- \log(D(G(x)))]
     \label{eq:generator_loss}
 \end{equation}
-mentre come metodo di regolarizzazione per questo discriminatore è stata utilizzata la R1, illustrata estensivamente nella sottosezione \ref{subsubsection:r1_reg}.
+Per questo discriminatore come metodo di regolarizzazione è stata utilizzata la R1, illustrata estensivamente nella sottosezione \ref{subsubsection:r1_reg}.
 
 \subsection{Il discriminatore di riferimento}
 Il discriminatore di riferimento è il modello utilizzato per il calcolo di una loss supplementare, la quale è stata introdotta per mitigare
@@ -888,10 +887,9 @@ Nella figura \ref{fig:artifacts_example} sono mostrati alcuni esempi di immagini
 \end{figure}
  
 Nella figura \ref{fig:good_example} invece è mostrato un batch preso da un training con una versione della training pipeline che utilizza il \textbf{ref discriminator},
-e con le loss \textbf{L1} e \textbf{Perceptual loss} che applica lo smooth della weight mask.
-
-In questo secondo caso è possibile vedere come il risultato sia molto migliorato, anche se il discriminatore aggiuntivo ha introdotto 
-un comportamento inatteso del modello, il quale tende ora ad alterare maggiormente anche l'area dell'immagine che non è interessata 
+e con le loss \textbf{L1} e \textbf{Perceptual loss} che applica lo smooth della weight mask ed è possibile vedere come il risultato sia molto migliorato.
+Il discriminatore aggiuntivo ha introdotto però un comportamento inatteso del modello, 
+il quale tende ora ad alterare maggiormente anche l'area dell'immagine che non è interessata 
 dalle maschere per la generazione dei difetti, anche se generalmente non genera difetti dove non richiesto e mediamente la qualità dei risultati ottenuti
 è maggiore.
 
@@ -928,29 +926,27 @@ quale calcolare la distanza in maniera precisa.
 
 Un primo tentativo di risolvere questo problema è stato proposto da parte di Tim Salimans et al. \cite{salimans2016improved}  nel 2016, 
 i quali hanno proposto un metodo chiamato \textbf{Inception score}, il quale utilizza
-un modello di \textit{image classification}, in particolare un modello \textbf{InceptionV3} pre-addestrato, effettuando l'inferenza su un elevato numero di immagini,
-secondo la paper sono state utilizzate 50000 immagini generate dal modello GAN.
-Il metodo poi consisteva nel valutare l'entropia delle distribuzioni delle classi predette dal modello di classificazione $p(y|x)$.
+un modello di \textit{image classification}, in particolare un modello \textbf{InceptionV3} pre-addestrato, per effettuare l'inferenza su un elevato numero di immagini,
+(sono state utilizzate 50000 immagini generate dal modello GAN), ed utilizzare tali valori come base per stabilire la qualità del modello.
+Il metodo in particolare consisteva nel valutare l'entropia delle distribuzioni delle classi predette dal modello di classificazione $p(y|x)$.
 Tale metodo ha mostrato una certa somiglianza con i risultati ottenuti dagli annotatori umani attraverso lo strumento di AWS
 \textbf{Mechanical Turk}. 
 
 L'approccio di valutazione con annotatori umani ha sottolineato maggiormente la difficoltà di valutare tale tipo
-di risultati, questi infatti dovevano valutare se un'immagine presentata fosse reale o generata assegnando una valutazione da 1 a 5,
-casualmente infatti venivano presentate immagini reali per valutare la capacità di riconoscimento degli annotatori. 
-Gli annotatori umani hanno mostrato una certa variabilità nelle valutazioni, anche se sono stati mediamente coerenti,
-inoltre è stato notato che gli annotatori umani tendono a dare voti peggiori con il tempo in quanto migliorano
-nel riconoscere le immagini generate.
+di risultati, questi infatti dovevano valutare se un'immagine presentata fosse reale o generata assegnando una valutazione da 1 a 5.
+Durante il processo venivano casualmente presentate immagini reali per valutare la capacità di riconoscimento degli annotatori. 
+Questi ultimi hanno mostrato una certa variabilità nelle valutazioni, anche se sono stati mediamente coerenti,
+inoltre è stato notato che le persone tendono a dare voti peggiori con il tempo in quanto migliorano nel riconoscere le immagini generate.
 
 Un miglioramento dell'\textbf{Inception score} è stato proposto successivamente da Martin Heusel et al. \cite{heusel2018gans} nel 2018,
-i quali hanno proposto un sistema non più basato sull'entropia della distribuzione delle classi predette dal modello di classificazione,
-ma bensì sulle \textit{features} estratte dallo stesso modello di classificazione, le quali vengono confrontate tra le immagini generate e le immagini del test set.
+i quali hanno proposto un sistema non più basato sull'entropia della distribuzione delle classi predette,
+ma bensì sulle \textit{features} estratte da un layer interno del modello di classificazione, le quali vengono confrontate tra le immagini generate e le immagini del test set.
 Tale metodo è stato chiamato \textbf{Fréchet Inception Distance} (FID).
 
 \subsection{Fréchet Inception Distance FID}
-La Frechet Inception Distance è un metodo di valutazione dei risultati ottenuti da un modello di generazione di immagini, il quale si basa sulle \textit{features} estratte
+La Fréchet Inception Distance è un metodo di valutazione dei risultati ottenuti da un modello di generazione di immagini, il quale si basa sulle \textit{features} estratte
 da un modello convoluzionale in uno specifico layer e non più dall'output del modello, il quale tipicamente è addestrato sul dataset \textbf{ImageNet} per la classificazione.
-Come accennato la maggiore innovazione portata da questa tecnica sta nel fatto che rispetto all'\textbf{Inception score} non si basa più sull'entropia della distribuzione
-ma su una effettiva comparazione tra la distribuzione reale e quella generata che chiameremo rispettivamente $p_r$ e $p_g$.
+Come accennato la maggiore innovazione portata da questa tecnica sta nel fatto che rispetto all'\textbf{Inception score} non si basa più sull'entropia della distribuzione delle classi predette ma su una effettiva comparazione tra la distribuzione reale e quella generata che chiameremo rispettivamente $p_r$ e $p_g$.
 
 Per rendere il calcolo della distanza non troppo complesso si fa l'assunzione che le distribuzioni $p_r$ e $p_g$ siano gaussiane multivariate, dunque
 la distanza di Fréchet $d(.,.)$ tra le due distribuzioni può essere calcolata come la distanza tra le medie e le matrici di covarianza delle due distribuzioni,
@@ -990,21 +986,20 @@ la quale è stata implementata con Pytorch e numpy.
 
 Per la valutazione sono stati utilizzati i dataset di train e di test in formato tile, ovvero immagini di dimensione 256x256, e un ulteriore dataset generato
 dal modello addestrato. La prima operazione è stata quella di confrontare la FID tra il set di train e il set di test, per verificare che non ci fossero
-differenze significative tra le due distribuzioni, in quanto ciò avrebbe potuto alterare significativamente i risultati ottenuti, tale valutazione ha portato ad un
-punteggio \textbf{FID: 1.0212} con 40k immagini per il training set e 40k immagini per il test set, dunque abbiamo che i due dataset hanno una distanza molto bassa, 
-e possiamo utilizzare il test set per valutare i risultati ottenuti.
+differenze significative tra le due distribuzioni, ed avere un valore di riferimento.
+Tale valutazione ha portato ad un punteggio \textbf{FID: 1.0212} con 40k immagini per il training set e 40k immagini per il test set.
 
-Il risultato ottenuto dal modello è stato più tosto alto, infatti si è ottenuto un punteggio \textbf{FID: 62.7907} confrontando 40k immagini del training set con 
-40k immagini provenienti dal modello, considerando però che i difetti effettivi utilizzati per addestrare il discriminatore dei difetti erano in totale 10173
-considerando anche che 2 di 4 classi avevano meno di 1000 esempi.
-Tale risultato quale sottolinea diverse problematiche, le quali hanno portato a risultati non ottimali, come ad esempio la presenza di artefatti 
-che se pur ridotta è ancora presente in qualche caso, e in maniera più pesante si manifestano ancora le variazioni di colore.
-Tali problemi potrebbero essere legati alla scarsità di dati, ma probabilmente con opportune modifiche alla training pipeline e al modello è sicuramente possibile
+Il risultato ottenuto dal modello è stato più tosto alto, infatti si è ottenuto un punteggio \textbf{FID: 62.7907} confrontando 40k immagini del test set con 
+40k immagini provenienti dal modello, considerando però che i difetti utilizzati per addestrare il discriminatore dei difetti erano in totale 10173
+e che 2 di 4 classi avevano meno di 1000 esempi.
+Tale risultato sottolinea diverse problematiche, le quali hanno portato a un risultato non ottimale, come ad esempio la presenza di \textit{artifacts} 
+che se pur ridotta è ancora presente in qualche caso, e in maniera più frequente si manifestano le variazioni di colore.
+Tali problemi potrebbero essere legati alla scarsità di dati, ma probabilmente con opportune modifiche alla training pipeline e al modello sarà sicuramente possibile
 ottenere risultati migliori.
 
 Facciamo a questo punto un confronto con i valori di FID ottenuti da altri modelli SOTA per vari task di generazione basati su architettura GAN:
 \begin{itemize}
-    \item \textbf{stylegan 2:} su FFHQ per il task di generazione di generazione di volti umani ha ottenuto un punteggio di \textbf{FID: 2.84}. Va considerato
+    \item \textbf{stylegan 2:} su FFHQ per il task di generazione di volti umani ha ottenuto un punteggio di \textbf{FID: 2.84}. Va considerato
         però che il training set consisteva di ben 70k immagini.
     \item \textbf{LaMa:} per il task di inpainting non condizionato ha ottenuto rispettivamente una \textbf{FID: 2.21} sul dataset Places con maschere di inpainting
     estese e una \textbf{FID: 7.26} sul dataset CelebA-HQ con maschere di inpainting estese.

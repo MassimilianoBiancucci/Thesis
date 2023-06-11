@@ -70,11 +70,11 @@
 \contentsline {section}{\numberline {4.1}Definizione della pipeline di addestramento}{53}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Preparazione dei dati per la pipeline}{55}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Severstal steel defect detection dataset reader}{55}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Conversione del formato del dataset}{56}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.2}Conversione nel formato line json}{56}{subsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.2.3}Split in train e test set}{58}{subsection.4.2.3}%
 \contentsline {subsection}{\numberline {4.2.4}Creazione del dataset degli oggetti}{59}{subsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.2.5}Creazione del dataset di immagini base}{60}{subsection.4.2.5}%
-\contentsline {subsection}{\numberline {4.2.6}Creazione del dataset utilizzati come riferimento}{61}{subsection.4.2.6}%
+\contentsline {subsection}{\numberline {4.2.6}Creazione del dataset utilizzato come riferimento}{61}{subsection.4.2.6}%
 \contentsline {section}{\numberline {4.3}Il dataloader}{61}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}L'oggetto Augmentor}{61}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}Gli oggetti JsonLineObjectDataset e JsonLineMaskObjectDataset}{63}{subsection.4.3.2}%
